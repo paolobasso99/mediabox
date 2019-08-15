@@ -87,6 +87,43 @@ services:
     networks:
       - seedbox
 
+  seedbox-lazylibrarian:
+    image: linuxserver/lazylibrarian
+    container_name: seedbox-lazylibrarian
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - /home/puser/docker/seedbox-lazylibrarian:/config
+      - /home/puser/cloud/downloads:/downloads
+      - /home/puser/cloud/books:/books
+    ports:
+      - 5299:5299
+    restart: unless-stopped
+    networks:
+      - seedbox
+
+  ubooquity:
+    image: linuxserver/ubooquity
+    container_name: ubooquity
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - MAXMEM=maxmem
+    volumes:
+      - /home/puser/docker/ubooquity:/config
+      - /home/puser/cloud/books:/books
+      - /home/puser/cloud/comics:/comics
+      - /home/puser/cloud/ubooquity-raw:/files
+    ports:
+      - 2202:2202
+      - 2203:2203
+    restart: unless-stopped
+    networks:
+      - cloud
+
   seedbox-jackett:
     image: linuxserver/jackett
     container_name: seedbox-jackett
