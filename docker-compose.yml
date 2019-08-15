@@ -28,8 +28,8 @@ services:
       - TZ=Europe/Paris
     volumes:
       - /home/puser/docker/seedbox-sonarr:/config
-      - /home/puser/cloud/tv:/tv
-      - /home/puser/cloud/downloads:/downloads
+      - /home/puser/cloud/tv:/data/tv
+      - /home/puser/cloud/downloads:/data/downloads
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -45,8 +45,8 @@ services:
       - TZ=Europe/Paris
     volumes:
       - /home/puser/docker/seedbox-radarr:/config
-      - /home/puser/cloud/movies:/movies
-      - /home/puser/cloud/downloads:/downloads
+      - /home/puser/cloud/movies:/data/movies
+      - /home/puser/cloud/downloads:/data/downloads
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -62,8 +62,8 @@ services:
       - TZ=Europe/Paris
     volumes:
       - /home/puser/docker/seedbox-lidarr:/config
-      - /home/puser/cloud/music:/music
-      - /home/puser/cloud/downloads:/downloads
+      - /home/puser/cloud/music:/data/music
+      - /home/puser/cloud/downloads:/data/downloads
     ports:
       - 8686:8686
     restart: unless-stopped
