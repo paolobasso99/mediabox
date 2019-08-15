@@ -121,6 +121,38 @@ services:
     networks:
       - cloud
 
+  duplicati:
+    image: linuxserver/duplicati
+    container_name: duplicati
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - /home/puser/docker/duplicati:/config
+      - /home/puser/backups:/backups
+      - /home/puser/cloud:/source
+    ports:
+      - 8200:8200
+    restart: unless-stopped
+    networks:
+      - cloud
+
+  organizr:
+    image: organizrtools/organizr-v2
+    container_name: organizr
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /home/puser/docker/organizr:/config
+    ports:
+      - 80:80
+    restart: unless-stopped
+    networks:
+      - cloud
+      - seedbox
+
 networks:
   seedbox:
     driver: bridge
