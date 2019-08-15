@@ -131,7 +131,7 @@ services:
     volumes:
       - /home/puser/docker/duplicati:/config
       - /home/puser/backups:/backups
-      - /home/puser/cloud:/source
+      - /home/puser:/source
     ports:
       - 8200:8200
     restart: unless-stopped
