@@ -1,0 +1,128 @@
+version: '3'
+
+services:
+  seedbox-rtorrent:
+    image: linuxserver/rutorrent
+    container_name: seedbox-rtorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /home/puser/docker/seedbox-rtorrent:/config
+      - /home/puser/cloud/downloads:/downloads
+    ports:
+      - 8033:80
+      - 5000:5000
+      - 51413:51413
+      - 6881:6881/udp
+    restart: unless-stopped
+    networks:
+      - seedbox
+
+  seedbox-sonarr:
+    image: linuxserver/sonarr
+    container_name: seedbox-sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - /home/puser/docker/seedbox-sonarr:/config
+      - /home/puser/cloud/tv:/tv
+      - /home/puser/cloud/downloads:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+    networks:
+      - seedbox
+  
+  seedbox-radarr:
+    image: linuxserver/radarr
+    container_name: seedbox-radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - /home/puser/docker/seedbox-radarr:/config
+      - /home/puser/cloud/movies:/movies
+      - /home/puser/cloud/downloads:/downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+    networks:
+      - seedbox
+
+  seedbox-lidarr:
+    image: linuxserver/lidarr
+    container_name: seedbox-lidarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - /home/puser/docker/seedbox-lidarr:/config
+      - /home/puser/cloud/music:/music
+      - /home/puser/cloud/downloads:/downloads
+    ports:
+      - 8686:8686
+    restart: unless-stopped
+    networks:
+      - seedbox
+
+  seedbox-bazarr:
+    image: linuxserver/bazarr
+    container_name: seedbox-bazarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - /home/puser/docker/seedbox-bazarr:/config
+      - /home/puser/cloud/movies:/movies
+      - /home/puser/cloud/tv:/tv
+    ports:
+      - 6767:6767
+    restart: unless-stopped
+    networks:
+      - seedbox
+
+  seedbox-jackett:
+    image: linuxserver/jackett
+    container_name: seedbox-jackett
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - /home/puser/docker/seedbox-jackett:/config
+      - /home/puser/cloud/torrentsblackhole:/downloads
+    ports:
+      - 9117:9117
+    restart: unless-stopped
+    networks:
+      - seedbox
+    
+  jellyfin:
+    image: linuxserver/jellyfin
+    container_name: jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - /home/puser/docker/jellyfin:/config
+      - /home/puser/cloud/tv:/data/tvshows
+      - /home/puser/cloud/movies:/data/movies
+      - /home/puser/cloud/music:/data/music
+    ports:
+      - 8096:8096
+    restart: unless-stopped
+    networks:
+      - cloud
+
+networks:
+  seedbox:
+    driver: bridge
+  cloud:
+    driver: bridge
