@@ -9,7 +9,7 @@ services:
       - PGID=${PGID}
     volumes:
       - ${DOCKER_COMPOSE_PATH}/seedbox-rtorrent:/config
-      - ${CLOUD_PATH}:/data
+      - ${CLOUD_PATH}/downloads:/downloads
     ports:
       - 8033:80
       - 5000:5000
@@ -28,7 +28,8 @@ services:
       - TZ=${TIME_ZONE}
     volumes:
       - ${DOCKER_COMPOSE_PATH}/seedbox-sonarr:/config
-      - ${CLOUD_PATH}:/data
+      - ${CLOUD_PATH}/downloads:/downloads
+      - ${CLOUD_PATH}/tv:/tv
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -44,7 +45,8 @@ services:
       - TZ=${TIME_ZONE}
     volumes:
       - ${DOCKER_COMPOSE_PATH}/seedbox-radarr:/config
-      - ${CLOUD_PATH}:/data
+      - ${CLOUD_PATH}/downloads:/downloads
+      - ${CLOUD_PATH}/movies:/movies
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -60,7 +62,8 @@ services:
       - TZ=${TIME_ZONE}
     volumes:
       - ${DOCKER_COMPOSE_PATH}/seedbox-lidarr:/config
-      - ${CLOUD_PATH}:/data
+      - ${CLOUD_PATH}/downloads:/downloads
+      - ${CLOUD_PATH}/music:/music
     ports:
       - 8686:8686
     restart: unless-stopped
