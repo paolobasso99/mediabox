@@ -18,6 +18,7 @@ This repo provides a docker-compose.yml that contains the configurations for a s
 
 ## Run
 1. run `docker-compose up` in the path of `docker-compose.yml` to run the configuration
+2. Change ryTorrent download folder from `/dowloads/incoming` to `/data/downloads/incoming`.
 
 ## Informations
 ### Containers
