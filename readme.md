@@ -33,7 +33,6 @@ This repo provides a docker-compose.yml that contains the configurations for a s
 | Duplicati   | duplicati        | 8200:8200 |
 | Organizr    | organizr         | 80:80     |
 | Filebrowser | filebrowser      | 8080:80   |
-| Syncthing   | syncthing        | 8384:8384 |
 
 ### Connecting services
 Since the apps that need to be connected are under the same network you can access every app by it's name and its internal port.
