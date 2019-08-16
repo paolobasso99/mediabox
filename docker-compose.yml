@@ -28,8 +28,8 @@ services:
       - TZ=${TIME_ZONE}
     volumes:
       - ${DOCKER_COMPOSE_PATH}/seedbox-sonarr:/config
-      - ${CLOUD_PATH}/tv:/tv
-      - ${CLOUD_PATH}/downloads:/downloads
+      - ${CLOUD_PATH}/tv:/data/tv
+      - ${CLOUD_PATH}/downloads:/data/downloads
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -45,8 +45,8 @@ services:
       - TZ=${TIME_ZONE}
     volumes:
       - ${DOCKER_COMPOSE_PATH}/seedbox-radarr:/config
-      - ${CLOUD_PATH}/movies:/movies
-      - ${CLOUD_PATH}/downloads:/downloads
+      - ${CLOUD_PATH}/movies:/data/movies
+      - ${CLOUD_PATH}/downloads:/data/downloads
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -62,8 +62,8 @@ services:
       - TZ=${TIME_ZONE}
     volumes:
       - ${DOCKER_COMPOSE_PATH}/seedbox-lidarr:/config
-      - ${CLOUD_PATH}/music:/music
-      - ${CLOUD_PATH}/downloads:/downloads
+      - ${CLOUD_PATH}/music:/data/music
+      - ${CLOUD_PATH}/downloads:/data/downloads
     ports:
       - 8686:8686
     restart: unless-stopped
