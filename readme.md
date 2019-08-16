@@ -1,4 +1,4 @@
-### Docker Seedbox
+# Docker Seedbox
 This repo provides a docker-compose.yml that contains the configurations for a seedbox.
 
 ## Prerequisites
@@ -19,7 +19,7 @@ This repo provides a docker-compose.yml that contains the configurations for a s
 1. run `docker-compose up` in the path of `docker-compose.yml` to run the configuration
 
 ## Informations
-# Containers
+### Containers
 | App       | Container name   | Ports     |
 |-----------|------------------|-----------|
 | rTorrent  | seedbox-rtorrent | 8033:80   |
@@ -32,16 +32,16 @@ This repo provides a docker-compose.yml that contains the configurations for a s
 | Duplicati | duplicati        | 8200:8200 |
 | Organizr  | organizr         | 80:80     |
 
-# Connecting services
+### Connecting services
 Since the apps that need to be connected are under the same network you can access every app by it's name and its internal port.
 For example to connect rTorrent in Sonarr the url is: `http://seedbox-rtorrent:80`.
 
-# PUID and PGID
+### PUID and PGID
 You can find these parameters:
 ```
 $ id username
     uid=1000(user) gid=1000(user) groups=1000(user)
 ```
 
-# Updating
+### Updating
 Do not update apps, to update remove images then recreate the containers.
