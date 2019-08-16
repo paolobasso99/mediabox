@@ -42,7 +42,7 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - TZ=${CLOUD_PATH}
+      - TZ=${TIME_ZONE}
     volumes:
       - ${DOCKER_COMPOSE_PATH}/seedbox-radarr:/config
       - ${CLOUD_PATH}/movies:/movies
@@ -59,7 +59,7 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - TZ=${CLOUD_PATH}
+      - TZ=${TIME_ZONE}
     volumes:
       - ${DOCKER_COMPOSE_PATH}/seedbox-lidarr:/config
       - ${CLOUD_PATH}/music:/music
@@ -76,7 +76,7 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - TZ=${CLOUD_PATH}
+      - TZ=${TIME_ZONE}
     volumes:
       - ${DOCKER_COMPOSE_PATH}/seedbox-bazarr:/config
       - ${CLOUD_PATH}/movies:/movies
@@ -93,7 +93,7 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - TZ=${CLOUD_PATH}
+      - TZ=${TIME_ZONE}
     volumes:
       - ${DOCKER_COMPOSE_PATH}/seedbox-jackett:/config
       - ${CLOUD_PATH}/torrentsblackhole:/downloads
@@ -109,7 +109,7 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - TZ=${CLOUD_PATH}
+      - TZ=${TIME_ZONE}
     volumes:
       - ${DOCKER_COMPOSE_PATH}/jellyfin:/config
       - ${CLOUD_PATH}/tv:/data/tvshows
@@ -127,7 +127,7 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - TZ=${CLOUD_PATH}
+      - TZ=${TIME_ZONE}
     volumes:
       - ${DOCKER_COMPOSE_PATH}/duplicati:/config
       - /home/puser/duplicati-backups:/backups
