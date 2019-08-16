@@ -153,6 +153,18 @@ services:
       - cloud
       - seedbox
 
+  filebrowser:
+    image: filebrowser/filebrowser
+    container_name: filebrowser
+    volumes:
+      - ${DOCKER_COMPOSE_PATH}/filebrowser/database.db:/database.db
+      - ${CLOUD_PATH}:/srv
+    ports:
+      - 8080:80
+    restart: unless-stopped
+    networks:
+      - cloud
+
 networks:
   seedbox:
     driver: bridge
