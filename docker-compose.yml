@@ -43,9 +43,9 @@ services:
     links:
      - seedbox-rtorrent:torrentclient
     volumes:
-    - ${DOCKER_COMPOSE_PATH}/seedbox-torrentclient-proxy/nginx.conf:/etc/nginx/nginx.conf
+    - ${DOCKER_COMPOSE_PATH}/seedbox-torrentclient-proxy:/etc/nginx
     ports:
-    - 8033:8080
+    - 8033:8080 #8080 -> 9080
     restart: unless-stopped
     networks:
         - seedbox
