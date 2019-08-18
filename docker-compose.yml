@@ -38,12 +38,14 @@ services:
       - seedbox
 
   seedbox-torrentclient-proxy:
-    image: nginx
+    image: linuxserver/nginx
     container_name: seedbox-torrentclient-proxy
+    depends_on:
+     - seedbox-rtorrent
     links:
      - seedbox-rtorrent:torrentclient
     volumes:
-    - ${DOCKER_COMPOSE_PATH}/seedbox-torrentclient-proxy:/etc/nginx
+    - ${DOCKER_COMPOSE_PATH}/seedbox-torrentclient-proxy:/config
     ports:
     - 8033:8080 #8080 -> 9080
     restart: unless-stopped
