@@ -29,6 +29,7 @@ services:
       - VPN_PASS=${VPN_PASS}
       - VPN_ENABLED=yes
       - VIRTUAL_HOST=download.yellowyogurt.tk
+      - VIRTUAL_PORT=9080
     ports:
       - 9080:9080
       - 9443:9443
@@ -208,10 +209,12 @@ services:
 
   nginx-proxy:
     image: jwilder/nginx-proxy
+    container_name: nginx-proxy
     ports:
       - 80:80
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+    restart: unless-stopped
     networks:
       - cloud
       - seedbox
