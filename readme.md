@@ -21,7 +21,7 @@ This repo provides a docker-compose.yml that contains the configurations for a s
 
 ## Informations
 ### Containers
-| App         | Container name   | Ports     |
+| App         | Container name   | UI Ports  |
 | ----------- | ---------------- | --------- |
 | rTorrent    | seedbox-rtorrent | 8033:80   |
 | Sonarr      | seedbox-sonarr   | 8989:8989 |
@@ -37,6 +37,9 @@ This repo provides a docker-compose.yml that contains the configurations for a s
 ### Connecting services
 Since the apps that need to be connected are under the same network you can access every app by it's name and its internal port.
 For example to connect rTorrent in Sonarr the url is: `http://seedbox-rtorrent:80`.
+
+#### Remoe Porth Mapping
+In Sonarr, Radarr, ecc. `/data/` of `seedbox-rtorrent` has to be mapped to `/downloads`.
 
 ### Filebrowser credentials
 - Username: `admin`
