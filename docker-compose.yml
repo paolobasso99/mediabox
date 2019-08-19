@@ -232,6 +232,8 @@ services:
     networks:
       - cloud
       - seedbox
+    labels:
+      - 'com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy'
 
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
@@ -244,6 +246,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
+      - NGINX_PROXY_CONTAINER=nginx-proxy
     restart: unless-stopped
     networks:
       - cloud
