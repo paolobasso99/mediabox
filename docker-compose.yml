@@ -227,7 +227,7 @@ services:
       - /etc/nginx/conf.d
       - /etc/nginx/vhost.d
       - /usr/share/nginx/html
-      - /etc/nginx/certs:ro
+      - /etc/nginx/certs:/etc/nginx/certs:ro
     restart: unless-stopped
     networks:
       - cloud
@@ -237,7 +237,7 @@ services:
     image: jrcs/letsencrypt-nginx-proxy-companion
     container_name: letsencrypt
     volumes:
-      - certs:/etc/nginx/certs:rw
+      - /etc/nginx/certs:/etc/nginx/certs:rw
       - /etc/nginx/conf.d
       - /etc/nginx/vhost.d
       - /usr/share/nginx/html
