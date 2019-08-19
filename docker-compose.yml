@@ -29,7 +29,7 @@ services:
       - VPN_PASS=${VPN_PASS}
       - VPN_ENABLED=yes
       - VIRTUAL_HOST=download.${DOMAIN}
-      - VIRTUAL_PORT=9080
+      - VIRTUAL_PORT=9443
       - LETSENCRYPT_HOST=download.${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     ports:
@@ -195,10 +195,10 @@ services:
       - 443:443
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - /etc/nginx/conf.d
-      - /etc/nginx/vhost.d
-      - /usr/share/nginx/html
-      - /etc/nginx/dhparam
+      - ${DOCKER_COMPOSE_PATH}/nginx-proxy/conf.d:/etc/nginx/conf.d
+      - ${DOCKER_COMPOSE_PATH}/nginx-proxy/vhost.d:/etc/nginx/vhost.d
+      - ${DOCKER_COMPOSE_PATH}/nginx-proxy/html:/usr/share/nginx/html
+      - ${DOCKER_COMPOSE_PATH}/nginx-proxy/dhparam:/etc/nginx/dhparam
       - /etc/nginx/certs:/etc/nginx/certs:ro
     restart: unless-stopped
     networks:
@@ -211,12 +211,12 @@ services:
     image: jrcs/letsencrypt-nginx-proxy-companion
     container_name: letsencrypt
     volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ${DOCKER_COMPOSE_PATH}/nginx-proxy/conf.d:/etc/nginx/conf.d
+      - ${DOCKER_COMPOSE_PATH}/nginx-proxy/vhost.d:/etc/nginx/vhost.d
+      - ${DOCKER_COMPOSE_PATH}/nginx-proxy/html:/usr/share/nginx/html
+      - ${DOCKER_COMPOSE_PATH}/nginx-proxy/dhparam:/etc/nginx/dhparam
       - /etc/nginx/certs:/etc/nginx/certs:rw
-      - /etc/nginx/conf.d
-      - /etc/nginx/vhost.d
-      - /usr/share/nginx/html
-      - /etc/nginx/dhparam
-      - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
       - NGINX_PROXY_CONTAINER=nginx-proxy
