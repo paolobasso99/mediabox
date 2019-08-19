@@ -1,4 +1,4 @@
-# Docker Seedbox
+# Docker MediaBox
 This repo provides a docker-compose.yml that contains the configurations for a seedbox.
 
 ## Prerequisites
