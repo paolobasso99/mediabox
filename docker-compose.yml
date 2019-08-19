@@ -29,7 +29,7 @@ services:
       - VPN_PASS=${VPN_PASS}
       - VPN_ENABLED=yes
       - VIRTUAL_HOST=download.${DOMAIN}
-      - VIRTUAL_PORT=9443
+      - VIRTUAL_PORT=9080
       - LETSENCRYPT_HOST=download.${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     ports:
@@ -186,25 +186,6 @@ services:
     restart: unless-stopped
     networks:
       - cloud
-
-  organizr:
-    image: organizrtools/organizr-v2
-    container_name: organizr
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - VIRTUAL_HOST=organizr.${DOMAIN}
-      - LETSENCRYPT_HOST=organizr.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - VIRTUAL_PORT=8585
-    volumes:
-      - ${DOCKER_COMPOSE_PATH}/organizr:/config
-    ports:
-      - 8585:8585
-    restart: unless-stopped
-    networks:
-      - cloud
-      - seedbox
 
   nginx-proxy:
     image: jwilder/nginx-proxy
