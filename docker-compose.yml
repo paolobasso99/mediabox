@@ -28,6 +28,10 @@ services:
       - VPN_USER=${VPN_USER}
       - VPN_PASS=${VPN_PASS}
       - VPN_ENABLED=yes
+      - VIRTUAL_HOST=download.${DOMAIN}
+      - VIRTUAL_PORT=9080
+      - LETSENCRYPT_HOST=download.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     ports:
       - 9080:9080
       - 9443:9443
@@ -78,7 +82,7 @@ services:
     restart: unless-stopped
     networks:
       - seedbox
-
+  
   seedbox-lidarr:
     image: linuxserver/lidarr
     container_name: seedbox-lidarr
