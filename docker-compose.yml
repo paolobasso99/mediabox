@@ -28,9 +28,6 @@ services:
       - VPN_USER=${VPN_USER}
       - VPN_PASS=${VPN_PASS}
       - VPN_ENABLED=yes
-      - VIRTUAL_HOST=download.${DOMAIN}:9443,download.${DOMAIN}:9080,download.${DOMAIN}:8118
-      - LETSENCRYPT_HOST=download.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     ports:
       - 9080:9080
       - 9443:9443
