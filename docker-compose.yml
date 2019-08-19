@@ -29,7 +29,7 @@ services:
       - VPN_PASS=${VPN_PASS}
       - VPN_ENABLED=yes
       - VIRTUAL_HOST=download.${DOMAIN}
-      - VIRTUAL_PORT=9080
+      - VIRTUAL_PORT=9443
       - LETSENCRYPT_HOST=download.${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     ports:
@@ -239,7 +239,7 @@ services:
     environment:
       - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
       - NGINX_PROXY_CONTAINER=nginx-proxy
-      - DEBUG=true
+      - DEBUG=false
     restart: unless-stopped
     networks:
       - cloud
