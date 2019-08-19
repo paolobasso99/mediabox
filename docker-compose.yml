@@ -195,7 +195,7 @@ services:
       - ${DOCKER_COMPOSE_PATH}/nginx-proxy/vhost.d:/etc/nginx/vhost.d
       - ${DOCKER_COMPOSE_PATH}/nginx-proxy/html:/usr/share/nginx/html
       - ${DOCKER_COMPOSE_PATH}/nginx-proxy/dhparam:/etc/nginx/dhparam
-      - /etc/nginx/certs:/etc/nginx/certs:ro
+      - ${DOCKER_COMPOSE_PATH}/certs:/etc/nginx/certs:ro
     restart: unless-stopped
     networks:
       - cloud
@@ -212,7 +212,7 @@ services:
       - ${DOCKER_COMPOSE_PATH}/nginx-proxy/vhost.d:/etc/nginx/vhost.d
       - ${DOCKER_COMPOSE_PATH}/nginx-proxy/html:/usr/share/nginx/html
       - ${DOCKER_COMPOSE_PATH}/nginx-proxy/dhparam:/etc/nginx/dhparam
-      - /etc/nginx/certs:/etc/nginx/certs:rw
+      - ${DOCKER_COMPOSE_PATH}/certs:/etc/nginx/certs:rw
     environment:
       - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
       - NGINX_PROXY_CONTAINER=nginx-proxy
