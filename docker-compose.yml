@@ -30,6 +30,7 @@ services:
       - VPN_ENABLED=yes
       - VIRTUAL_HOST=download.yellowyogurt.tk
       - VIRTUAL_PORT=9080
+      - LETSENCRYPT_HOST=download.yellowyogurt.tk
     ports:
       - 9080:9080
       - 9443:9443
@@ -49,7 +50,7 @@ services:
     volumes:
     - ${DOCKER_COMPOSE_PATH}/seedbox-torrentclient-proxy:/config
     ports:
-    - 8033:8080 #8080 -> 9080
+    - 8033:8080 #8080->9080
     restart: unless-stopped
     networks:
         - seedbox
@@ -62,6 +63,7 @@ services:
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=sonarr.yellowyogurt.tk
+      - LETSENCRYPT_HOST=sonarr.yellowyogurt.tk
     volumes:
       - ${DOCKER_COMPOSE_PATH}/seedbox-sonarr:/config
       - ${CLOUD_PATH}/downloads:/downloads
@@ -80,6 +82,7 @@ services:
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=radarr.yellowyogurt.tk
+      - LETSENCRYPT_HOST=radarr.yellowyogurt.tk
     volumes:
       - ${DOCKER_COMPOSE_PATH}/seedbox-radarr:/config
       - ${CLOUD_PATH}/downloads:/downloads
@@ -98,6 +101,7 @@ services:
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=lidarr.yellowyogurt.tk
+      - LETSENCRYPT_HOST=lidarr.yellowyogurt.tk
     volumes:
       - ${DOCKER_COMPOSE_PATH}/seedbox-lidarr:/config
       - ${CLOUD_PATH}/downloads:/downloads
@@ -116,6 +120,7 @@ services:
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=bazarr.yellowyogurt.tk
+      - LETSENCRYPT_HOST=bazarr.yellowyogurt.tk
     volumes:
       - ${DOCKER_COMPOSE_PATH}/seedbox-bazarr:/config
       - ${CLOUD_PATH}/movies:/movies
@@ -134,6 +139,7 @@ services:
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=jackett.yellowyogurt.tk
+      - LETSENCRYPT_HOST=jackett.yellowyogurt.tk
     volumes:
       - ${DOCKER_COMPOSE_PATH}/seedbox-jackett:/config
     ports:
@@ -150,6 +156,7 @@ services:
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=jellyfin.yellowyogurt.tk
+      - LETSENCRYPT_HOST=jellyfin.yellowyogurt.tk
     volumes:
       - ${DOCKER_COMPOSE_PATH}/jellyfin:/config
       - ${CLOUD_PATH}/tv:/data/tvshows
@@ -169,6 +176,7 @@ services:
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=duplicati.yellowyogurt.tk
+      - LETSENCRYPT_HOST=duplicati.yellowyogurt.tk
     volumes:
       - ${DOCKER_COMPOSE_PATH}/duplicati:/config
       - /home/puser/duplicati-backups:/backups
@@ -186,6 +194,7 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - VIRTUAL_HOST=yellowyogurt.tk
+      - LETSENCRYPT_HOST=yellowyogurt.tk
     volumes:
       - ${DOCKER_COMPOSE_PATH}/organizr:/config
     ports:
@@ -212,8 +221,28 @@ services:
     container_name: nginx-proxy
     ports:
       - 80:80
+      - 443:443
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /etc/nginx/conf.d
+      - /etc/nginx/vhost.d
+      - /usr/share/nginx/html
+      - /etc/nginx/certs:ro
+    restart: unless-stopped
+    networks:
+      - cloud
+      - seedbox
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: letsencrypt
+    volumes_from:
+      - nginx-proxy
+    volumes:
+      - certs:/etc/nginx/certs:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
     restart: unless-stopped
     networks:
       - cloud
