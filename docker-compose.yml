@@ -193,9 +193,9 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - VIRTUAL_HOST=${DOMAIN}
+      - VIRTUAL_HOST=organizr.${DOMAIN}
       - LETSENCRYPT_HOST=organizr.${DOMAIN}
-      - LETSENCRYPT_EMAIL=organizr.${LETSENCRYPT_EMAIL}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       - VIRTUAL_PORT=8585
     volumes:
       - ${DOCKER_COMPOSE_PATH}/organizr:/config
