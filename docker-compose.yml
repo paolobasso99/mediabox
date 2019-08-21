@@ -6,6 +6,7 @@ services:
       container_name: mediabox-rtorrent
       depends_on:
         - mediabox-proxy
+        - mediabox-letsencrypt
       cap_add:
         - NET_ADMIN
       environment:
@@ -48,12 +49,15 @@ services:
       - mediabox-proxy
       - mediabox-rtorrent
       - mediabox-jackett
+      - mediabox-letsencrypt
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=sonarr.${DOMAIN}
       - VIRTUAL_PORT=8989
+      - LETSENCRYPT_HOST=sonarr.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/sonarr:/config
       - ${DATA_PATH}/downloads:/downloads
@@ -72,6 +76,7 @@ services:
       - mediabox-proxy
       - mediabox-rtorrent
       - mediabox-jackett
+      - mediabox-letsencrypt
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -96,6 +101,7 @@ services:
       - mediabox-proxy
       - mediabox-rtorrent
       - mediabox-jackett
+      - mediabox-letsencrypt
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -120,6 +126,7 @@ services:
       - mediabox-proxy
       - mediabox-sonarr
       - mediabox-radarr
+      - mediabox-letsencrypt
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -142,6 +149,7 @@ services:
     container_name: mediabox-jackett
     depends_on:
       - mediabox-proxy
+      - mediabox-letsencrypt
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -162,6 +170,7 @@ services:
     container_name: mediabox-jellyfin
     depends_on:
       - mediabox-proxy
+      - mediabox-letsencrypt
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -184,9 +193,36 @@ services:
     container_name: mediabox-proxy
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ${CONFIG_PATH}/proxy/certs:/etc/nginx/certs:ro
+      - ${CONFIG_PATH}/proxy/conf.d:/etc/nginx/conf.d
+      - ${CONFIG_PATH}/proxy/vhost.d:/etc/nginx/vhost.d
+      - ${CONFIG_PATH}/proxy/html:/usr/share/nginx/html
+      - ${CONFIG_PATH}/proxy/dhparam:/etc/nginx/dhparam
     ports:
       - 80:80
       - 443:443
+    restart: unless-stopped
+    networks:
+      - mediabox-proxy
+    labels:
+      - 'com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy'
+  
+  mediabox-letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: mediabox-letsencrypt
+    depends_on:
+      - mediabox-proxy
+    environment:
+      - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
+      - NGINX_PROXY_CONTAINER=mediabox-proxy
+      - DEBUG=false
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${CONFIG_PATH}/proxy/certs:/etc/nginx/certs:rw
+      - ${CONFIG_PATH}/proxy/conf.d:/etc/nginx/conf.d
+      - ${CONFIG_PATH}/proxy/vhost.d:/etc/nginx/vhost.d
+      - ${CONFIG_PATH}/proxy/html:/usr/share/nginx/html
+      - ${CONFIG_PATH}/proxy/dhparam:/etc/nginx/dhparam
     restart: unless-stopped
     networks:
       - mediabox-proxy
