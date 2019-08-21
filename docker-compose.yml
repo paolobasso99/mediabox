@@ -17,6 +17,8 @@ services:
     restart: unless-stopped
     labels:
       - 'com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy'
+    networks:
+     - torrent
 
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
