@@ -187,9 +187,6 @@ services:
   nginx-proxy:
     image: jwilder/nginx-proxy
     container_name: mediabox-nginx-proxy
-    depends_on:
-      - nginx-proxy
-      - letsencrypt
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ${CONFIG_PATH}/nginx-proxy/conf.d:/etc/nginx/conf.d
@@ -209,7 +206,6 @@ services:
     container_name: mediabox-letsencrypt
     depends_on:
       - nginx-proxy
-      - letsencrypt
     environment:
       - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
       - NGINX_PROXY_CONTAINER=mediabox-nginx-proxy
