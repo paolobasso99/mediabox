@@ -1,245 +1,39 @@
 version: '3'
 
 services:
-  seedbox-rtorrent:
-    image: binhex/arch-rtorrentvpn
-    container_name: seedbox-rtorrent
-    cap_add:
-      - NET_ADMIN
-    volumes:
-      - ${DOCKER_COMPOSE_PATH}/seedbox-rtorrent:/config
-      - ${CLOUD_PATH}/downloads:/data 
-      - /etc/localtime:/etc/localtime:ro
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - PHP_TZ=${TIME_ZONE}
-      - DEBUG=false
-      - UMASK=022
-      - NAME_SERVERS=209.222.18.222,84.200.69.80,37.235.1.174,1.1.1.1,209.222.18.218,37.235.1.177,84.200.70.40,1.0.0.1
-      - LAN_NETWORK=192.168.1.0/24
-      - ENABLE_RPC2_AUTH=yes
-      - ENABLE_RPC2=yes
-      - ENABLE_AUTODL_IRSSI=no
-      - ENABLE_PRIVOXY=no
-      - STRICT_PORT_FORWARD=${VPN_STRICT_PORT_FORWARD}
-      - VPN_PROV=${VPN_PROV}
-      - VPN_USER=${VPN_USER}
-      - VPN_PASS=${VPN_PASS}
-      - VPN_ENABLED=${VPN_ENABLED}
-      - VIRTUAL_HOST=download.${DOMAIN}
-      - VIRTUAL_PORT=9080
-      - LETSENCRYPT_HOST=download.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-    ports:
-      - 9080:9080
-      - 9443:9443
-      - 8118:8118
-    restart: unless-stopped
-    privileged: true
-    networks:
-      - seedbox
-
-  seedbox-sonarr:
-    image: linuxserver/sonarr
-    container_name: seedbox-sonarr
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=sonarr.${DOMAIN}
-      - LETSENCRYPT_HOST=sonarr.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - VIRTUAL_PORT=8989
-    volumes:
-      - ${DOCKER_COMPOSE_PATH}/seedbox-sonarr:/config
-      - ${CLOUD_PATH}/downloads:/downloads
-      - ${CLOUD_PATH}/tv:/tv
-    ports:
-      - 8989:8989
-    restart: unless-stopped
-    networks:
-      - seedbox
-  
-  seedbox-radarr:
-    image: linuxserver/radarr
-    container_name: seedbox-radarr
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=radarr.${DOMAIN}
-      - LETSENCRYPT_HOST=radarr.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - VIRTUAL_PORT=7878
-    volumes:
-      - ${DOCKER_COMPOSE_PATH}/seedbox-radarr:/config
-      - ${CLOUD_PATH}/downloads:/downloads
-      - ${CLOUD_PATH}/movies:/movies
-    ports:
-      - 7878:7878
-    restart: unless-stopped
-    networks:
-      - seedbox
-  
-  seedbox-lidarr:
-    image: linuxserver/lidarr
-    container_name: seedbox-lidarr
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=lidarr.${DOMAIN}
-      - LETSENCRYPT_HOST=lidarr.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - VIRTUAL_PORT=8686
-    volumes:
-      - ${DOCKER_COMPOSE_PATH}/seedbox-lidarr:/config
-      - ${CLOUD_PATH}/downloads:/downloads
-      - ${CLOUD_PATH}/music:/music
-    ports:
-      - 8686:8686
-    restart: unless-stopped
-    networks:
-      - seedbox
-
-  seedbox-bazarr:
-    image: linuxserver/bazarr
-    container_name: seedbox-bazarr
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=bazarr.${DOMAIN}
-      - LETSENCRYPT_HOST=bazarr.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - VIRTUAL_PORT=6767
-    volumes:
-      - ${DOCKER_COMPOSE_PATH}/seedbox-bazarr:/config
-      - ${CLOUD_PATH}/movies:/movies
-      - ${CLOUD_PATH}/tv:/tv
-    ports:
-      - 6767:6767
-    restart: unless-stopped
-    networks:
-      - seedbox
-
-  seedbox-jackett:
-    image: linuxserver/jackett
-    container_name: seedbox-jackett
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=jackett.${DOMAIN}
-      - LETSENCRYPT_HOST=jackett.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - VIRTUAL_PORT=9117
-    volumes:
-      - ${DOCKER_COMPOSE_PATH}/seedbox-jackett:/config
-    ports:
-      - 9117:9117
-    restart: unless-stopped
-    networks:
-      - seedbox
-    
-  jellyfin:
-    image: linuxserver/jellyfin
-    container_name: jellyfin
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=jellyfin.${DOMAIN}
-      - LETSENCRYPT_HOST=jellyfin.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - VIRTUAL_PORT=8096
-    volumes:
-      - ${DOCKER_COMPOSE_PATH}/jellyfin:/config
-      - ${CLOUD_PATH}/tv:/data/tvshows
-      - ${CLOUD_PATH}/movies:/data/movies
-      - ${CLOUD_PATH}/music:/data/music
-    ports:
-      - 8096:8096
-    restart: unless-stopped
-    networks:
-      - cloud
-
   nginx-proxy:
     image: jwilder/nginx-proxy
-    container_name: nginx-proxy
+    container_name: mediabox-nginx-proxy
     ports:
       - 80:80
       - 443:443
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ${DOCKER_COMPOSE_PATH}/nginx-proxy/conf.d:/etc/nginx/conf.d
-      - ${DOCKER_COMPOSE_PATH}/nginx-proxy/vhost.d:/etc/nginx/vhost.d
-      - ${DOCKER_COMPOSE_PATH}/nginx-proxy/html:/usr/share/nginx/html
-      - ${DOCKER_COMPOSE_PATH}/nginx-proxy/dhparam:/etc/nginx/dhparam
-      - ${DOCKER_COMPOSE_PATH}/certs:/etc/nginx/certs:ro
+      - ${CONFIG_PATH}/nginx-proxy/conf.d:/etc/nginx/conf.d
+      - ${CONFIG_PATH}/nginx-proxy/vhost.d:/etc/nginx/vhost.d
+      - ${CONFIG_PATH}/nginx-proxy/html:/usr/share/nginx/html
+      - ${CONFIG_PATH}/nginx-proxy/dhparam:/etc/nginx/dhparam
+      - ${CONFIG_PATH}/certs:/etc/nginx/certs:ro
     restart: unless-stopped
-    networks:
-      - cloud
-      - seedbox
     labels:
       - 'com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy'
 
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
-    container_name: letsencrypt
+    container_name: mediabox-letsencrypt
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ${DOCKER_COMPOSE_PATH}/nginx-proxy/conf.d:/etc/nginx/conf.d
-      - ${DOCKER_COMPOSE_PATH}/nginx-proxy/vhost.d:/etc/nginx/vhost.d
-      - ${DOCKER_COMPOSE_PATH}/nginx-proxy/html:/usr/share/nginx/html
-      - ${DOCKER_COMPOSE_PATH}/nginx-proxy/dhparam:/etc/nginx/dhparam
-      - ${DOCKER_COMPOSE_PATH}/certs:/etc/nginx/certs:rw
+      - ${CONFIG_PATH}/nginx-proxy/conf.d:/etc/nginx/conf.d
+      - ${CONFIG_PATH}/nginx-proxy/vhost.d:/etc/nginx/vhost.d
+      - ${CONFIG_PATH}/nginx-proxy/html:/usr/share/nginx/html
+      - ${CONFIG_PATH}/nginx-proxy/dhparam:/etc/nginx/dhparam
+      - ${CONFIG_PATH}/certs:/etc/nginx/certs:rw
     environment:
       - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
-      - NGINX_PROXY_CONTAINER=nginx-proxy
+      - NGINX_PROXY_CONTAINER=mediabox-nginx-proxy
       - DEBUG=false
     restart: unless-stopped
-    networks:
-      - cloud
-      - seedbox
-
-  nextcloud-db:
-    image: mariadb
-    container_name: nextcloud-db
-    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
-    environment:
-      - MYSQL_ROOT_PASSWORD=${NEXTCLOUD_DB_ROOT_PSW}
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=${NEXTCLOUD_DB_USER}
-      - MYSQL_PASSWORD=${NEXTCLOUD_DB_PASSWORD}
-    restart: unless-stopped
-    networks:
-      - cloud
-
-  nextcloud:
-    image: nextcloud
-    container_name: nextcloud
-    depends_on:
-     - nextcloud-db
-    ports:
-      - 8282:80
-    links:
-      - nextcloud-db
-    volumes:
-      - ${CLOUD_PATH}:/var/www/html/data
-    environment:
-      - VIRTUAL_HOST=cloud.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - LETSENCRYPT_HOST=cloud.${DOMAIN}
-      - VIRTUAL_PORT=80
-      - NEXTCLOUD_DATA_DIR=/var/www/html/data
-    restart: unless-stopped
-    networks:
-      - cloud
 
 networks:
-  seedbox:
-    driver: bridge
-  cloud:
+  torrent:
     driver: bridge

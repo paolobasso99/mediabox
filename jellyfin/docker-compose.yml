@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  jellyfin:
+    image: linuxserver/jellyfin
+    container_name: mediabox-jellyfin
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIME_ZONE}
+      - VIRTUAL_HOST=jellyfin.${DOMAIN}
+      - LETSENCRYPT_HOST=jellyfin.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+      - VIRTUAL_PORT=8096
+    volumes:
+      - ${CONFIG_PATH}/jellyfin:/config
+      - ${DATA_PATH}/tv:/data/tvshows
+      - ${DATA_PATH}/movies:/data/movies
+      - ${DATA_PATH}/music:/data/music
+    ports:
+      - 8096:8096
+    restart: unless-stopped

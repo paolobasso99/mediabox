@@ -1,0 +1,109 @@
+version: '3'
+
+services:
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: mediabox-sonarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIME_ZONE}
+      - VIRTUAL_HOST=sonarr.${DOMAIN}
+      - LETSENCRYPT_HOST=sonarr.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+      - VIRTUAL_PORT=8989
+    volumes:
+      - ${CONFIG_PATH}/sonarr:/config
+      - ${DATA_PATH}/downloads:/downloads
+      - ${DATA_PATH}/tv:/tv
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+    networks:
+      - mediabox_torrent
+  
+  radarr:
+    image: linuxserver/radarr
+    container_name: mediabox-radarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIME_ZONE}
+      - VIRTUAL_HOST=radarr.${DOMAIN}
+      - LETSENCRYPT_HOST=radarr.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+      - VIRTUAL_PORT=7878
+    volumes:
+      - ${CONFIG_PATH}/radarr:/config
+      - ${DATA_PATH}/downloads:/downloads
+      - ${DATA_PATH}/movies:/movies
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+    networks:
+      - mediabox_torrent
+  
+  lidarr:
+    image: linuxserver/lidarr
+    container_name: mediabox-lidarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIME_ZONE}
+      - VIRTUAL_HOST=lidarr.${DOMAIN}
+      - LETSENCRYPT_HOST=lidarr.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+      - VIRTUAL_PORT=8686
+    volumes:
+      - ${CONFIG_PATH}/lidarr:/config
+      - ${DATA_PATH}/downloads:/downloads
+      - ${DATA_PATH}/music:/music
+    ports:
+      - 8686:8686
+    restart: unless-stopped
+    networks:
+      - mediabox_torrent
+
+  bazarr:
+    image: linuxserver/bazarr
+    container_name: mediabox-bazarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIME_ZONE}
+      - VIRTUAL_HOST=bazarr.${DOMAIN}
+      - LETSENCRYPT_HOST=bazarr.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+      - VIRTUAL_PORT=6767
+    volumes:
+      - ${CONFIG_PATH}/bazarr:/config
+      - ${DATA_PATH}/movies:/movies
+      - ${DATA_PATH}/tv:/tv
+    ports:
+      - 6767:6767
+    restart: unless-stopped
+    networks:
+      - mediabox_torrent
+
+  jackett:
+    image: linuxserver/jackett
+    container_name: mediabox-jackett
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIME_ZONE}
+      - VIRTUAL_HOST=jackett.${DOMAIN}
+      - LETSENCRYPT_HOST=jackett.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+      - VIRTUAL_PORT=9117
+    volumes:
+      - ${CONFIG_PATH}/jackett:/config
+    ports:
+      - 9117:9117
+    restart: unless-stopped
+    networks:
+      - mediabox_torrent
+
+networks:
+  mediabox_torrent:
+    external: true

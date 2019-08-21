@@ -39,3 +39,7 @@ services:
       privileged: true
       networks:
         - mediabox_torrent
+
+networks:
+  mediabox_torrent:
+    external: true
