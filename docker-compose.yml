@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-rtorrent:
+  rtorrent:
       image: binhex/arch-rtorrentvpn
       container_name: mediabox-rtorrent
       cap_add:
@@ -217,13 +217,12 @@ rtorrent:
     links:
       - nextcloud-db
     volumes:
-      - ${DATA_PATH}:/var/www/html/data
+      - ${DATA_PATH}:/data
     environment:
       - VIRTUAL_HOST=cloud.${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       - LETSENCRYPT_HOST=cloud.${DOMAIN}
       - VIRTUAL_PORT=80
-      - NEXTCLOUD_DATA_DIR=/var/www/html/data
     restart: unless-stopped
 
 networks:
