@@ -1,6 +1,46 @@
 version: '3'
 
 services:
+  
+  mediabox-proxy:
+    image: jwilder/nginx-proxy
+    container_name: mediabox-proxy
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ${CONFIG_PATH}/proxy/certs:/etc/nginx/certs:ro
+      - ${CONFIG_PATH}/proxy/conf.d:/etc/nginx/conf.d
+      - ${CONFIG_PATH}/proxy/vhost.d:/etc/nginx/vhost.d
+      - ${CONFIG_PATH}/proxy/html:/usr/share/nginx/html
+      - ${CONFIG_PATH}/proxy/dhparam:/etc/nginx/dhparam
+    ports:
+      - 80:80
+      - 443:443
+    restart: unless-stopped
+    networks:
+      - mediabox-proxy
+    labels:
+      - 'com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy'
+  
+  mediabox-letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: mediabox-letsencrypt
+    depends_on:
+      - mediabox-proxy
+    environment:
+      - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
+      - NGINX_PROXY_CONTAINER=mediabox-proxy
+      - DEBUG=false
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${CONFIG_PATH}/proxy/certs:/etc/nginx/certs:rw
+      - ${CONFIG_PATH}/proxy/conf.d:/etc/nginx/conf.d
+      - ${CONFIG_PATH}/proxy/vhost.d:/etc/nginx/vhost.d
+      - ${CONFIG_PATH}/proxy/html:/usr/share/nginx/html
+      - ${CONFIG_PATH}/proxy/dhparam:/etc/nginx/dhparam
+    restart: unless-stopped
+    networks:
+      - mediabox-proxy
+
   mediabox-rtorrent:
       image: binhex/arch-rtorrentvpn
       container_name: mediabox-rtorrent
@@ -199,48 +239,60 @@ services:
     restart: unless-stopped
     networks:
       - mediabox-proxy
-
-  mediabox-proxy:
-    image: jwilder/nginx-proxy
-    container_name: mediabox-proxy
+  
+  mediabox-nextcloud-db:
+    image: mariadb
+    container_name: mediabox-nextcloud-db
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    environment:
+      - MYSQL_ROOT_PASSWORD=${NEXTCLOUD_DB_ROOT_PSW}
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=${NEXTCLOUD_DB_USER}
+      - MYSQL_PASSWORD=${NEXTCLOUD_DB_PASSWORD}
     volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ${CONFIG_PATH}/proxy/certs:/etc/nginx/certs:ro
-      - ${CONFIG_PATH}/proxy/conf.d:/etc/nginx/conf.d
-      - ${CONFIG_PATH}/proxy/vhost.d:/etc/nginx/vhost.d
-      - ${CONFIG_PATH}/proxy/html:/usr/share/nginx/html
-      - ${CONFIG_PATH}/proxy/dhparam:/etc/nginx/dhparam
-    ports:
-      - 80:80
-      - 443:443
+      - ${CONFIG_PATH}/nextcloud-db:/var/lib/mysql
     restart: unless-stopped
     networks:
-      - mediabox-proxy
-    labels:
-      - 'com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy'
-  
-  mediabox-letsencrypt:
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    container_name: mediabox-letsencrypt
+      - mediabox-nextcloud
+
+  mediabox-nextcloud-redis:
+    image: redis:alpine
+    container_name: mediabox-nextcloud-redis
+    restart: unless-stopped
+    networks:
+      - mediabox-nextcloud
+
+  mediabox-nextcloud:
+    image: nextcloud:fpm-alpine
+    container_name: mediabox-nextcloud
     depends_on:
       - mediabox-proxy
+      - mediabox-letsencrypt
+      - mediabox-nextcloud-db
+      - mediabox-nextcloud-redis
     environment:
-      - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
-      - NGINX_PROXY_CONTAINER=mediabox-proxy
-      - DEBUG=false
+      - VIRTUAL_HOST=cloud.${DOMAIN}
+      - VIRTUAL_PORT=80
+      - LETSENCRYPT_HOST=cloud.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+      - MYSQL_HOST=mediabox-nextcloud-db
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=${NEXTCLOUD_DB_USER}
+      - MYSQL_PASSWORD=${NEXTCLOUD_DB_PASSWORD}
+      - REDIS_HOST=mediabox-nextcloud-redis
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ${CONFIG_PATH}/proxy/certs:/etc/nginx/certs:rw
-      - ${CONFIG_PATH}/proxy/conf.d:/etc/nginx/conf.d
-      - ${CONFIG_PATH}/proxy/vhost.d:/etc/nginx/vhost.d
-      - ${CONFIG_PATH}/proxy/html:/usr/share/nginx/html
-      - ${CONFIG_PATH}/proxy/dhparam:/etc/nginx/dhparam
+      - ${DATA_PATH}:/var/www/html/data
+    ports:
+      - 8282:80
     restart: unless-stopped
     networks:
       - mediabox-proxy
+      - mediabox-nextcloud
 
 networks:
   mediabox-torrent:
     driver: bridge
   mediabox-proxy:
+    driver: bridge
+  mediabox-nextcloud:
     driver: bridge
