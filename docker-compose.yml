@@ -1,18 +1,14 @@
 version: '3'
 
 services:
-  rtorrent:
+  mediabox-rtorrent:
       image: binhex/arch-rtorrentvpn
       container_name: mediabox-rtorrent
       depends_on:
-        - nginx-proxy
-        - letsencrypt
+        - mediabox-nginx-proxy
+        - mediabox-letsencrypt
       cap_add:
         - NET_ADMIN
-      volumes:
-        - ${CONFIG_PATH}/rtorrent:/config
-        - ${DATA_PATH}/downloads:/data 
-        - /etc/localtime:/etc/localtime:ro
       environment:
         - PUID=${PUID}
         - PGID=${PGID}
@@ -34,6 +30,10 @@ services:
         - VIRTUAL_PORT=9080
         - LETSENCRYPT_HOST=download.${DOMAIN}
         - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+      volumes:
+        - ${CONFIG_PATH}/rtorrent:/config
+        - ${DATA_PATH}/downloads:/data 
+        - /etc/localtime:/etc/localtime:ro
       ports:
         - 9080:9080
         - 9443:9443
@@ -41,14 +41,14 @@ services:
       restart: unless-stopped
       privileged: true
       networks:
-        - torrent
+        - mediabox-torrent
   
-  sonarr:
+  mediabox-sonarr:
     image: linuxserver/sonarr
     container_name: mediabox-sonarr
     depends_on:
-      - nginx-proxy
-      - letsencrypt
+      - mediabox-nginx-proxy
+      - mediabox-letsencrypt
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -65,14 +65,14 @@ services:
       - 8989:8989
     restart: unless-stopped
     networks:
-      - torrent
+      - mediabox-torrent
   
-  radarr:
+  mediabox-radarr:
     image: linuxserver/radarr
     container_name: mediabox-radarr
     depends_on:
-      - nginx-proxy
-      - letsencrypt
+      - mediabox-nginx-proxy
+      - mediabox-letsencrypt
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -89,14 +89,14 @@ services:
       - 7878:7878
     restart: unless-stopped
     networks:
-      - torrent
+      - mediabox-torrent
   
-  lidarr:
+  mediabox-lidarr:
     image: linuxserver/lidarr
     container_name: mediabox-lidarr
     depends_on:
-      - nginx-proxy
-      - letsencrypt
+      - mediabox-nginx-proxy
+      - mediabox-letsencrypt
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -113,14 +113,14 @@ services:
       - 8686:8686
     restart: unless-stopped
     networks:
-      - torrent
+      - mediabox-torrent
 
-  bazarr:
+  mediabox-bazarr:
     image: linuxserver/bazarr
     container_name: mediabox-bazarr
     depends_on:
-      - nginx-proxy
-      - letsencrypt
+      - mediabox-nginx-proxy
+      - mediabox-letsencrypt
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -137,14 +137,14 @@ services:
       - 6767:6767
     restart: unless-stopped
     networks:
-      - torrent
+      - mediabox-torrent
 
-  jackett:
+  mediabox-jackett:
     image: linuxserver/jackett
     container_name: mediabox-jackett
     depends_on:
-      - nginx-proxy
-      - letsencrypt
+      - mediabox-nginx-proxy
+      - mediabox-letsencrypt
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -159,14 +159,14 @@ services:
       - 9117:9117
     restart: unless-stopped
     networks:
-      - torrent
+      - mediabox-torrent
   
-  jellyfin:
+  mediabox-jellyfin:
     image: linuxserver/jellyfin
     container_name: mediabox-jellyfin
     depends_on:
-      - nginx-proxy
-      - letsencrypt
+      - mediabox-nginx-proxy
+      - mediabox-letsencrypt
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -184,7 +184,7 @@ services:
       - 8096:8096
     restart: unless-stopped
 
-  nginx-proxy:
+  mediabox-nginx-proxy:
     image: jwilder/nginx-proxy
     container_name: mediabox-nginx-proxy
     volumes:
@@ -201,11 +201,11 @@ services:
     labels:
       - 'com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy'
 
-  letsencrypt:
+  mediabox-letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
     container_name: mediabox-letsencrypt
     depends_on:
-      - nginx-proxy
+      - mediabox-nginx-proxy
     environment:
       - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}
       - NGINX_PROXY_CONTAINER=mediabox-nginx-proxy
@@ -219,12 +219,12 @@ services:
       - ${CONFIG_PATH}/certs:/etc/nginx/certs:rw
     restart: unless-stopped
   
-  nextcloud-db:
+  mediabox-nextcloud-db:
     image: mariadb
     container_name: mediabox-nextcloud-db
     depends_on:
-      - nginx-proxy
-      - letsencrypt
+      - mediabox-nginx-proxy
+      - mediabox-letsencrypt
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     environment:
       - MYSQL_ROOT_PASSWORD=${NEXTCLOUD_DB_ROOT_PSW}
@@ -233,13 +233,13 @@ services:
       - MYSQL_PASSWORD=${NEXTCLOUD_DB_PASSWORD}
     restart: unless-stopped
 
-  nextcloud:
+  mediabox-nextcloud:
     image: nextcloud
     container_name: mediabox-nextcloud
     depends_on:
       - nextcloud-db
-      - nginx-proxy
-      - letsencrypt
+      - mediabox-nginx-proxy
+      - mediabox-letsencrypt
     environment:
       - VIRTUAL_HOST=cloud.${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
@@ -252,5 +252,5 @@ services:
     restart: unless-stopped
 
 networks:
-  torrent:
+  mediabox-torrent:
     driver: bridge
