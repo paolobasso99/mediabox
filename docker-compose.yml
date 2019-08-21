@@ -22,11 +22,11 @@ services:
       - ENABLE_RPC2=yes
       - ENABLE_AUTODL_IRSSI=no
       - ENABLE_PRIVOXY=no
-      - STRICT_PORT_FORWARD=no
-      - VPN_PROV=custom
+      - STRICT_PORT_FORWARD=${VPN_STRICT_PORT_FORWARD}
+      - VPN_PROV=${VPN_PROV}
       - VPN_USER=${VPN_USER}
       - VPN_PASS=${VPN_PASS}
-      - VPN_ENABLED=yes
+      - VPN_ENABLED=${VPN_ENABLED}
       - VIRTUAL_HOST=download.${DOMAIN}
       - VIRTUAL_PORT=9080
       - LETSENCRYPT_HOST=download.${DOMAIN}
@@ -165,27 +165,6 @@ services:
     networks:
       - cloud
 
-  duplicati:
-    image: linuxserver/duplicati
-    container_name: duplicati
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=duplicati.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - LETSENCRYPT_HOST=duplicati.${DOMAIN}
-      - VIRTUAL_PORT=8200
-    volumes:
-      - ${DOCKER_COMPOSE_PATH}/duplicati:/config
-      - /home/puser/duplicati-backups:/backups
-      - /home/puser:/source
-    ports:
-      - 8200:8200
-    restart: unless-stopped
-    networks:
-      - cloud
-
   nginx-proxy:
     image: jwilder/nginx-proxy
     container_name: nginx-proxy
@@ -232,6 +211,8 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=${NEXTCLOUD_DB_ROOT_PSW}
       - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=${NEXTCLOUD_DB_USER}
+      - MYSQL_PASSWORD=${NEXTCLOUD_DB_PASSWORD}
     restart: unless-stopped
     networks:
       - cloud
@@ -252,6 +233,7 @@ services:
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       - LETSENCRYPT_HOST=cloud.${DOMAIN}
       - VIRTUAL_PORT=80
+      - NEXTCLOUD_DATA_DIR=/var/www/html/data
     restart: unless-stopped
     networks:
       - cloud

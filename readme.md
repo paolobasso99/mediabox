@@ -1,5 +1,5 @@
-# Docker MediaBox
-This repo provides a docker-compose.yml that contains the configurations for a seedbox.
+# MediaBox
+This repo provides some docker-compose.yml that contains the configurations for a complete mediabox.
 
 ## Prerequisites
 1. Docker
@@ -21,18 +21,10 @@ This repo provides a docker-compose.yml that contains the configurations for a s
 
 ## Informations
 ### Containers
-| App         | Container name   | UI Ports  |
+| App         | Container name   | URL  |
 | ----------- | ---------------- | --------- |
-| rTorrent    | seedbox-rtorrent | 8033:80   |
-| Sonarr      | seedbox-sonarr   | 8989:8989 |
-| Radarr      | seedbox-radarr   | 7878:7878 |
-| Lidarr      | seedbox-lidarr   | 8686:8686 |
-| Bazarr      | seedbox-bazarr   | 6767:6767 |
-| Jackett     | seedbox-jackett  | 9117:9117 |
-| Jellyfin    | jellyfin         | 8096:8096 |
-| Duplicati   | duplicati        | 8200:8200 |
-| Organizr    | organizr         | 80:80     |
-| Filebrowser | filebrowser      | 8080:80   |
+| rTorrent    | seedbox-rtorrent | download.domain.com   |
+
 
 ### Connecting services
 Since the apps that need to be connected are under the same network you can access every app by it's name and its internal port.
@@ -40,10 +32,6 @@ For example to connect rTorrent in Sonarr the url is: `http://seedbox-rtorrent:8
 
 #### Remoe Porth Mapping
 In Sonarr, Radarr, ecc. `/data/` of `seedbox-rtorrent` has to be mapped to `/downloads`.
-
-### Filebrowser credentials
-- Username: `admin`
-- Password: `admin`
 
 ### PUID and PGID
 You can find these parameters:

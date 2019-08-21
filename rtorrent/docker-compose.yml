@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  rtorrent:
+      image: binhex/arch-rtorrentvpn
+      container_name: mediabox-rtorrent
+      cap_add:
+        - NET_ADMIN
+      volumes:
+        - ${CONFIG_PATH}/rtorrent:/config
+        - ${DATA_PATH}/downloads:/data 
+        - /etc/localtime:/etc/localtime:ro
+      environment:
+        - PUID=${PUID}
+        - PGID=${PGID}
+        - PHP_TZ=${TIME_ZONE}
+        - DEBUG=false
+        - UMASK=022
+        - NAME_SERVERS=209.222.18.222,84.200.69.80,37.235.1.174,1.1.1.1,209.222.18.218,37.235.1.177,84.200.70.40,1.0.0.1
+        - LAN_NETWORK=192.168.1.0/24
+        - ENABLE_RPC2_AUTH=yes
+        - ENABLE_RPC2=yes
+        - ENABLE_AUTODL_IRSSI=no
+        - ENABLE_PRIVOXY=no
+        - STRICT_PORT_FORWARD=${VPN_STRICT_PORT_FORWARD}
+        - VPN_PROV=${VPN_PROV}
+        - VPN_USER=${VPN_USER}
+        - VPN_PASS=${VPN_PASS}
+        - VPN_ENABLED=${VPN_ENABLED}
+        - VIRTUAL_HOST=download.${DOMAIN}
+        - VIRTUAL_PORT=9080
+        - LETSENCRYPT_HOST=download.${DOMAIN}
+        - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+      ports:
+        - 9080:9080
+        - 9443:9443
+        - 8118:8118
+      restart: unless-stopped
+      privileged: true
+      networks:
+        - mediabox_torrent
