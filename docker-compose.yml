@@ -6,7 +6,6 @@ services:
       container_name: mediabox-rtorrent
       depends_on:
         - mediabox-nginx-proxy
-        
       cap_add:
         - NET_ADMIN
       environment:
@@ -28,8 +27,6 @@ services:
         - VPN_ENABLED=${VPN_ENABLED}
         - VIRTUAL_HOST=download.${DOMAIN}
         - VIRTUAL_PORT=9080
-        - LETSENCRYPT_HOST=download.${DOMAIN}
-        - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       volumes:
         - ${CONFIG_PATH}/rtorrent:/config
         - ${DATA_PATH}/downloads:/data 
@@ -48,14 +45,13 @@ services:
     container_name: mediabox-sonarr
     depends_on:
       - mediabox-nginx-proxy
-      
+      - mediabox-rtorrent
+      - mediabox-jackett
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=sonarr.${DOMAIN}
-      - LETSENCRYPT_HOST=sonarr.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       - VIRTUAL_PORT=8989
     volumes:
       - ${CONFIG_PATH}/sonarr:/config
@@ -72,15 +68,13 @@ services:
     container_name: mediabox-radarr
     depends_on:
       - mediabox-nginx-proxy
-      
+      - mediabox-rtorrent
+      - mediabox-jackett
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=radarr.${DOMAIN}
-      - LETSENCRYPT_HOST=radarr.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - VIRTUAL_PORT=7878
     volumes:
       - ${CONFIG_PATH}/radarr:/config
       - ${DATA_PATH}/downloads:/downloads
@@ -96,15 +90,13 @@ services:
     container_name: mediabox-lidarr
     depends_on:
       - mediabox-nginx-proxy
-      
+      - mediabox-rtorrent
+      - mediabox-jackett
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=lidarr.${DOMAIN}
-      - LETSENCRYPT_HOST=lidarr.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - VIRTUAL_PORT=8686
     volumes:
       - ${CONFIG_PATH}/lidarr:/config
       - ${DATA_PATH}/downloads:/downloads
@@ -120,15 +112,13 @@ services:
     container_name: mediabox-bazarr
     depends_on:
       - mediabox-nginx-proxy
-      
+      - mediabox-sonarr
+      - mediabox-radarr
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=bazarr.${DOMAIN}
-      - LETSENCRYPT_HOST=bazarr.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - VIRTUAL_PORT=6767
     volumes:
       - ${CONFIG_PATH}/bazarr:/config
       - ${DATA_PATH}/movies:/movies
@@ -144,15 +134,11 @@ services:
     container_name: mediabox-jackett
     depends_on:
       - mediabox-nginx-proxy
-      
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=jackett.${DOMAIN}
-      - LETSENCRYPT_HOST=jackett.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - VIRTUAL_PORT=9117
     volumes:
       - ${CONFIG_PATH}/jackett:/config
     ports:
@@ -166,15 +152,11 @@ services:
     container_name: mediabox-jellyfin
     depends_on:
       - mediabox-nginx-proxy
-      
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=jellyfin.${DOMAIN}
-      - LETSENCRYPT_HOST=jellyfin.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - VIRTUAL_PORT=8096
     volumes:
       - ${CONFIG_PATH}/jellyfin:/config
       - ${DATA_PATH}/tv:/data/tvshows
