@@ -280,9 +280,9 @@ services:
       - MYSQL_USER=${NEXTCLOUD_DB_USER}
       - MYSQL_PASSWORD=${NEXTCLOUD_DB_PASSWORD}
       - REDIS_HOST=mediabox-nextcloud-redis
-      - NEXTCLOUD_DATA_DIR=/data
+      - NEXTCLOUD_DATA_DIR=/var/www/data
     volumes:
-      - ${DATA_PATH}:/data
+      - ${DATA_PATH}:/var/www/data
       - ${CONFIG_PATH}/nextcloud:/var/www/html
     ports:
       - 8282:80
