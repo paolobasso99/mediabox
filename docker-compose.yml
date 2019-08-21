@@ -5,7 +5,7 @@ services:
       image: binhex/arch-rtorrentvpn
       container_name: mediabox-rtorrent
       depends_on:
-        - mediabox-nginx-proxy
+        - mediabox-proxy
       cap_add:
         - NET_ADMIN
       environment:
@@ -44,7 +44,7 @@ services:
     image: linuxserver/sonarr
     container_name: mediabox-sonarr
     depends_on:
-      - mediabox-nginx-proxy
+      - mediabox-proxy
       - mediabox-rtorrent
       - mediabox-jackett
     environment:
@@ -67,7 +67,7 @@ services:
     image: linuxserver/radarr
     container_name: mediabox-radarr
     depends_on:
-      - mediabox-nginx-proxy
+      - mediabox-proxy
       - mediabox-rtorrent
       - mediabox-jackett
     environment:
@@ -89,7 +89,7 @@ services:
     image: linuxserver/lidarr
     container_name: mediabox-lidarr
     depends_on:
-      - mediabox-nginx-proxy
+      - mediabox-proxy
       - mediabox-rtorrent
       - mediabox-jackett
     environment:
@@ -111,7 +111,7 @@ services:
     image: linuxserver/bazarr
     container_name: mediabox-bazarr
     depends_on:
-      - mediabox-nginx-proxy
+      - mediabox-proxy
       - mediabox-sonarr
       - mediabox-radarr
     environment:
@@ -133,7 +133,7 @@ services:
     image: linuxserver/jackett
     container_name: mediabox-jackett
     depends_on:
-      - mediabox-nginx-proxy
+      - mediabox-proxy
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -151,7 +151,7 @@ services:
     image: linuxserver/jellyfin
     container_name: mediabox-jellyfin
     depends_on:
-      - mediabox-nginx-proxy
+      - mediabox-proxy
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -166,9 +166,9 @@ services:
       - 8096:8096
     restart: unless-stopped
 
-  mediabox-nginx-proxy:
+  mediabox-proxy:
     image: jwilder/nginx-proxy
-    container_name: mediabox-nginx-proxy
+    container_name: mediabox-proxy
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     ports:
