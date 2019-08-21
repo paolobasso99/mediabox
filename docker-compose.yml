@@ -39,6 +39,7 @@ services:
       privileged: true
       networks:
         - mediabox-torrent
+        - mediabox-proxy
   
   mediabox-sonarr:
     image: linuxserver/sonarr
@@ -62,6 +63,7 @@ services:
     restart: unless-stopped
     networks:
       - mediabox-torrent
+      - mediabox-proxy
   
   mediabox-radarr:
     image: linuxserver/radarr
@@ -75,6 +77,7 @@ services:
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=radarr.${DOMAIN}
+      - VIRTUAL_PORT=7878
     volumes:
       - ${CONFIG_PATH}/radarr:/config
       - ${DATA_PATH}/downloads:/downloads
@@ -84,6 +87,7 @@ services:
     restart: unless-stopped
     networks:
       - mediabox-torrent
+      - mediabox-proxy
   
   mediabox-lidarr:
     image: linuxserver/lidarr
@@ -97,6 +101,7 @@ services:
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=lidarr.${DOMAIN}
+      - VIRTUAL_PORT=8686
     volumes:
       - ${CONFIG_PATH}/lidarr:/config
       - ${DATA_PATH}/downloads:/downloads
@@ -106,6 +111,7 @@ services:
     restart: unless-stopped
     networks:
       - mediabox-torrent
+      - mediabox-proxy
 
   mediabox-bazarr:
     image: linuxserver/bazarr
@@ -119,6 +125,7 @@ services:
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=bazarr.${DOMAIN}
+      - VIRTUAL_PORT=6767
     volumes:
       - ${CONFIG_PATH}/bazarr:/config
       - ${DATA_PATH}/movies:/movies
@@ -128,6 +135,7 @@ services:
     restart: unless-stopped
     networks:
       - mediabox-torrent
+      - mediabox-proxy
 
   mediabox-jackett:
     image: linuxserver/jackett
@@ -139,6 +147,7 @@ services:
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=jackett.${DOMAIN}
+      - VIRTUAL_PORT=9117
     volumes:
       - ${CONFIG_PATH}/jackett:/config
     ports:
@@ -146,6 +155,7 @@ services:
     restart: unless-stopped
     networks:
       - mediabox-torrent
+      - mediabox-proxy
   
   mediabox-jellyfin:
     image: linuxserver/jellyfin
@@ -157,6 +167,7 @@ services:
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=jellyfin.${DOMAIN}
+      - VIRTUAL_PORT=8096
     volumes:
       - ${CONFIG_PATH}/jellyfin:/config
       - ${DATA_PATH}/tv:/data/tvshows
@@ -165,6 +176,8 @@ services:
     ports:
       - 8096:8096
     restart: unless-stopped
+    networks:
+      - mediabox-proxy
 
   mediabox-proxy:
     image: jwilder/nginx-proxy
@@ -175,7 +188,11 @@ services:
       - 80:80
       - 443:443
     restart: unless-stopped
+    networks:
+      - mediabox-proxy
 
 networks:
   mediabox-torrent:
+    driver: bridge
+  mediabox-proxy:
     driver: bridge
