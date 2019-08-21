@@ -28,6 +28,8 @@ services:
         - VPN_ENABLED=${VPN_ENABLED}
         - VIRTUAL_HOST=download.${DOMAIN}
         - VIRTUAL_PORT=9080
+        - LETSENCRYPT_HOST=download.${DOMAIN}
+        - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       volumes:
         - ${CONFIG_PATH}/rtorrent:/config
         - ${DATA_PATH}/downloads:/data 
@@ -83,6 +85,8 @@ services:
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=radarr.${DOMAIN}
       - VIRTUAL_PORT=7878
+      - LETSENCRYPT_HOST=radarr.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/radarr:/config
       - ${DATA_PATH}/downloads:/downloads
@@ -108,6 +112,8 @@ services:
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=lidarr.${DOMAIN}
       - VIRTUAL_PORT=8686
+      - LETSENCRYPT_HOST=lidarr.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/lidarr:/config
       - ${DATA_PATH}/downloads:/downloads
@@ -133,6 +139,8 @@ services:
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=bazarr.${DOMAIN}
       - VIRTUAL_PORT=6767
+      - LETSENCRYPT_HOST=bazarr.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/bazarr:/config
       - ${DATA_PATH}/movies:/movies
@@ -156,6 +164,8 @@ services:
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=jackett.${DOMAIN}
       - VIRTUAL_PORT=9117
+      - LETSENCRYPT_HOST=jackett.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/jackett:/config
     ports:
@@ -177,6 +187,8 @@ services:
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=jellyfin.${DOMAIN}
       - VIRTUAL_PORT=8096
+      - LETSENCRYPT_HOST=jellyfin.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/jellyfin:/config
       - ${DATA_PATH}/tv:/data/tvshows
