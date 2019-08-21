@@ -263,7 +263,7 @@ services:
       - mediabox-nextcloud
 
   mediabox-nextcloud:
-    image: nextcloud:fpm-alpine
+    image: nextcloud
     container_name: mediabox-nextcloud
     depends_on:
       - mediabox-proxy
