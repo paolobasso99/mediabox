@@ -237,7 +237,7 @@ services:
     image: nextcloud
     container_name: mediabox-nextcloud
     depends_on:
-      - nextcloud-db
+      - mediabox-nextcloud-db
       - mediabox-nginx-proxy
       - mediabox-letsencrypt
     environment:
