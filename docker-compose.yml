@@ -260,6 +260,21 @@ services:
     networks:
       - mediabox-proxy
 
+  mediabox-rclone:
+    image: pfidr34/rclone
+    container_name: mediabox-rclone
+    environment:
+      - TZ=${TIME_ZONE}
+      - CHECK_URL=${RCLONE_CHECK_URL}
+      - RCLONE_CMD=${RCLONE_CMD}
+      - SYNC_OPTS=-v --exclude ${DATA_PATH}/downloads/** --transfers 32 --min-age 15m --exclude-if-present .rcloneignore
+      - SYNC_DEST=${RCLONE_SYNC_DEST}
+      - SYNC_SRC=${DATA_PATH}
+      - CRON=${RCLONE_CRON}
+    volumes:
+      - ${RCLONE_CONF_PATH}:/config
+    restart: unless-stopped
+
 
 networks:
   mediabox-torrent:
