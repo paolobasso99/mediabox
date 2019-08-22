@@ -41,9 +41,9 @@ services:
     networks:
       - mediabox-proxy
 
-  mediabox-rtorrent:
-      image: binhex/arch-rtorrentvpn
-      container_name: mediabox-rtorrent
+  mediabox-deluge:
+      image: binhex/arch-delugevpn
+      container_name: mediabox-deluge
       depends_on:
         - mediabox-proxy
         - mediabox-letsencrypt
@@ -57,27 +57,27 @@ services:
         - UMASK=022
         - NAME_SERVERS=209.222.18.222,84.200.69.80,37.235.1.174,1.1.1.1,209.222.18.218,37.235.1.177,84.200.70.40,1.0.0.1
         - LAN_NETWORK=192.168.1.0/24
-        - ENABLE_RPC2_AUTH=yes
-        - ENABLE_RPC2=yes
-        - ENABLE_AUTODL_IRSSI=no
         - ENABLE_PRIVOXY=no
         - STRICT_PORT_FORWARD=${VPN_STRICT_PORT_FORWARD}
         - VPN_PROV=${VPN_PROV}
         - VPN_USER=${VPN_USER}
         - VPN_PASS=${VPN_PASS}
         - VPN_ENABLED=${VPN_ENABLED}
+        - DELUGE_DAEMON_LOG_LEVEL=warning
+        - DELUGE_WEB_LOG_LEVEL=warning
+        - DEBUG=false
         - VIRTUAL_HOST=download.${DOMAIN}
-        - VIRTUAL_PORT=9080
+        - VIRTUAL_PORT=8112
         - LETSENCRYPT_HOST=download.${DOMAIN}
         - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       volumes:
-        - ${CONFIG_PATH}/rtorrent:/config
+        - ${CONFIG_PATH}/deluge:/config
         - ${DATA_PATH}/downloads:/data 
         - /etc/localtime:/etc/localtime:ro
       ports:
-        - 9080:9080
-        - 9443:9443
-        - 8118:8118
+        - 8112:8112
+        - 58846:58846
+        - 58946:58946
       restart: unless-stopped
       privileged: true
       networks:
@@ -89,7 +89,7 @@ services:
     container_name: mediabox-sonarr
     depends_on:
       - mediabox-proxy
-      - mediabox-rtorrent
+      - mediabox-deluge
       - mediabox-jackett
       - mediabox-letsencrypt
     environment:
@@ -116,7 +116,7 @@ services:
     container_name: mediabox-radarr
     depends_on:
       - mediabox-proxy
-      - mediabox-rtorrent
+      - mediabox-deluge
       - mediabox-jackett
       - mediabox-letsencrypt
     environment:
@@ -143,7 +143,7 @@ services:
     container_name: mediabox-lidarr
     depends_on:
       - mediabox-proxy
-      - mediabox-rtorrent
+      - mediabox-deluge
       - mediabox-jackett
       - mediabox-letsencrypt
     environment:
