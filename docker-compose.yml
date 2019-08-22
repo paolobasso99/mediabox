@@ -239,64 +239,22 @@ services:
     restart: unless-stopped
     networks:
       - mediabox-proxy
-  
-  mediabox-nextcloud-db:
-    image: mariadb
-    container_name: mediabox-nextcloud-db
-    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
-    environment:
-      - MYSQL_ROOT_PASSWORD=${NEXTCLOUD_DB_ROOT_PSW}
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=${NEXTCLOUD_DB_USER}
-      - MYSQL_PASSWORD=${NEXTCLOUD_DB_PASSWORD}
-    volumes:
-      - ${CONFIG_PATH}/nextcloud-db:/var/lib/mysql
-    restart: unless-stopped
-    networks:
-      - mediabox-nextcloud
 
-  mediabox-nextcloud-redis:
-    image: redis:alpine
-    container_name: mediabox-nextcloud-redis
-    restart: unless-stopped
-    networks:
-      - mediabox-nextcloud
-
-  mediabox-nextcloud:
-    image: nextcloud
-    container_name: mediabox-nextcloud
-    depends_on:
-      - mediabox-proxy
-      - mediabox-letsencrypt
-      - mediabox-nextcloud-db
-      - mediabox-nextcloud-redis
-    environment:
-      - VIRTUAL_HOST=nextcloud.${DOMAIN}
-      - VIRTUAL_PORT=80
-      - LETSENCRYPT_HOST=nextcloud.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN_USER}
-      - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASSWORD}
-      - MYSQL_HOST=mediabox-nextcloud-db
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=${NEXTCLOUD_DB_USER}
-      - MYSQL_PASSWORD=${NEXTCLOUD_DB_PASSWORD}
-      - REDIS_HOST=mediabox-nextcloud-redis
-      - NEXTCLOUD_DATA_DIR=/var/www/data
+  mediabox-filebrowser:
+    image: filebrowser/filebrowser
+    container_name: mediabox-filebrowser
     volumes:
-      - ${DATA_PATH}:/var/www/data
-      - ${CONFIG_PATH}/nextcloud:/var/www/html
+      - ${CONFIG_PATH}/filebrowser/database.db:/database.db
+      - ${DATA_PATH}:/srv
     ports:
       - 8282:80
     restart: unless-stopped
     networks:
-      - mediabox-proxy
-      - mediabox-nextcloud
+      - cloud
+
 
 networks:
   mediabox-torrent:
     driver: bridge
   mediabox-proxy:
-    driver: bridge
-  mediabox-nextcloud:
     driver: bridge
