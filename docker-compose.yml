@@ -261,7 +261,7 @@ services:
       - mediabox-proxy
 
   mediabox-rclone:
-    image: pfidr34/rclone
+    image: pfidr/rclone
     container_name: mediabox-rclone
     environment:
       - TZ=${TIME_ZONE}
