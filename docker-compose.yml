@@ -273,6 +273,7 @@ services:
       - CRON=${RCLONE_CRON}
     volumes:
       - ${RCLONE_CONF_PATH}:/config
+      - ${CONFIG_PATH}/rclone/logs:/logs
     restart: unless-stopped
 
 
