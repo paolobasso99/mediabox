@@ -270,6 +270,8 @@ services:
       - SYNC_DEST=${RCLONE_SYNC_DEST}
       - SYNC_SRC=${DATA_PATH}
       - CRON=${RCLONE_CRON}
+      - OUTPUT_LOG=true
+      - ROTATE_LOG=7
     volumes:
       - ${RCLONE_CONF_PATH}:/config
       - ${CONFIG_PATH}/rclone/logs:/logs
