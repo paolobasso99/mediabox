@@ -233,6 +233,7 @@ services:
       - ${DATA_PATH}/tv:/data/tvshows
       - ${DATA_PATH}/movies:/data/movies
       - ${DATA_PATH}/music:/data/music
+      - ${CLOUD_MOUNT_PATH}:/data/remote
     ports:
       - 8096:8096
     restart: unless-stopped
