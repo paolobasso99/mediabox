@@ -253,7 +253,7 @@ services:
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/filebrowser/database.db:/database.db
-      - ${DATA_PATH}:/srv
+      - ${FILEBROWSER_SRC}:/srv
     ports:
       - 8282:80
     restart: unless-stopped
