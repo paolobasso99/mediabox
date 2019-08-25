@@ -232,7 +232,7 @@ services:
       - SYNC_SRC=/data
       - CRON=${RCLONE_CRON}
       - OUTPUT_LOG=true
-      - ROTATE_LOG=7
+      - ROTATE_LOG=2
     volumes:
       - ${RCLONE_CONF_PATH}:/config
       - ${CONFIG_PATH}/rclone/logs:/logs
