@@ -54,3 +54,6 @@ Do not update apps, to update remove images then recreate the containers.
 
 ### Manual refresh ssl
 Use `docker exec mediabox-letsencrypt /app/signal_le_service && docker logs -f mediabox-letsencrypt` to create new ssl certificates.
+
+### Manual rclone
+`docker exec mediabox-rclone ./sync.sh && docker logs mediabox-rclone`
