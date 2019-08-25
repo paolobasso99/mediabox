@@ -267,7 +267,7 @@ services:
       - TZ=${TIME_ZONE}
       - CHECK_URL=${RCLONE_CHECK_URL}
       - RCLONE_CMD=${RCLONE_CMD}
-      - SYNC_OPTS="-v --exclude /data/downloads/** --transfers 32 --min-age 15m --exclude-if-present .rcloneignore"
+      - SYNC_OPTS=-v --exclude /data/downloads/** --transfers 32 --min-age 15m --exclude-if-present .rcloneignore
       - SYNC_DEST=${RCLONE_SYNC_DEST}
       - SYNC_SRC=/data
       - CRON=${RCLONE_CRON}
