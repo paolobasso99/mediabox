@@ -63,6 +63,7 @@ services:
       - ${CONFIG_PATH}/sonarr:/config
       - ${DATA_PATH}/downloads:/downloads
       - ${DATA_PATH}/tv:/tv
+      - ${CLOUD_MOUNT_PATH}:/cloud
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -90,6 +91,7 @@ services:
       - ${CONFIG_PATH}/radarr:/config
       - ${DATA_PATH}/downloads:/downloads
       - ${DATA_PATH}/movies:/movies
+      - ${CLOUD_MOUNT_PATH}:/cloud
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -117,6 +119,7 @@ services:
       - ${CONFIG_PATH}/lidarr:/config
       - ${DATA_PATH}/downloads:/downloads
       - ${DATA_PATH}/music:/music
+      - ${CLOUD_MOUNT_PATH}:/cloud
     ports:
       - 8686:8686
     restart: unless-stopped
@@ -144,6 +147,7 @@ services:
       - ${CONFIG_PATH}/bazarr:/config
       - ${DATA_PATH}/movies:/movies
       - ${DATA_PATH}/tv:/tv
+      - ${CLOUD_MOUNT_PATH}:/cloud
     ports:
       - 6767:6767
     restart: unless-stopped
@@ -184,7 +188,7 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=jellyfin.${DOMAIN}
+      - VIRTUAL_HOST=jellyfin.${DOMAIN}, stream.${DOMAIN}
       - VIRTUAL_PORT=8096
       - LETSENCRYPT_HOST=jellyfin.${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
