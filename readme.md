@@ -30,8 +30,6 @@ To setup rclone type `rclone config` and follow the [docs](https://rclone.org/do
 | Jackett     | mediabox-jackett     | jackett   | 9117    | [GitHub](https://github.com/linuxserver/docker-jackett)                    |
 | Jellyfin    | mediabox-jellyfin    | jellyfin  | 8096    | [GitHub](https://github.com/linuxserver/docker-jellyfin)                   |
 | Filebrowser | mediabox-filebrowser | cloud     | 8282:80 | [GitHub](https://github.com/filebrowser/filebrowser)                       |
-| Nginx-proxy | mediabox-proxy       |           | 80, 443 | [GitHub](https://github.com/jwilder/nginx-proxy)                           |
-| Letsencrypt | mediabox-letsencrypt |           |         | [GitHub](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion) |
 | RClone      | mediabox-rclone      |           |         | [GitHub](https://github.com/pfidr34/docker-rclone)                         |
 
 
@@ -51,9 +49,6 @@ $ id username
 
 ### Updating
 Do not update apps, to update remove images then recreate the containers.
-
-### Manual refresh ssl
-Use `docker exec mediabox-letsencrypt /app/signal_le_service && docker logs -f mediabox-letsencrypt` to create new ssl certificates.
 
 ### Manual rclone
 `docker exec mediabox-rclone ./sync.sh && docker logs mediabox-rclone`
