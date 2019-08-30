@@ -4,9 +4,6 @@ services:
   mediabox-deluge:
       image: binhex/arch-delugevpn
       container_name: mediabox-deluge
-      depends_on:
-        - mediabox-proxy
-        - mediabox-letsencrypt
       cap_add:
         - NET_ADMIN
       environment:
@@ -47,10 +44,8 @@ services:
     image: linuxserver/sonarr
     container_name: mediabox-sonarr
     depends_on:
-      - mediabox-proxy
       - mediabox-deluge
       - mediabox-jackett
-      - mediabox-letsencrypt
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -75,10 +70,8 @@ services:
     image: linuxserver/radarr
     container_name: mediabox-radarr
     depends_on:
-      - mediabox-proxy
       - mediabox-deluge
       - mediabox-jackett
-      - mediabox-letsencrypt
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -103,10 +96,8 @@ services:
     image: linuxserver/lidarr
     container_name: mediabox-lidarr
     depends_on:
-      - mediabox-proxy
       - mediabox-deluge
       - mediabox-jackett
-      - mediabox-letsencrypt
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -131,10 +122,8 @@ services:
     image: linuxserver/bazarr
     container_name: mediabox-bazarr
     depends_on:
-      - mediabox-proxy
       - mediabox-sonarr
       - mediabox-radarr
-      - mediabox-letsencrypt
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -158,9 +147,6 @@ services:
   mediabox-jackett:
     image: linuxserver/jackett
     container_name: mediabox-jackett
-    depends_on:
-      - mediabox-proxy
-      - mediabox-letsencrypt
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -181,9 +167,6 @@ services:
   mediabox-jellyfin:
     image: linuxserver/jellyfin
     container_name: mediabox-jellyfin
-    depends_on:
-      - mediabox-proxy
-      - mediabox-letsencrypt
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -207,9 +190,6 @@ services:
   mediabox-filebrowser:
     image: filebrowser/filebrowser
     container_name: mediabox-filebrowser
-    depends_on:
-      - mediabox-proxy
-      - mediabox-letsencrypt
     environment:
       - VIRTUAL_HOST=cloud.${DOMAIN}
       - VIRTUAL_PORT=80
