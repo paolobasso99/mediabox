@@ -171,9 +171,9 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=jellyfin.${DOMAIN}, stream.${DOMAIN}
+      - VIRTUAL_HOST=jellyfin.${DOMAIN},stream.${DOMAIN}
       - VIRTUAL_PORT=8096
-      - LETSENCRYPT_HOST=jellyfin.${DOMAIN}
+      - LETSENCRYPT_HOST=jellyfin.${DOMAIN},stream.${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/jellyfin:/config
@@ -191,9 +191,9 @@ services:
     image: filebrowser/filebrowser
     container_name: mediabox-filebrowser
     environment:
-      - VIRTUAL_HOST=cloud.${DOMAIN}
+      - VIRTUAL_HOST=cloud.${DOMAIN},filebrowser.${DOMAIN}
       - VIRTUAL_PORT=80
-      - LETSENCRYPT_HOST=cloud.${DOMAIN}
+      - LETSENCRYPT_HOST=cloud.${DOMAIN},filebrowser.${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/filebrowser/database.db:/database.db

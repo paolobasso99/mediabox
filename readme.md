@@ -28,7 +28,7 @@ To setup rclone type `rclone config` and follow the [docs](https://rclone.org/do
 | Lidarr      | mediabox-lidarr      | lidarr    | 8686    | [GitHub](https://github.com/linuxserver/docker-lidarr)                     |
 | Bazarr      | mediabox-bazarr      | bazarr    | 6767    | [GitHub](https://github.com/linuxserver/docker-bazarr)                     |
 | Jackett     | mediabox-jackett     | jackett   | 9117    | [GitHub](https://github.com/linuxserver/docker-jackett)                    |
-| Jellyfin    | mediabox-jellyfin    | jellyfin  | 8096    | [GitHub](https://github.com/linuxserver/docker-jellyfin)                   |
+| Jellyfin    | mediabox-jellyfin    | stream    | 8096    | [GitHub](https://github.com/linuxserver/docker-jellyfin)                   |
 | Filebrowser | mediabox-filebrowser | cloud     | 8282:80 | [GitHub](https://github.com/filebrowser/filebrowser)                       |
 | RClone      | mediabox-rclone      |           |         | [GitHub](https://github.com/pfidr34/docker-rclone)                         |
 
