@@ -2,43 +2,45 @@ version: '3'
 
 services:
   mediabox-deluge:
-      image: binhex/arch-delugevpn
-      container_name: mediabox-deluge
-      cap_add:
-        - NET_ADMIN
-      environment:
-        - PUID=${PUID}
-        - PGID=${PGID}
-        - PHP_TZ=${TIME_ZONE}
-        - UMASK=022
-        - NAME_SERVERS=209.222.18.222,84.200.69.80,37.235.1.174,1.1.1.1,209.222.18.218,37.235.1.177,84.200.70.40,1.0.0.1
-        - LAN_NETWORK=192.168.1.0/24
-        - ENABLE_PRIVOXY=no
-        - STRICT_PORT_FORWARD=${VPN_STRICT_PORT_FORWARD}
-        - VPN_PROV=${VPN_PROV}
-        - VPN_USER=${VPN_USER}
-        - VPN_PASS=${VPN_PASS}
-        - VPN_ENABLED=${VPN_ENABLED}
-        - DELUGE_DAEMON_LOG_LEVEL=warning
-        - DELUGE_WEB_LOG_LEVEL=warning
-        - DEBUG=false
-        - VIRTUAL_HOST=download.${DOMAIN}
-        - VIRTUAL_PORT=8112
-        - LETSENCRYPT_HOST=download.${DOMAIN}
-        - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      volumes:
-        - ${CONFIG_PATH}/deluge:/config
-        - ${DATA_PATH}/downloads:/data 
-        - /etc/localtime:/etc/localtime:ro
-      ports:
-        - 8112:8112
-        - 58846:58846
-        - 58946:58946
-      restart: unless-stopped
-      privileged: true
-      networks:
-        - mediabox-torrent
-        - mediabox-proxy
+    image: binhex/arch-delugevpn
+    container_name: mediabox-deluge
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - PHP_TZ=${TIME_ZONE}
+      - UMASK=022
+      - NAME_SERVERS=209.222.18.222,84.200.69.80,37.235.1.174,1.1.1.1,209.222.18.218,37.235.1.177,84.200.70.40,1.0.0.1
+      - LAN_NETWORK=192.168.1.0/24
+      - ENABLE_PRIVOXY=no
+      - STRICT_PORT_FORWARD=${VPN_STRICT_PORT_FORWARD}
+      - VPN_PROV=${VPN_PROV}
+      - VPN_USER=${VPN_USER}
+      - VPN_PASS=${VPN_PASS}
+      - VPN_ENABLED=${VPN_ENABLED}
+      - DELUGE_DAEMON_LOG_LEVEL=warning
+      - DELUGE_WEB_LOG_LEVEL=warning
+      - DEBUG=false
+      - VIRTUAL_HOST=download.${DOMAIN}
+      - VIRTUAL_PORT=8112
+      - LETSENCRYPT_HOST=download.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    volumes:
+      - ${CONFIG_PATH}/deluge:/config
+      - ${DATA_PATH}/downloads:/data 
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 8112:8112
+      - 58846:58846
+      - 58946:58946
+    restart: unless-stopped
+    privileged: true
+    networks:
+      - mediabox-torrent
+      - mediabox-proxy
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
   
   mediabox-sonarr:
     image: linuxserver/sonarr
@@ -65,6 +67,8 @@ services:
     networks:
       - mediabox-torrent
       - mediabox-proxy
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
   
   mediabox-radarr:
     image: linuxserver/radarr
@@ -91,6 +95,8 @@ services:
     networks:
       - mediabox-torrent
       - mediabox-proxy
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
   
   mediabox-lidarr:
     image: linuxserver/lidarr
@@ -117,6 +123,8 @@ services:
     networks:
       - mediabox-torrent
       - mediabox-proxy
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   mediabox-bazarr:
     image: linuxserver/bazarr
@@ -143,6 +151,8 @@ services:
     networks:
       - mediabox-torrent
       - mediabox-proxy
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   mediabox-jackett:
     image: linuxserver/jackett
@@ -163,6 +173,8 @@ services:
     networks:
       - mediabox-torrent
       - mediabox-proxy
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
   
   mediabox-jellyfin:
     image: linuxserver/jellyfin
@@ -186,6 +198,8 @@ services:
     restart: unless-stopped
     networks:
       - mediabox-proxy
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
 
   mediabox-filebrowser:
     image: filebrowser/filebrowser
@@ -203,6 +217,8 @@ services:
     restart: unless-stopped
     networks:
       - mediabox-proxy
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
 
   mediabox-rclone:
     image: pfidr/rclone
@@ -222,6 +238,8 @@ services:
       - ${CONFIG_PATH}/rclone/logs:/logs
       - ${DATA_PATH}:/data
     restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
 
 
 networks:
