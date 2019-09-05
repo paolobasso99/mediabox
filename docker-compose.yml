@@ -201,27 +201,27 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=false"
 
-    mediabox-pydio:
-      image: linuxserver/pydio
-      container_name: mediabox-pydio
-      environment:
-        - PUID=${PUID}
-        - PGID=${PGID}
-        - TZ=${TIME_ZONE}
-        - VIRTUAL_HOST=cloud.${DOMAIN}
-        - VIRTUAL_PORT=443
-        - LETSENCRYPT_HOST=cloud.${DOMAIN}
-        - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      volumes:
-        - ${CONFIG_PATH}/pydio:/pydio
-        - ${CLOUD_SRC}:/data
-      ports:
-        - 5443:443
-      restart: unless-stopped
-      networks:
-        - mediabox-proxy
-      labels:
-        - "com.centurylinklabs.watchtower.enable=false"
+  mediabox-pydio:
+    image: linuxserver/pydio
+    container_name: mediabox-pydio
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIME_ZONE}
+      - VIRTUAL_HOST=cloud.${DOMAIN}
+      - VIRTUAL_PORT=443
+      - LETSENCRYPT_HOST=cloud.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    volumes:
+      - ${CONFIG_PATH}/pydio:/pydio
+      - ${CLOUD_SRC}:/data
+    ports:
+      - 5443:443
+    restart: unless-stopped
+    networks:
+      - mediabox-proxy
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
 
   mediabox-rclone:
     image: pfidr/rclone
