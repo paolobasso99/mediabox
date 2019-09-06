@@ -214,7 +214,7 @@ services:
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     restart: unless-stopped
     networks:
-      - mediabox-proxy
+      - mediabox-cloud
     labels:
       - "com.centurylinklabs.watchtower.enable=false"
 
@@ -239,6 +239,7 @@ services:
     restart: unless-stopped
     networks:
       - mediabox-proxy
+      - mediabox-cloud
     labels:
       - "com.centurylinklabs.watchtower.enable=false"
 
@@ -268,4 +269,6 @@ networks:
   mediabox-torrent:
     driver: bridge
   mediabox-proxy:
+    driver: bridge
+  mediabox-cloud:
     driver: bridge
