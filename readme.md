@@ -37,7 +37,7 @@ To setup rclone type `rclone config` and follow the [docs](https://rclone.org/do
 Since the apps that need to be connected are under the same network you can access every app by it's name and its internal port.
 For example to connect Deluge and Sonarr the url is: `http://mediabox-deluge:8112`.
 
-#### Remoe Porth Mapping
+#### Remote Porth Mapping
 In Sonarr, Radarr, ecc. `/data/` of `mediabox-deluge` has to be mapped to `/downloads`.
 
 ### PUID and PGID
@@ -49,6 +49,3 @@ $ id username
 
 ### Updating
 Do not update apps, to update remove images then recreate the containers.
-
-### Manual rclone
-`docker exec mediabox-rclone ./sync.sh && docker logs mediabox-rclone`
