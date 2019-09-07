@@ -183,9 +183,9 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=jellyfin.${DOMAIN},stream.${DOMAIN}
+      - VIRTUAL_HOST=stream.${DOMAIN}
       - VIRTUAL_PORT=8096
-      - LETSENCRYPT_HOST=jellyfin.${DOMAIN},stream.${DOMAIN}
+      - LETSENCRYPT_HOST=stream.${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/jellyfin:/config
