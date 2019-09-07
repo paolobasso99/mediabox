@@ -229,6 +229,7 @@ services:
       - TZ=${TIME_ZONE}
       - VIRTUAL_HOST=cloud.${DOMAIN}
       - VIRTUAL_PORT=443
+      - VIRTUAL_PROTO=https
       - LETSENCRYPT_HOST=cloud.${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
