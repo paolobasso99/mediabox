@@ -201,16 +201,16 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=false"
 
-  mediabox-pydio-db:
+  mediabox-nextcloud-db:
     image: mariadb
-    container_name: mediabox-pydio-db
+    container_name: mediabox-nextcloud-db
     environment:
       - MYSQL_ROOT_PASSWORD=${CLOUD_DB_ROOT_PASSWORD}
       - MYSQL_PASSWORD=${CLOUD_DB_PASSWORD}
-      - MYSQL_DATABASE=pydio
+      - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=${CLOUD_DB_USER}
     volumes:
-      - ${CONFIG_PATH}/pydio-db:/var/lib/mysql
+      - ${CONFIG_PATH}/nextcloud-db:/var/lib/mysql
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     restart: unless-stopped
     networks:
@@ -218,11 +218,11 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=false"
 
-  mediabox-pydio:
-    image: linuxserver/pydio
-    container_name: mediabox-pydio
+  mediabox-nextcloud:
+    image: linuxserver/nextcloud
+    container_name: mediabox-nextcloud
     depends_on:
-      - mediabox-pydio-db
+      - mediabox-nextcloud-db
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -233,8 +233,8 @@ services:
       - LETSENCRYPT_HOST=cloud.${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
-      - ${CONFIG_PATH}/pydio:/pydio
-      - ${CLOUD_SRC}/pydio:/data
+      - ${CONFIG_PATH}/nextcloud:/config
+      - ${CLOUD_SRC}/nextcloud:/data
       - ${MOUNT_PATH}:/cloud
       - ${DATA_PATH}:/mediabox
     ports:
