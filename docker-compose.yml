@@ -243,28 +243,6 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=false"
 
-  mediabox-rclone:
-    image: pfidr/rclone
-    container_name: mediabox-rclone
-    environment:
-      - TZ=${TIME_ZONE}
-      - CHECK_URL=${RCLONE_CHECK_URL}
-      - RCLONE_CMD=${RCLONE_CMD}
-      - SYNC_OPTS=-v --exclude /downloads/** --transfers 32 --min-age 15m --exclude-if-present .rcloneignore
-      - SYNC_DEST=${RCLONE_SYNC_DEST}
-      - SYNC_SRC=/data
-      - CRON=${RCLONE_CRON}
-      - OUTPUT_LOG=true
-      - ROTATE_LOG=2
-    volumes:
-      - ${RCLONE_CONF_PATH}:/config
-      - ${CONFIG_PATH}/rclone/logs:/logs
-      - ${DATA_PATH}:/data
-    restart: unless-stopped
-    labels:
-      - "com.centurylinklabs.watchtower.enable=false"
-
-
 networks:
   mediabox-torrent:
     driver: bridge
