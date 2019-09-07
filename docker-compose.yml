@@ -60,7 +60,7 @@ services:
       - ${CONFIG_PATH}/sonarr:/config
       - ${DATA_PATH}/downloads:/downloads
       - ${DATA_PATH}/tv:/tv
-      - ${CLOUD_MOUNT_PATH}:/cloud
+      - ${MOUNT_PATH}:/cloud
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -88,7 +88,7 @@ services:
       - ${CONFIG_PATH}/radarr:/config
       - ${DATA_PATH}/downloads:/downloads
       - ${DATA_PATH}/movies:/movies
-      - ${CLOUD_MOUNT_PATH}:/cloud
+      - ${MOUNT_PATH}:/cloud
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -116,7 +116,7 @@ services:
       - ${CONFIG_PATH}/lidarr:/config
       - ${DATA_PATH}/downloads:/downloads
       - ${DATA_PATH}/music:/music
-      - ${CLOUD_MOUNT_PATH}:/cloud
+      - ${MOUNT_PATH}:/cloud
     ports:
       - 8686:8686
     restart: unless-stopped
@@ -144,7 +144,7 @@ services:
       - ${CONFIG_PATH}/bazarr:/config
       - ${DATA_PATH}/movies:/movies
       - ${DATA_PATH}/tv:/tv
-      - ${CLOUD_MOUNT_PATH}:/cloud
+      - ${MOUNT_PATH}:/cloud
     ports:
       - 6767:6767
     restart: unless-stopped
@@ -192,7 +192,7 @@ services:
       - ${DATA_PATH}/tv:/data/tvshows
       - ${DATA_PATH}/movies:/data/movies
       - ${DATA_PATH}/music:/data/music
-      - ${CLOUD_MOUNT_PATH}:/data/remote
+      - ${MOUNT_PATH}:/data/remote
     ports:
       - 8096:8096
     restart: unless-stopped
@@ -234,7 +234,9 @@ services:
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/pydio:/pydio
-      - ${CLOUD_SRC}/test:/data
+      - ${CLOUD_SRC}/pydio:/data
+      - ${MOUNT_PATH}:/cloud
+      - ${DATA_PATH}:/mediabox
     ports:
       - 5443:443
     restart: unless-stopped
