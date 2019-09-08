@@ -29,6 +29,7 @@ services:
     volumes:
       - ${CONFIG_PATH}/deluge:/config
       - ${DATA_PATH}/downloads:/data 
+      - ${MOUNT_PATH}:/cloud
       - /etc/localtime:/etc/localtime:ro
     ports:
       - 8112:8112
@@ -192,7 +193,7 @@ services:
       - ${DATA_PATH}/tv:/data/tvshows
       - ${DATA_PATH}/movies:/data/movies
       - ${DATA_PATH}/music:/data/music
-      - ${MOUNT_PATH}:/data/remote
+      - ${MOUNT_PATH}:/data/cloud
     ports:
       - 8096:8096
     restart: unless-stopped
