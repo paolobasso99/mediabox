@@ -1,4 +1,4 @@
-version: '3'
+version: '3.2'
 
 services:
   mediabox-deluge:
@@ -28,8 +28,12 @@ services:
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/deluge:/config
-      - ${DATA_PATH}/downloads:/data 
-      - ${MOUNT_PATH}:/cloud
+      - ${DATA_PATH}/downloads:/data
+      - type: bind
+        source: ${MOUNT_PATH}
+        target: /cloud
+        bind:
+          propagation: rslave
       - /etc/localtime:/etc/localtime:ro
     ports:
       - 8112:8112
@@ -61,7 +65,11 @@ services:
       - ${CONFIG_PATH}/sonarr:/config
       - ${DATA_PATH}/downloads:/downloads
       - ${DATA_PATH}/tv:/tv
-      - ${MOUNT_PATH}:/cloud
+      - type: bind
+        source: ${MOUNT_PATH}
+        target: /cloud
+        bind:
+          propagation: rslave
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -89,7 +97,11 @@ services:
       - ${CONFIG_PATH}/radarr:/config
       - ${DATA_PATH}/downloads:/downloads
       - ${DATA_PATH}/movies:/movies
-      - ${MOUNT_PATH}:/cloud
+      - type: bind
+        source: ${MOUNT_PATH}
+        target: /cloud
+        bind:
+          propagation: rslave
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -117,7 +129,11 @@ services:
       - ${CONFIG_PATH}/lidarr:/config
       - ${DATA_PATH}/downloads:/downloads
       - ${DATA_PATH}/music:/music
-      - ${MOUNT_PATH}:/cloud
+      - type: bind
+        source: ${MOUNT_PATH}
+        target: /cloud
+        bind:
+          propagation: rslave
     ports:
       - 8686:8686
     restart: unless-stopped
@@ -145,7 +161,11 @@ services:
       - ${CONFIG_PATH}/bazarr:/config
       - ${DATA_PATH}/movies:/movies
       - ${DATA_PATH}/tv:/tv
-      - ${MOUNT_PATH}:/cloud
+      - type: bind
+        source: ${MOUNT_PATH}
+        target: /cloud
+        bind:
+          propagation: rslave
     ports:
       - 6767:6767
     restart: unless-stopped
@@ -236,7 +256,11 @@ services:
     volumes:
       - ${CONFIG_PATH}/nextcloud:/config
       - ${CLOUD_SRC}/nextcloud:/data
-      - ${MOUNT_PATH}:/cloud
+      - type: bind
+        source: ${MOUNT_PATH}
+        target: /cloud
+        bind:
+          propagation: rslave
       - ${DATA_PATH}:/mediabox
     ports:
       - 5443:443
