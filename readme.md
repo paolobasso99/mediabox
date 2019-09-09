@@ -4,6 +4,7 @@ This repo provides some docker-compose.yml that contains the configurations for 
 ## Prerequisites
 1. [Docker](https://docs.docker.com/install/)
 2. [docker-compose](https://docs.docker.com/compose/install/)
+3. [RClone](https://rclone.org/install/)
 
 ## Setup
 1. Create a `.env` file (copy from `.env.example`)
@@ -11,6 +12,10 @@ This repo provides some docker-compose.yml that contains the configurations for 
 3. Create a dns record for every subdomain listed below
 4. You need to setup [jwilder/nginx-proxy](https://github.com/jwilder/nginx-proxy) and [jrcs/letsencrypt-nginx-proxy-companion](https://github.com/jrcs/letsencrypt-nginx-proxy-companion) in orther to reverse proxy the containers
 5. Connect `nginx-proxy` to the `mediabox-proxy` network.
+
+### RClone
+* To setup rclone type `rclone config` and follow the [docs](https://rclone.org/docs/). **DO NOT** use the same `rclone.conf` for  mediabox-rclone docker container and for other purposes because mediabox-rclone need to change the ownership of that file to root, copy your `rclone.conf` to another folder and use that one.
+* You may mount a cloud storage to `MOUNT_PATH`
 
 ## Run
 1. run `docker-compose up -d` in the path of `docker-compose.yml` to run the configuration
@@ -27,6 +32,7 @@ This repo provides some docker-compose.yml that contains the configurations for 
 | Jackett   | mediabox-jackett   | jackett   | 9117     | [GitHub](https://github.com/linuxserver/docker-jackett)   |
 | Jellyfin  | mediabox-jellyfin  | stream    | 8096     | [GitHub](https://github.com/linuxserver/docker-jellyfin)  |
 | Nextcloud | mediabox-nextcloud | cloud     | 5443:443 | [GitHub](https://github.com/linuxserver/docker-nextcloud) |
+| rclone    | mediabox-rclone    |           |          | [GitHub](https://github.com/pfidr34/docker-rclone)        |
 
 ### Connecting services
 Since the apps that need to be connected are under the same network you can access every app by it's name and its internal port.
@@ -61,3 +67,4 @@ It is suggested to use [Watchtower](https://github.com/containrrr/watchtower) wi
 | mediabox-jackett   | true               |
 | mediabox-jellyfin  | false              |
 | mediabox-nextcloud | false              |
+| mediabox-rclone    | false              |

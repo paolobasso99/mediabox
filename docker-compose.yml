@@ -262,12 +262,13 @@ services:
     volumes:
       - ${CONFIG_PATH}/nextcloud:/config
       - ${NEXTCLOUD_PATH}:/data
+      - ${DATA_PATH}:/mediabox
+      - ${DOWNLOADS_PATH}:/downloads
       - type: bind
         source: ${MOUNT_PATH}
         target: /cloud
         bind:
           propagation: rslave
-      - ${DATA_PATH}:/mediabox
     ports:
       - 5443:443
     restart: unless-stopped
