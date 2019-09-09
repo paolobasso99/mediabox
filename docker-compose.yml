@@ -28,7 +28,8 @@ services:
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/deluge:/config
-      - ${DATA_PATH}/downloads:/data
+      - ${DOWNLOADS_PATH}:/data
+      - ${DATA_PATH}:/mediabox
       - type: bind
         source: ${MOUNT_PATH}
         target: /cloud
@@ -63,7 +64,7 @@ services:
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/sonarr:/config
-      - ${DATA_PATH}/downloads:/downloads
+      - ${DOWNLOADS_PATH}:/downloads
       - ${DATA_PATH}/tv:/tv
       - type: bind
         source: ${MOUNT_PATH}
@@ -95,7 +96,7 @@ services:
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/radarr:/config
-      - ${DATA_PATH}/downloads:/downloads
+      - ${DOWNLOADS_PATH}:/downloads
       - ${DATA_PATH}/movies:/movies
       - type: bind
         source: ${MOUNT_PATH}
@@ -127,7 +128,7 @@ services:
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/lidarr:/config
-      - ${DATA_PATH}/downloads:/downloads
+      - ${DOWNLOADS_PATH}:/downloads
       - ${DATA_PATH}/music:/music
       - type: bind
         source: ${MOUNT_PATH}
@@ -210,12 +211,10 @@ services:
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/jellyfin:/config
-      - ${DATA_PATH}/tv:/data/tvshows
-      - ${DATA_PATH}/movies:/data/movies
-      - ${DATA_PATH}/music:/data/music
+      - ${DATA_PATH}:/data
       - type: bind
         source: ${MOUNT_PATH}
-        target: /data/cloud
+        target: /cloud
         bind:
           propagation: rslave
     ports:
@@ -230,10 +229,10 @@ services:
     image: mariadb
     container_name: mediabox-nextcloud-db
     environment:
-      - MYSQL_ROOT_PASSWORD=${CLOUD_DB_ROOT_PASSWORD}
-      - MYSQL_PASSWORD=${CLOUD_DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${NEXTCLOUD_DB_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${NEXTCLOUD_DB_PASSWORD}
       - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=${CLOUD_DB_USER}
+      - MYSQL_USER=${NEXTCLOUD_DB_USER}
     volumes:
       - ${CONFIG_PATH}/nextcloud-db:/var/lib/mysql
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
@@ -259,7 +258,7 @@ services:
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/nextcloud:/config
-      - ${CLOUD_SRC}/nextcloud:/data
+      - ${NEXTCLOUD_PATH}:/data
       - type: bind
         source: ${MOUNT_PATH}
         target: /cloud
