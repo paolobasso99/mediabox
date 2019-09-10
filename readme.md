@@ -12,6 +12,7 @@ This repo provides some docker-compose.yml that contains the configurations for 
 3. Create a dns record for every subdomain listed below
 4. You need to setup [jwilder/nginx-proxy](https://github.com/jwilder/nginx-proxy) and [jrcs/letsencrypt-nginx-proxy-companion](https://github.com/jrcs/letsencrypt-nginx-proxy-companion) in orther to reverse proxy the containers
 5. Connect `nginx-proxy` to the `mediabox-proxy` network.
+6. Copy `rclone.conf` to `${CONFIG_PATH}/rclone/conf`
 
 ### RClone
 * To setup rclone type `rclone config` and follow the [docs](https://rclone.org/docs/). **DO NOT** use the same `rclone.conf` for  mediabox-rclone docker container and for other purposes because mediabox-rclone need to change the ownership of that file to root, copy your `rclone.conf` to another folder and use that one.
