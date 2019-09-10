@@ -32,7 +32,7 @@ services:
       - ${DATA_PATH}:/mediabox
       - type: bind
         source: ${MOUNT_PATH}
-        target: /cloud
+        target: /mnt
         bind:
           propagation: rslave
       - /etc/localtime:/etc/localtime:ro
@@ -68,7 +68,7 @@ services:
       - ${DATA_PATH}/tv:/tv
       - type: bind
         source: ${MOUNT_PATH}
-        target: /cloud
+        target: /mnt
         bind:
           propagation: rslave
     ports:
@@ -100,7 +100,7 @@ services:
       - ${DATA_PATH}/movies:/movies
       - type: bind
         source: ${MOUNT_PATH}
-        target: /cloud
+        target: /mnt
         bind:
           propagation: rslave
     ports:
@@ -132,7 +132,7 @@ services:
       - ${DATA_PATH}/music:/music
       - type: bind
         source: ${MOUNT_PATH}
-        target: /cloud
+        target: /mnt
         bind:
           propagation: rslave
     ports:
@@ -164,7 +164,7 @@ services:
       - ${DATA_PATH}/tv:/tv
       - type: bind
         source: ${MOUNT_PATH}
-        target: /cloud
+        target: /mnt
         bind:
           propagation: rslave
     ports:
@@ -217,7 +217,7 @@ services:
       - ${DATA_PATH}/books:/data/books
       - type: bind
         source: ${MOUNT_PATH}
-        target: /cloud
+        target: /mnt
         bind:
           propagation: rslave
     ports:
@@ -266,7 +266,7 @@ services:
       - ${DOWNLOADS_PATH}:/downloads
       - type: bind
         source: ${MOUNT_PATH}
-        target: /cloud
+        target: /mnt
         bind:
           propagation: rslave
     ports:

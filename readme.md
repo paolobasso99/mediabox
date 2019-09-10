@@ -15,7 +15,7 @@ This repo provides some docker-compose.yml that contains the configurations for 
 
 ### RClone
 * To setup rclone type `rclone config` and follow the [docs](https://rclone.org/docs/). **DO NOT** use the same `rclone.conf` for  mediabox-rclone docker container and for other purposes because mediabox-rclone need to change the ownership of that file to root, copy your `rclone.conf` to another folder and use that one.
-* You may mount a cloud storage to `MOUNT_PATH`
+* You may mount a cloud storage to `MOUNT_PATH/cloudname`, inside the containers that path will be mapped to `/mnt/cloudname`
 
 ## Run
 1. run `docker-compose up -d` in the path of `docker-compose.yml` to run the configuration
