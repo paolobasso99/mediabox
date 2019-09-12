@@ -30,7 +30,7 @@ services:
       - ${CONFIG_PATH}/deluge:/config
       - ${DOWNLOADS_PATH}:/data
       - ${DATA_PATH}:/mediabox
-      ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${MOUNT_PATH}:/mnt:rw,rslave
       - /etc/localtime:/etc/localtime:ro
     ports:
       - 8112:8112
@@ -62,7 +62,7 @@ services:
       - ${CONFIG_PATH}/sonarr:/config
       - ${DOWNLOADS_PATH}:/downloads
       - ${DATA_PATH}/tv:/tv
-      ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${MOUNT_PATH}:/mnt:rw,rslave
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -90,7 +90,7 @@ services:
       - ${CONFIG_PATH}/radarr:/config
       - ${DOWNLOADS_PATH}:/downloads
       - ${DATA_PATH}/movies:/movies
-      ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${MOUNT_PATH}:/mnt:rw,rslave
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -118,7 +118,7 @@ services:
       - ${CONFIG_PATH}/lidarr:/config
       - ${DOWNLOADS_PATH}:/downloads
       - ${DATA_PATH}/music:/music
-      ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${MOUNT_PATH}:/mnt:rw,rslave
     ports:
       - 8686:8686
     restart: unless-stopped
@@ -146,7 +146,7 @@ services:
       - ${CONFIG_PATH}/bazarr:/config
       - ${DATA_PATH}/movies:/movies
       - ${DATA_PATH}/tv:/tv
-      ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${MOUNT_PATH}:/mnt:rw,rslave
     ports:
       - 6767:6767
     restart: unless-stopped
@@ -195,7 +195,7 @@ services:
       - ${DATA_PATH}/tv:/data/tv
       - ${DATA_PATH}/music:/data/music
       - ${DATA_PATH}/books:/data/books
-      ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${MOUNT_PATH}:/mnt:rw,rslave
     ports:
       - 8096:8096
     restart: unless-stopped
@@ -240,7 +240,7 @@ services:
       - ${NEXTCLOUD_PATH}:/data
       - ${DATA_PATH}:/mediabox
       - ${DOWNLOADS_PATH}:/downloads
-      ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${MOUNT_PATH}:/mnt:rw,rslave
     ports:
       - 5443:443
     restart: unless-stopped
