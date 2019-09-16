@@ -75,6 +75,12 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
       - "io.portainer.commands.flexget-execute=/usr/bin/flexget execute"
+      - "io.portainer.commands.flexget-reload=/usr/bin/flexget daemon reload-config"
+      - "io.portainer.commands.flexget-check=/usr/bin/flexget check"
+      - "io.portainer.commands.flexget-failed-list=/usr/bin/flexget failed list"
+      - "io.portainer.commands.flexget-failed-clear=/usr/bin/flexget failed clear"
+      - "io.portainer.commands.flexget-rejected-list=/usr/bin/flexget rejected list"
+      - "io.portainer.commands.flexget-rejected-clear=/usr/bin/flexget rejected clear"
   
   mediabox-sonarr:
     image: linuxserver/sonarr
