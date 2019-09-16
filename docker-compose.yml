@@ -74,7 +74,7 @@ services:
       - mediabox-proxy
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
-      - "io.portainer.commands.flexget-execute=flexget execute"
+      - "io.portainer.commands.flexget-execute=/usr/bin/flexget execute"
   
   mediabox-sonarr:
     image: linuxserver/sonarr
