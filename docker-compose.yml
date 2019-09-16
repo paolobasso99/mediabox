@@ -48,6 +48,7 @@ services:
     image: cpoppema/docker-flexget
     container_name: mediabox-flexget
     depends_on:
+      - mediabox-jackett
       - mediabox-deluge
     environment:
       - PUID=${PUID}
