@@ -43,6 +43,36 @@ services:
       - mediabox-proxy
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
+
+  mediabox-flexget:
+    image: cpoppema/docker-flexget
+    container_name: mediabox-flexget
+    depends_on:
+      - mediabox-deluge
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIME_ZONE}
+      - FLEXGET_LOG_LEVEL=info
+      - TORRENT_PLUGIN=deluge
+      - WEB_PASSWD=${FLEXGET_PASSWORD}
+      - VIRTUAL_HOST=flexget.${DOMAIN}
+      - VIRTUAL_PORT=5050
+      - LETSENCRYPT_HOST=flexget.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    volumes:
+      - ${CONFIG_PATH}/flexget:/config
+      - ${DOWNLOADS_PATH}:/downloads
+      - ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${DATA_PATH}:/mediabox
+    ports:
+      - 5050:5050
+    restart: unless-stopped
+    networks:
+      - mediabox-torrent
+      - mediabox-proxy
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
   
   mediabox-sonarr:
     image: linuxserver/sonarr

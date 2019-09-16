@@ -33,6 +33,7 @@ This repo provides some docker-compose.yml that contains the configurations for 
 | Jackett   | mediabox-jackett   | jackett   | 9117     | [GitHub](https://github.com/linuxserver/docker-jackett)   |
 | Jellyfin  | mediabox-jellyfin  | stream    | 8096     | [GitHub](https://github.com/linuxserver/docker-jellyfin)  |
 | Nextcloud | mediabox-nextcloud | cloud     | 5443:443 | [GitHub](https://github.com/linuxserver/docker-nextcloud) |
+| Flexget   | mediabox-flexget   | flexget   | 5050     | [GitHub](https://github.com/cpoppema/docker-flexget)      |
 | rclone    | mediabox-rclone    |           |          | [GitHub](https://github.com/pfidr34/docker-rclone)        |
 
 ### Connecting services
@@ -41,6 +42,9 @@ For example to connect Deluge and Sonarr the url is: `http://mediabox-deluge:811
 
 ### Remote Path Mapping
 In Sonarr, Radarr, ecc. `/data/` of `mediabox-deluge` has to be mapped to `/downloads`.
+
+### Flexget
+Check [Flexget image docs](https://github.com/cpoppema/docker-flexget) and [flexget.com](https://flexget.com/) to setup Flexget.
 
 ### Cloud path
 Conteiners that might use a cloud mount (with [rclone](https://rclone.org)) have a volume for the mount, check `docker-compose.yml` to find out which is the correct path for every container.
