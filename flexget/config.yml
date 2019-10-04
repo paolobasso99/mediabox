@@ -1,0 +1,8 @@
+web_server: yes
+
+variables: variables.yml
+
+schedules:
+  - tasks: '*'
+    interval:
+      minutes: 30

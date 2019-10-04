@@ -1,0 +1,41 @@
+####################
+# Global Variables #
+####################
+jackett:
+  url: https://jackett.example.com
+  key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+deluge:
+  host: localhost
+  port: 8112
+  username: localclient
+  password: password
+
+telegram:
+  bot_token: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  username: "@username"
+
+trakt:
+  account: account_name
+
+sonarr:
+  base_url: https://sonarr.example.com
+  port: 8989
+  api_key: MYAPIKEY1123
+  profile_id: 1
+  root_folder_path: /path/to/folder
+
+
+###########################
+# Task specific Variables #
+###########################
+fitgirl:
+  deluge:
+    label: 'games'
+    queue_to_top: yes
+  notifications:
+    task:
+      title: "FitGirl Repacks"
+    abort:
+      title: "FitGirl Repacks abort"
+      Message: "The FlexGet fitgirl has been aborted."

@@ -1,0 +1,20 @@
+tasks:
+  # Add shows in trakt watchlist to sonarr.
+  # You need to authorize your trakt account. See `flexget trakt auth -h` on how to.
+  # Requisites:
+  #   - Sonarr
+  #   - Trakt account
+  trakt-sonarr:
+    trakt_list:
+      account: '{? trakt.account ?}'
+      list: watchlist
+      type: shows
+    accept_all: yes
+    list_add:
+      - sonarr_list:
+          base_url: '{? sonarr.base_url ?}'
+          port: '{? sonarr.port ?}'
+          api_key: '{? sonarr.api_key ?}'
+          profile_id: '{? sonarr.profile_id ?}'
+          root_folder_path: '{? sonarr.root_folder_path ?}'
+          season_folder: True
