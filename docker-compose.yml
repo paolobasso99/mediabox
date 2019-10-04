@@ -253,9 +253,9 @@ services:
       - LETSENCRYPT_HOST=webdav.${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
-      - ${DATA_PATH}:/var/lib/dav/mediabox
-      - ${DOWNLOADS_PATH}:/var/lib/dav/downloads
-      - ${MOUNT_PATH}:/var/lib/dav/mnt:rw,rslave
+      - ${DATA_PATH}:/var/lib/dav/data/mediabox
+      - ${DOWNLOADS_PATH}:/var/lib/dav/data/downloads
+      - ${MOUNT_PATH}:/var/lib/dav/data/mnt:rw,rslave
     ports:
       - 8585:80
     restart: unless-stopped

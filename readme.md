@@ -32,7 +32,7 @@ This repo provides some docker-compose.yml that contains the configurations for 
 | Bazarr    | mediabox-bazarr    | bazarr    | 6767     | [GitHub](https://github.com/linuxserver/docker-bazarr)    |
 | Jackett   | mediabox-jackett   | jackett   | 9117     | [GitHub](https://github.com/linuxserver/docker-jackett)   |
 | Jellyfin  | mediabox-jellyfin  | stream    | 8096     | [GitHub](https://github.com/linuxserver/docker-jellyfin)  |
-| Nextcloud | mediabox-nextcloud | cloud     | 5443:443 | [GitHub](https://github.com/linuxserver/docker-nextcloud) |
+| Webdav    | mediabox-webdav    | webdav    | 8585:80  | [GitHub](https://hub.docker.com/r/bytemark/webdav/)       |
 | Flexget   | mediabox-flexget   | flexget   | 5050     | [GitHub](https://github.com/cpoppema/docker-flexget)      |
 | rclone    | mediabox-rclone    |           |          | [GitHub](https://github.com/pfidr34/docker-rclone)        |
 
@@ -71,5 +71,5 @@ It is suggested to use [Watchtower](https://github.com/containrrr/watchtower) wi
 | mediabox-bazarr    | true               |
 | mediabox-jackett   | true               |
 | mediabox-jellyfin  | false              |
-| mediabox-nextcloud | false              |
+| mediabox-webdav    | false              |
 | mediabox-rclone    | false              |
