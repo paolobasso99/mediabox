@@ -1,6 +1,13 @@
 ####################
 # Global Variables #
 ####################
+paths:
+  downloads: /downloads
+  data: /mediabox
+  mount: /mnt
+  movies: /mnt/gd/movies
+  tv: /mnt/gd/tv
+
 jackett:
   url: https://jackett.example.com
   key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -23,19 +30,13 @@ sonarr:
   port: 8989
   api_key: MYAPIKEY1123
   profile_id: 1
-  root_folder_path: /path/to/folder
+
+radarr:
+  base_url: https://radarr.example.com
+  port: 7878
+  api_key: MYAPIKEY1123
 
 
 ###########################
 # Task specific Variables #
 ###########################
-fitgirl:
-  deluge:
-    label: 'games'
-    queue_to_top: yes
-  notifications:
-    task:
-      title: "FitGirl Repacks"
-    abort:
-      title: "FitGirl Repacks abort"
-      Message: "The FlexGet fitgirl has been aborted."

@@ -4,7 +4,7 @@ tasks:
   # Requisites:
   #   - Sonarr
   #   - Trakt account
-  trakt-sonarr:
+  trakt-sonarr-watchlist:
     trakt_list:
       account: '{? trakt.account ?}'
       list: watchlist
@@ -16,5 +16,5 @@ tasks:
           port: '{? sonarr.port ?}'
           api_key: '{? sonarr.api_key ?}'
           profile_id: '{? sonarr.profile_id ?}'
-          root_folder_path: '{? sonarr.root_folder_path ?}'
+          root_folder_path: '{? paths.tv ?}'
           season_folder: True

@@ -1,0 +1,36 @@
+tasks:
+  # Add downloaded movies to Trakt collection.
+  # You need to authorize your trakt account. See `flexget trakt auth -h` on how to.
+  # Requisites:
+  #   - Trakt account
+  trakt-collection-movies:
+    filesystem:
+      regexp: '.*\.(avi|mkv|mp4)$'
+      recursive: yes
+      path:
+        - '{? paths.movies ?}'
+    only_new: yes
+    trakt_lookup: yes
+    list_add:
+      - trakt_list:
+          account: '{? trakt.account ?}'
+          list: collection
+          type: movies
+
+  # Add downloaded tv episodes to Trakt collection.
+  # You need to authorize your trakt account. See `flexget trakt auth -h` on how to.
+  # Requisites:
+  #   - Trakt account
+  trakt-collection-tv:
+    filesystem:
+      regexp: '.*\.(avi|mkv|mp4)$'
+      recursive: yes
+      path:
+        - '{? paths.tv ?}'
+    only_new: yes
+    trakt_lookup: yes
+    list_add:
+      - trakt_list:
+          account: '{? trakt.account ?}'
+          list: collection
+          type: episodes
