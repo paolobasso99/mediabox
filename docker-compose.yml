@@ -242,6 +242,29 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=false"
 
+  mediabox-webdav:
+    image: bytemark/webdav
+    container_name: mediabox-webdav
+    environment:
+      - AUTH_TYPE=Digest
+      - USERNAME=${WEBDAV_USERNAME}
+      - PASSWORD=${WEBDAV_PASSWORD}
+      - VIRTUAL_HOST=webdav.${DOMAIN}
+      - VIRTUAL_PORT=80
+      - LETSENCRYPT_HOST=webdav.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    volumes:
+      - ${DATA_PATH}:/var/lib/dav/mediabox
+      - ${DOWNLOADS_PATH}:/var/lib/dav/downloads
+      - ${MOUNT_PATH}:/var/lib/dav/mnt:rw,rslave
+    ports:
+      - 8585:80
+    restart: unless-stopped
+    networks:
+      - mediabox-proxy
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
+
   mediabox-nextcloud-db:
     image: mariadb
     container_name: mediabox-nextcloud-db
