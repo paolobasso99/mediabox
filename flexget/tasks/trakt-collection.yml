@@ -11,6 +11,7 @@ tasks:
         - '{? paths.movies ?}'
     only_new: yes
     trakt_lookup: yes
+    accept_all: yes
     list_add:
       - trakt_list:
           account: '{? trakt.account ?}'
@@ -29,6 +30,7 @@ tasks:
         - '{? paths.tv ?}'
     only_new: yes
     trakt_lookup: yes
+    accept_all: yes
     list_add:
       - trakt_list:
           account: '{? trakt.account ?}'
