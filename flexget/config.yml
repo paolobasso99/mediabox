@@ -1,8 +1,14 @@
-web_server: yes
+web_server: no
 
 variables: variables.yml
 
 schedules:
-  - tasks: '*'
+  - tasks: trakt-sonarr-watchlist
     interval:
       minutes: 30
+  - tasks: [trakt-collection-movies, trakt-collection-tv]
+    schedule:
+      minute: 30
+      hour: 5
+
+tasks:
