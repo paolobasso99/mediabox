@@ -255,7 +255,7 @@ services:
     volumes:
       - ${DATA_PATH}:/var/lib/dav/data/mediabox
       - ${DOWNLOADS_PATH}:/var/lib/dav/data/downloads
-      - ${MOUNT_PATH}:/var/lib/dav/data/mnt:rw,rslave
+      - ${MOUNT_PATH}:/var/lib/dav/data/mnt/rclone:rw,rslave
     ports:
       - 8585:80
     restart: unless-stopped
