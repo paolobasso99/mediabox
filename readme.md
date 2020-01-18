@@ -11,6 +11,7 @@ This repo provides some docker-compose.yml that contains the configurations for 
 3. Create a dns record for every subdomain listed below
 4. You need to setup [jwilder/nginx-proxy](https://github.com/jwilder/nginx-proxy) and [jrcs/letsencrypt-nginx-proxy-companion](https://github.com/jrcs/letsencrypt-nginx-proxy-companion) in orther to reverse proxy the containers
 5. Connect `nginx-proxy` to the `mediabox-proxy` network.
+6. In Deluge remember to change the default download path to `/downloads` from the UI
 
 ### RClone mount
 You may mount a cloud storage to `MOUNT_PATH`, inside most containers that path will be mapped to `/mnt/rclone` but some may have a different path
@@ -35,9 +36,6 @@ You may mount a cloud storage to `MOUNT_PATH`, inside most containers that path 
 ### Connecting services
 Since the apps that need to be connected are under the same network you can access every app by it's name and its internal port.
 For example to connect Deluge and Sonarr the url is: `http://mediabox-deluge:8112`.
-
-### Remote Path Mapping
-In Sonarr, Radarr, ecc. `/data/` of `mediabox-deluge` has to be mapped to `/downloads`.
 
 ### Flexget
 Check [Flexget image docs](https://github.com/cpoppema/docker-flexget) and [flexget.com](https://flexget.com/) to setup Flexget.
