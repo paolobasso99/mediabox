@@ -28,7 +28,7 @@ services:
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/deluge:/config
-      - ${DOWNLOADS_PATH}:/data
+      - ${DOWNLOADS_PATH}:/downloads
       - ${DATA_PATH}:/mediabox
       - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
       - /etc/localtime:/etc/localtime:ro
