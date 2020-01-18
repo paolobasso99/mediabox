@@ -4,7 +4,6 @@ This repo provides some docker-compose.yml that contains the configurations for 
 ## Prerequisites
 1. [Docker](https://docs.docker.com/install/)
 2. [docker-compose](https://docs.docker.com/compose/install/)
-3. [RClone](https://rclone.org/install/)
 
 ## Setup
 1. Create a `.env` file (copy from `.env.example`)
@@ -12,11 +11,9 @@ This repo provides some docker-compose.yml that contains the configurations for 
 3. Create a dns record for every subdomain listed below
 4. You need to setup [jwilder/nginx-proxy](https://github.com/jwilder/nginx-proxy) and [jrcs/letsencrypt-nginx-proxy-companion](https://github.com/jrcs/letsencrypt-nginx-proxy-companion) in orther to reverse proxy the containers
 5. Connect `nginx-proxy` to the `mediabox-proxy` network.
-6. Copy `rclone.conf` to `${CONFIG_PATH}/rclone/conf`
 
-### RClone
-* To setup rclone type `rclone config` and follow the [docs](https://rclone.org/docs/). **DO NOT** use the same `rclone.conf` for  mediabox-rclone docker container and for other purposes because mediabox-rclone need to change the ownership of that file to root, copy your `rclone.conf` to another folder and use that one.
-* You may mount a cloud storage to `MOUNT_PATH/cloudname`, inside the containers that path will be mapped to `/mnt/cloudname`
+### RClone mount
+You may mount a cloud storage to `MOUNT_PATH`, inside most containers that path will be mapped to `/mnt/rclone` but some may have a different path
 
 ## Run
 1. run `docker-compose up -d` in the path of `docker-compose.yml` to run the configuration
@@ -25,7 +22,7 @@ This repo provides some docker-compose.yml that contains the configurations for 
 ### Containers
 | App       | Container name     | Subdomain | Ports    | Docs                                                      |
 | --------- | ------------------ | --------- | -------- | --------------------------------------------------------- |
-| Deluge    | mediabox-deluge    | download  | 8112     | [GitHub](https://github.com/binhex/arch-delugevpn)        |
+| Deluge    | mediabox-deluge    | deluge    | 8112     | [GitHub](https://github.com/binhex/arch-delugevpn)        |
 | Sonarr    | mediabox-sonarr    | sonarr    | 8989     | [GitHub](https://github.com/linuxserver/docker-sonarr)    |
 | Radarr    | mediabox-radarr    | radarr    | 7878     | [GitHub](https://github.com/linuxserver/docker-radarr)    |
 | Lidarr    | mediabox-lidarr    | lidarr    | 8686     | [GitHub](https://github.com/linuxserver/docker-lidarr)    |
@@ -34,7 +31,6 @@ This repo provides some docker-compose.yml that contains the configurations for 
 | Jellyfin  | mediabox-jellyfin  | stream    | 8096     | [GitHub](https://github.com/linuxserver/docker-jellyfin)  |
 | Webdav    | mediabox-webdav    | webdav    | 8585:80  | [GitHub](https://hub.docker.com/r/bytemark/webdav/)       |
 | Flexget   | mediabox-flexget   | flexget   | 5050     | [GitHub](https://github.com/cpoppema/docker-flexget)      |
-| rclone    | mediabox-rclone    |           |          | [GitHub](https://github.com/pfidr34/docker-rclone)        |
 
 ### Connecting services
 Since the apps that need to be connected are under the same network you can access every app by it's name and its internal port.

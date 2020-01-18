@@ -22,15 +22,15 @@ services:
       - DELUGE_DAEMON_LOG_LEVEL=warning
       - DELUGE_WEB_LOG_LEVEL=warning
       - DEBUG=false
-      - VIRTUAL_HOST=download.${DOMAIN}
+      - VIRTUAL_HOST=deluge.${DOMAIN}
       - VIRTUAL_PORT=8112
-      - LETSENCRYPT_HOST=download.${DOMAIN}
+      - LETSENCRYPT_HOST=deluge.${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/deluge:/config
       - ${DOWNLOADS_PATH}:/data
       - ${DATA_PATH}:/mediabox
-      - ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
       - /etc/localtime:/etc/localtime:ro
     ports:
       - 8112:8112
@@ -64,7 +64,7 @@ services:
     volumes:
       - ${CONFIG_PATH}/flexget:/config
       - ${DOWNLOADS_PATH}:/downloads
-      - ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
       - ${DATA_PATH}:/mediabox
     ports:
       - 5050:5050
@@ -100,7 +100,7 @@ services:
       - ${CONFIG_PATH}/sonarr:/config
       - ${DOWNLOADS_PATH}:/downloads
       - ${DATA_PATH}/tv:/tv
-      - ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -128,7 +128,7 @@ services:
       - ${CONFIG_PATH}/radarr:/config
       - ${DOWNLOADS_PATH}:/downloads
       - ${DATA_PATH}/movies:/movies
-      - ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -156,7 +156,7 @@ services:
       - ${CONFIG_PATH}/lidarr:/config
       - ${DOWNLOADS_PATH}:/downloads
       - ${DATA_PATH}/music:/music
-      - ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
     ports:
       - 8686:8686
     restart: unless-stopped
@@ -184,7 +184,7 @@ services:
       - ${CONFIG_PATH}/bazarr:/config
       - ${DATA_PATH}/movies:/movies
       - ${DATA_PATH}/tv:/tv
-      - ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
     ports:
       - 6767:6767
     restart: unless-stopped
@@ -233,7 +233,7 @@ services:
       - ${DATA_PATH}/tv:/data/tv
       - ${DATA_PATH}/music:/data/music
       - ${DATA_PATH}/books:/data/books
-      - ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
     ports:
       - 8096:8096
     restart: unless-stopped
@@ -263,28 +263,6 @@ services:
       - mediabox-proxy
     labels:
       - "com.centurylinklabs.watchtower.enable=false"
-
-  mediabox-rclone:
-    image: pfidr/rclone
-    container_name: mediabox-rclone
-    environment:
-      - TZ=${TIME_ZONE}
-      - CHECK_URL=${RCLONE_CHECK_URL}
-      - RCLONE_CMD=${RCLONE_CMD}
-      - SYNC_OPTS=-v --transfers 32 --min-age 15m --exclude-if-present .rcloneignore
-      - SYNC_DEST=${RCLONE_SYNC_DEST}
-      - SYNC_SRC=/data
-      - CRON=${RCLONE_CRON}
-      - OUTPUT_LOG=true
-      - ROTATE_LOG=2
-    volumes:
-      - ${CONFIG_PATH}/rclone/conf:/config
-      - ${CONFIG_PATH}/rclone/logs:/logs
-      - ${DATA_PATH}:/data
-    restart: unless-stopped
-    labels:
-      - "com.centurylinklabs.watchtower.enable=false"
-      - "io.portainer.commands.signal-rclone=./sync.sh"
 
 
 networks:
