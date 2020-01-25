@@ -41,8 +41,6 @@ services:
     networks:
       - mediabox-torrent
       - mediabox-proxy
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
 
   mediabox-flexget:
     image: cpoppema/docker-flexget
@@ -73,7 +71,6 @@ services:
       - mediabox-torrent
       - mediabox-proxy
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
       - "io.portainer.commands.flexget-execute=/usr/bin/flexget execute"
       - "io.portainer.commands.flexget-reload=/usr/bin/flexget daemon reload-config"
       - "io.portainer.commands.flexget-check=/usr/bin/flexget check"
@@ -107,8 +104,6 @@ services:
     networks:
       - mediabox-torrent
       - mediabox-proxy
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
   
   mediabox-radarr:
     image: linuxserver/radarr
@@ -135,8 +130,6 @@ services:
     networks:
       - mediabox-torrent
       - mediabox-proxy
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
   
   mediabox-lidarr:
     image: linuxserver/lidarr
@@ -163,8 +156,6 @@ services:
     networks:
       - mediabox-torrent
       - mediabox-proxy
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
 
   mediabox-bazarr:
     image: linuxserver/bazarr
@@ -191,8 +182,6 @@ services:
     networks:
       - mediabox-torrent
       - mediabox-proxy
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
 
   mediabox-jackett:
     image: linuxserver/jackett
@@ -213,8 +202,6 @@ services:
     networks:
       - mediabox-torrent
       - mediabox-proxy
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
   
   mediabox-jellyfin:
     image: linuxserver/jellyfin
@@ -239,8 +226,6 @@ services:
     restart: unless-stopped
     networks:
       - mediabox-proxy
-    labels:
-      - "com.centurylinklabs.watchtower.enable=false"
 
   mediabox-webdav:
     image: bytemark/webdav
@@ -261,8 +246,6 @@ services:
     restart: unless-stopped
     networks:
       - mediabox-proxy
-    labels:
-      - "com.centurylinklabs.watchtower.enable=false"
 
 
 networks:
