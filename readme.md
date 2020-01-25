@@ -52,18 +52,3 @@ $ id username
 
 ### Updating
 Do not update apps, to update remove images then recreate the containers.
-
-### Watchtower auto updates
-It is suggested to use [Watchtower](https://github.com/containrrr/watchtower) with the label `WATCHTOWER_LABEL_ENABLE=true` to auto update only the following containers:
-
-| Container name     | Watchtower enabled |
-| ------------------ | ------------------ |
-| mediabox-deluge    | true               |
-| mediabox-sonarr    | true               |
-| mediabox-radarr    | true               |
-| mediabox-lidarr    | true               |
-| mediabox-bazarr    | true               |
-| mediabox-jackett   | true               |
-| mediabox-jellyfin  | false              |
-| mediabox-webdav    | false              |
-| mediabox-rclone    | false              |
