@@ -32,10 +32,6 @@ services:
       - ${DATA_PATH}:/mediabox
       - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
       - /etc/localtime:/etc/localtime:ro
-    ports:
-      - 8112:8112
-      - 58846:58846
-      - 58946:58946
     restart: unless-stopped
     privileged: true
     networks:
@@ -64,8 +60,6 @@ services:
       - ${DOWNLOADS_PATH}:/downloads
       - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
       - ${DATA_PATH}:/mediabox
-    ports:
-      - 5050:5050
     restart: unless-stopped
     networks:
       - mediabox-torrent
@@ -98,8 +92,6 @@ services:
       - ${DOWNLOADS_PATH}:/downloads
       - ${DATA_PATH}/tv:/tv
       - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
-    ports:
-      - 8989:8989
     restart: unless-stopped
     networks:
       - mediabox-torrent
@@ -124,8 +116,6 @@ services:
       - ${DOWNLOADS_PATH}:/downloads
       - ${DATA_PATH}/movies:/movies
       - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
-    ports:
-      - 7878:7878
     restart: unless-stopped
     networks:
       - mediabox-torrent
@@ -150,8 +140,6 @@ services:
       - ${DOWNLOADS_PATH}:/downloads
       - ${DATA_PATH}/music:/music
       - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
-    ports:
-      - 8686:8686
     restart: unless-stopped
     networks:
       - mediabox-torrent
@@ -176,8 +164,6 @@ services:
       - ${DATA_PATH}/movies:/movies
       - ${DATA_PATH}/tv:/tv
       - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
-    ports:
-      - 6767:6767
     restart: unless-stopped
     networks:
       - mediabox-torrent
@@ -196,8 +182,6 @@ services:
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/jackett:/config
-    ports:
-      - 9117:9117
     restart: unless-stopped
     networks:
       - mediabox-torrent
@@ -221,8 +205,6 @@ services:
       - ${DATA_PATH}/music:/data/music
       - ${DATA_PATH}/books:/data/books
       - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
-    ports:
-      - 8096:8096
     restart: unless-stopped
     networks:
       - mediabox-proxy
@@ -241,8 +223,6 @@ services:
       - ${DATA_PATH}:/var/lib/dav/data/mediabox
       - ${DOWNLOADS_PATH}:/var/lib/dav/data/downloads
       - ${MOUNT_PATH}:/var/lib/dav/data/mnt/rclone:rw,rslave
-    ports:
-      - 8585:80
     restart: unless-stopped
     networks:
       - mediabox-proxy

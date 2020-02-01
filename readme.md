@@ -30,7 +30,7 @@ You may mount a cloud storage to `MOUNT_PATH`, inside most containers that path 
 | Bazarr    | mediabox-bazarr    | bazarr    | 6767     | [GitHub](https://github.com/linuxserver/docker-bazarr)    |
 | Jackett   | mediabox-jackett   | jackett   | 9117     | [GitHub](https://github.com/linuxserver/docker-jackett)   |
 | Jellyfin  | mediabox-jellyfin  | stream    | 8096     | [GitHub](https://github.com/linuxserver/docker-jellyfin)  |
-| Webdav    | mediabox-webdav    | webdav    | 8585:80  | [GitHub](https://hub.docker.com/r/bytemark/webdav/)       |
+| Webdav    | mediabox-webdav    | webdav    | 80       | [GitHub](https://hub.docker.com/r/bytemark/webdav/)       |
 | Flexget   | mediabox-flexget   | flexget   | 5050     | [GitHub](https://github.com/cpoppema/docker-flexget)      |
 
 ### Connecting services
