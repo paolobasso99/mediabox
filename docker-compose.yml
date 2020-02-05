@@ -120,30 +120,6 @@ services:
     networks:
       - mediabox-torrent
       - mediabox-proxy
-  
-  mediabox-lidarr:
-    image: linuxserver/lidarr
-    container_name: mediabox-lidarr
-    depends_on:
-      - mediabox-deluge
-      - mediabox-jackett
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=lidarr.${DOMAIN}
-      - VIRTUAL_PORT=8686
-      - LETSENCRYPT_HOST=lidarr.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-    volumes:
-      - ${CONFIG_PATH}/lidarr:/config
-      - ${DOWNLOADS_PATH}:/downloads
-      - ${DATA_PATH}/music:/music
-      - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
-    restart: unless-stopped
-    networks:
-      - mediabox-torrent
-      - mediabox-proxy
 
   mediabox-bazarr:
     image: linuxserver/bazarr

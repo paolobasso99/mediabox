@@ -26,7 +26,6 @@ You may mount a cloud storage to `MOUNT_PATH`, inside most containers that path 
 | Deluge    | mediabox-deluge    | deluge    | 8112     | [GitHub](https://github.com/binhex/arch-delugevpn)        |
 | Sonarr    | mediabox-sonarr    | sonarr    | 8989     | [GitHub](https://github.com/linuxserver/docker-sonarr)    |
 | Radarr    | mediabox-radarr    | radarr    | 7878     | [GitHub](https://github.com/linuxserver/docker-radarr)    |
-| Lidarr    | mediabox-lidarr    | lidarr    | 8686     | [GitHub](https://github.com/linuxserver/docker-lidarr)    |
 | Bazarr    | mediabox-bazarr    | bazarr    | 6767     | [GitHub](https://github.com/linuxserver/docker-bazarr)    |
 | Jackett   | mediabox-jackett   | jackett   | 9117     | [GitHub](https://github.com/linuxserver/docker-jackett)   |
 | Jellyfin  | mediabox-jellyfin  | stream    | 8096     | [GitHub](https://github.com/linuxserver/docker-jellyfin)  |
