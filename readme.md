@@ -11,7 +11,7 @@ This repo provides some docker-compose.yml that contains the configurations for 
 3. Create a dns record for every subdomain listed below
 4. You need to setup [jwilder/nginx-proxy](https://github.com/jwilder/nginx-proxy) and [jrcs/letsencrypt-nginx-proxy-companion](https://github.com/jrcs/letsencrypt-nginx-proxy-companion) in orther to reverse proxy the containers
 5. Connect `nginx-proxy` to the `mediabox-proxy` network.
-6. In Deluge remember to change the default download path to `/downloads` from the UI
+6. In Deluge remember to change the default download path to `/downloads` from the UI and CHOWN the download folder!
 
 ### RClone mount
 You may mount a cloud storage to `MOUNT_PATH`, inside most containers that path will be mapped to `/mnt/rclone` but some may have a different path
