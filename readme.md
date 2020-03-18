@@ -21,16 +21,15 @@ You may mount a cloud storage to `MOUNT_PATH`, inside most containers that path 
 
 ## Informations
 ### Containers
-| App       | Container name     | Subdomain | Ports    | Docs                                                      |
-| --------- | ------------------ | --------- | -------- | --------------------------------------------------------- |
-| Deluge    | mediabox-deluge    | deluge    | 8112     | [GitHub](https://github.com/binhex/arch-delugevpn)        |
-| Sonarr    | mediabox-sonarr    | sonarr    | 8989     | [GitHub](https://github.com/linuxserver/docker-sonarr)    |
-| Radarr    | mediabox-radarr    | radarr    | 7878     | [GitHub](https://github.com/linuxserver/docker-radarr)    |
-| Bazarr    | mediabox-bazarr    | bazarr    | 6767     | [GitHub](https://github.com/linuxserver/docker-bazarr)    |
-| Jackett   | mediabox-jackett   | jackett   | 9117     | [GitHub](https://github.com/linuxserver/docker-jackett)   |
-| Jellyfin  | mediabox-jellyfin  | stream    | 8096     | [GitHub](https://github.com/linuxserver/docker-jellyfin)  |
-| Webdav    | mediabox-webdav    | webdav    | 80       | [GitHub](https://hub.docker.com/r/bytemark/webdav/)       |
-| Flexget   | mediabox-flexget   | flexget   | 5050     | [GitHub](https://github.com/cpoppema/docker-flexget)      |
+| App       | Container name     | Docs                                                      |
+| --------- | ------------------ | --------------------------------------------------------- |
+| Deluge    | mediabox-deluge    | [GitHub](https://github.com/binhex/arch-delugevpn)        |
+| Sonarr    | mediabox-sonarr    | [GitHub](https://github.com/linuxserver/docker-sonarr)    |
+| Radarr    | mediabox-radarr    | [GitHub](https://github.com/linuxserver/docker-radarr)    |
+| Bazarr    | mediabox-bazarr    | [GitHub](https://github.com/linuxserver/docker-bazarr)    |
+| Jackett   | mediabox-jackett   | [GitHub](https://github.com/linuxserver/docker-jackett)   |
+| Webdav    | mediabox-webdav    | [GitHub](https://hub.docker.com/r/bytemark/webdav/)       |
+| Filestash | mediabox-filestash | [GitHub](https://github.com/mickael-kerjean/filestash)    |
 
 ### Connecting services
 Since the apps that need to be connected are under the same network you can access every app by it's name and its internal port.

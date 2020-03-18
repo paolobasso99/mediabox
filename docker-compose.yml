@@ -22,9 +22,9 @@ services:
       - DELUGE_DAEMON_LOG_LEVEL=warning
       - DELUGE_WEB_LOG_LEVEL=warning
       - DEBUG=false
-      - VIRTUAL_HOST=deluge.${DOMAIN}
+      - VIRTUAL_HOST=${DELUGE_SUBDOMAIN}.${DOMAIN}
       - VIRTUAL_PORT=8112
-      - LETSENCRYPT_HOST=deluge.${DOMAIN}
+      - LETSENCRYPT_HOST=${DELUGE_SUBDOMAIN}.${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/deluge:/config
@@ -37,41 +37,6 @@ services:
     networks:
       - mediabox-torrent
       - mediabox-proxy
-
-  mediabox-flexget:
-    image: cpoppema/docker-flexget
-    container_name: mediabox-flexget
-    depends_on:
-      - mediabox-jackett
-      - mediabox-deluge
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIME_ZONE}
-      - FLEXGET_LOG_LEVEL=info
-      - TORRENT_PLUGIN=deluge
-      - WEB_PASSWD=${FLEXGET_PASSWORD}
-      - VIRTUAL_HOST=flexget.${DOMAIN}
-      - VIRTUAL_PORT=5050
-      - LETSENCRYPT_HOST=flexget.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-    volumes:
-      - ${CONFIG_PATH}/flexget:/config
-      - ${DOWNLOADS_PATH}:/downloads
-      - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
-      - ${DATA_PATH}:/mediabox
-    restart: unless-stopped
-    networks:
-      - mediabox-torrent
-      - mediabox-proxy
-    labels:
-      - "io.portainer.commands.flexget-execute=/usr/bin/flexget execute"
-      - "io.portainer.commands.flexget-reload=/usr/bin/flexget daemon reload-config"
-      - "io.portainer.commands.flexget-check=/usr/bin/flexget check"
-      - "io.portainer.commands.flexget-failed-list=/usr/bin/flexget failed list"
-      - "io.portainer.commands.flexget-failed-clear=/usr/bin/flexget failed clear"
-      - "io.portainer.commands.flexget-rejected-list=/usr/bin/flexget rejected list"
-      - "io.portainer.commands.flexget-rejected-clear=/usr/bin/flexget rejected clear"
   
   mediabox-sonarr:
     image: linuxserver/sonarr
@@ -83,9 +48,9 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=sonarr.${DOMAIN}
+      - VIRTUAL_HOST=${SONARR_SUBDOMAIN}.${DOMAIN}
       - VIRTUAL_PORT=8989
-      - LETSENCRYPT_HOST=sonarr.${DOMAIN}
+      - LETSENCRYPT_HOST=${SONARR_SUBDOMAIN}.${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/sonarr:/config
@@ -107,9 +72,9 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=radarr.${DOMAIN}
+      - VIRTUAL_HOST=${RADARR_SUBDOMAIN}.${DOMAIN}
       - VIRTUAL_PORT=7878
-      - LETSENCRYPT_HOST=radarr.${DOMAIN}
+      - LETSENCRYPT_HOST=${RADARR_SUBDOMAIN}.${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/radarr:/config
@@ -131,9 +96,9 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=bazarr.${DOMAIN}
+      - VIRTUAL_HOST=${BAZARR_SUBDOMAIN}.${DOMAIN}
       - VIRTUAL_PORT=6767
-      - LETSENCRYPT_HOST=bazarr.${DOMAIN}
+      - LETSENCRYPT_HOST=${BAZARR_SUBDOMAIN}.${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/bazarr:/config
@@ -152,37 +117,15 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=jackett.${DOMAIN}
+      - VIRTUAL_HOST=${JACKETT_SUBDOMAIN}.${DOMAIN}
       - VIRTUAL_PORT=9117
-      - LETSENCRYPT_HOST=jackett.${DOMAIN}
+      - LETSENCRYPT_HOST=${JACKETT_SUBDOMAIN}.${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/jackett:/config
     restart: unless-stopped
     networks:
       - mediabox-torrent
-      - mediabox-proxy
-  
-  mediabox-jellyfin:
-    image: linuxserver/jellyfin
-    container_name: mediabox-jellyfin
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=stream.${DOMAIN}
-      - VIRTUAL_PORT=8096
-      - LETSENCRYPT_HOST=stream.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-    volumes:
-      - ${CONFIG_PATH}/jellyfin:/config
-      - ${DATA_PATH}/movies:/data/movies
-      - ${DATA_PATH}/tv:/data/tv
-      - ${DATA_PATH}/music:/data/music
-      - ${DATA_PATH}/books:/data/books
-      - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
-    restart: unless-stopped
-    networks:
       - mediabox-proxy
 
   mediabox-webdav:
@@ -191,9 +134,9 @@ services:
     environment:
       - USERNAME=${WEBDAV_USERNAME}
       - PASSWORD=${WEBDAV_PASSWORD}
-      - VIRTUAL_HOST=webdav.${DOMAIN}
+      - VIRTUAL_HOST=${WEBDAV_SUBDOMAIN}.${DOMAIN}
       - VIRTUAL_PORT=80
-      - LETSENCRYPT_HOST=webdav.${DOMAIN}
+      - LETSENCRYPT_HOST=${WEBDAV_SUBDOMAIN}.${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${DATA_PATH}:/var/lib/dav/data/mediabox
@@ -203,6 +146,18 @@ services:
     networks:
       - mediabox-proxy
 
+  mediabox-filestash:
+    image: machines/filestash
+    container_name: mediabox-filestash
+    environment:
+      - APPLICATION_URL=filestash.${DOMAIN}
+      - VIRTUAL_HOST=${FILESTASH_SUBDOMAIN}.${DOMAIN}
+      - VIRTUAL_PORT=8334
+      - LETSENCRYPT_HOST=${FILESTASH_SUBDOMAIN}.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    restart: unless-stopped
+    networks:
+      - mediabox-proxy
 
 networks:
   mediabox-torrent:
