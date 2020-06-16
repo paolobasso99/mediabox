@@ -170,7 +170,6 @@ services:
       - VIRTUAL_PORT=8000
       - LETSENCRYPT_HOST=${PYLOAD_SUBDOMAIN}.${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-      - PASSWORD=${PYLOAD_PASSWORD}
     volumes:
       - ${CONFIG_PATH}/pyload:/config
       - ${DOWNLOADS_PATH}:/downloads
