@@ -159,6 +159,25 @@ services:
     networks:
       - mediabox-proxy
 
+  mediabox-pyload:
+    image: linuxserver/pyload
+    container_name: mediabox-pyload
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIME_ZONE}
+      - VIRTUAL_HOST=${PYLOAD_SUBDOMAIN}.${DOMAIN}
+      - VIRTUAL_PORT=8000
+      - LETSENCRYPT_HOST=${PYLOAD_SUBDOMAIN}.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    volumes:
+      - ${CONFIG_PATH}/pyload:/config
+      - ${DOWNLOADS_PATH}:/downloads
+      - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
+    restart: unless-stopped
+    networks:
+      - mediabox-proxy
+
 networks:
   mediabox-torrent:
     driver: bridge

@@ -30,6 +30,7 @@ You may mount a cloud storage to `MOUNT_PATH`, inside most containers that path 
 | Jackett   | mediabox-jackett   | [GitHub](https://github.com/linuxserver/docker-jackett)   |
 | Webdav    | mediabox-webdav    | [GitHub](https://hub.docker.com/r/bytemark/webdav/)       |
 | Filestash | mediabox-filestash | [GitHub](https://github.com/mickael-kerjean/filestash)    |
+| Pyload    | mediabox-pyload    | [GitHub](https://github.com/linuxserver/docker-pyload)    |
 
 ### Connecting services
 Since the apps that need to be connected are under the same network you can access every app by it's name and its internal port.
