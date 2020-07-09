@@ -29,8 +29,7 @@ services:
     volumes:
       - ${CONFIG_PATH}/deluge:/config
       - ${DOWNLOADS_PATH}:/downloads
-      - ${DATA_PATH}:/mediabox
-      - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
+      - ${MOUNT_PATH}:/mnt:rw,rslave
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
     privileged: true
@@ -55,8 +54,7 @@ services:
     volumes:
       - ${CONFIG_PATH}/sonarr:/config
       - ${DOWNLOADS_PATH}:/downloads
-      - ${DATA_PATH}/tv:/tv
-      - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
+      - ${MOUNT_PATH}:/mnt:rw,rslave
     restart: unless-stopped
     networks:
       - torrent
@@ -79,8 +77,7 @@ services:
     volumes:
       - ${CONFIG_PATH}/radarr:/config
       - ${DOWNLOADS_PATH}:/downloads
-      - ${DATA_PATH}/movies:/movies
-      - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
+      - ${MOUNT_PATH}:/mnt:rw,rslave
     restart: unless-stopped
     networks:
       - torrent
@@ -102,9 +99,7 @@ services:
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/bazarr:/config
-      - ${DATA_PATH}/movies:/movies
-      - ${DATA_PATH}/tv:/tv
-      - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
+      - ${MOUNT_PATH}:/mnt:rw,rslave
     restart: unless-stopped
     networks:
       - torrent
@@ -139,9 +134,8 @@ services:
       - LETSENCRYPT_HOST=${WEBDAV_SUBDOMAIN}.${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
-      - ${DATA_PATH}:/var/lib/dav/data/mediabox
       - ${DOWNLOADS_PATH}:/var/lib/dav/data/downloads
-      - ${MOUNT_PATH}:/var/lib/dav/data/mnt/rclone:rw,rslave
+      - ${MOUNT_PATH}:/var/lib/dav/data/mnt:rw,rslave
     restart: unless-stopped
     networks:
       - proxy
@@ -173,7 +167,42 @@ services:
     volumes:
       - ${CONFIG_PATH}/pyload:/config
       - ${DOWNLOADS_PATH}:/downloads
-      - ${MOUNT_PATH}:/mnt/rclone:rw,rslave
+      - ${MOUNT_PATH}:/mnt:rw,rslave
+    restart: unless-stopped
+    networks:
+      - proxy
+
+  mediabox-jellyfin:
+    image: linuxserver/jellyfin
+    container_name: mediabox-jellyfin
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIME_ZONE}
+      - VIRTUAL_HOST=${JELLYFIN_SUBDOMAIN}.${DOMAIN}
+      - VIRTUAL_PORT=8096
+      - LETSENCRYPT_HOST=${JELLYFIN_SUBDOMAIN}.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    volumes:
+      - ${CONFIG_PATH}/jellyfin:/config
+      - ${MOUNT_PATH}:/mnt:rw,rslave
+    restart: unless-stopped
+    networks:
+      - proxy
+
+  mediabox-ombi:
+    image: linuxserver/ombi
+    container_name: mediabox-ombi
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIME_ZONE}
+      - VIRTUAL_HOST=${OMBI_SUBDOMAIN}.${DOMAIN}
+      - VIRTUAL_PORT=3579
+      - LETSENCRYPT_HOST=${OMBI_SUBDOMAIN}.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    volumes:
+      - ${CONFIG_PATH}/ombi:/config
     restart: unless-stopped
     networks:
       - proxy
