@@ -193,6 +193,8 @@ services:
   mediabox-ombi:
     image: linuxserver/ombi
     container_name: mediabox-ombi
+    depends_on:
+      - mediabox-jellyfin
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
