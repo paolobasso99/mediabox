@@ -1,0 +1,30 @@
+[Unit]
+Description=rclone Service
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=notify
+
+ExecStart=/usr/bin/rclone mount __CLOUD_NAME__: __FULL_MOUNT_PATH__ \
+--config=__RCLONE_CONFIG_PATH__ \
+--allow-other \
+--buffer-size 1G \
+--dir-cache-time 96h \
+--log-level INFO \
+--log-file __RCLONE_LOG_PATH__ \
+--umask 002 \
+--user-agent rcloneapp \
+--fast-list \
+--drive-chunk-size 64M \
+--vfs-read-chunk-size 32M \
+--vfs-read-chunk-size-limit off \
+--vfs-cache-mode writes 
+ExecStop=/bin/fusermount -uz __FULL_MOUNT_PATH__
+Restart=on-failure
+RestartSec=2s
+User=__USERNAME__
+Group=__USERNAME__
+
+[Install]
+WantedBy=multi-user.target

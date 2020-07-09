@@ -1,25 +1,39 @@
 # MediaBox
-This repo provides some docker-compose.yml that contains the configurations for a complete mediabox.
+My Ubuntu mediabox server configurations. This repo provides a docker-compose.yml to run different services and how I configure rclone.
 
 ## Prerequisites
 1. [Docker](https://docs.docker.com/install/)
 2. [docker-compose](https://docs.docker.com/compose/install/)
+3. [rclone](https://rclone.org/)
+3. [jwilder/nginx-proxy](https://github.com/jwilder/nginx-proxy) with [jrcs/letsencrypt-nginx-proxy-companion](https://github.com/jrcs/letsencrypt-nginx-proxy-companion) to reverse proxy the containers
 
-## Setup
+## Setup rclone
+In this configuration Deluge downloads a file in the local storage and then Sonarr/Radarr move the files inside a cloud storage (with almost ulimited space). This setup is insiped by [animosity22](https://github.com/animosity22/homescripts).
+To achieve this the first step is to mount rclone:
+1. Install `fuse` (`sudo apt-get install fuse`)
+2. Enable `user_allow_other` in `/etc/fuse.conf`
+3. Download rclone fo Ubuntu [here](https://rclone.org/install/)
+4. Create a folder in `${MOUNT_PATH}/cloudstorage` that will be the full mount path and chown it
+5. Configure rclone with `rclone config` and chown the configuration folder (usually inside `/home/username/.config`)
+6. Create a file where to write rclone logs for example in `/var/log/rclone/rclone.log` and chown it
+7. Edit `rclone.service` with the right parameters (highlighted with __)
+8. Move `rclone.service` to `/etc/systemd/system/rclone.service`
+9. Start the service with `sudo systemctl start rclone.service`
+
+
+## Setup Docker
 1. Create a `.env` file (copy from `.env.example`)
 2. Define the variables that can be found in `.env.example`
-3. Create a dns record for every subdomain listed below
+3. Create a DNS record for every subdomain listed below
 4. You need to setup [jwilder/nginx-proxy](https://github.com/jwilder/nginx-proxy) and [jrcs/letsencrypt-nginx-proxy-companion](https://github.com/jrcs/letsencrypt-nginx-proxy-companion) in orther to reverse proxy the containers
-5. Connect `nginx-proxy` to the `mediabox-proxy` network.
-6. In Deluge remember to change the default download path to `/downloads` from the UI and CHOWN the download folder!
-
-### RClone mount
-You may mount a cloud storage to `MOUNT_PATH`, inside most containers that path will be mapped to `/mnt/rclone` but some may have a different path
+5. In Deluge remember to change the default download path to `/downloads` from the UI and CHOWN the download folder!
 
 ## Run
 1. run `docker-compose up -d` in the path of `docker-compose.yml` to run the configuration
+2. Connect `nginx-proxy` to the `proxy` network
+3. Wait for letsencrypt to generate certificates
 
-## Informations
+## Information
 ### Containers
 | App       | Container name     | Docs                                                      |
 | --------- | ------------------ | --------------------------------------------------------- |
@@ -35,12 +49,6 @@ You may mount a cloud storage to `MOUNT_PATH`, inside most containers that path 
 ### Connecting services
 Since the apps that need to be connected are under the same network you can access every app by it's name and its internal port.
 For example to connect Deluge and Sonarr the url is: `http://mediabox-deluge:8112`.
-
-### Flexget
-Check [Flexget image docs](https://github.com/cpoppema/docker-flexget) and [flexget.com](https://flexget.com/) to setup Flexget.
-
-### Cloud path
-Conteiners that might use a cloud mount (with [rclone](https://rclone.org)) have a volume for the mount, check `docker-compose.yml` to find out which is the correct path for every container.
 
 ### PUID and PGID
 You can find these parameters:
