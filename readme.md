@@ -35,16 +35,19 @@ To achieve this the first step is to mount rclone:
 
 ## Information
 ### Containers
-| App       | Container name     | Docs                                                      |
-| --------- | ------------------ | --------------------------------------------------------- |
-| Deluge    | mediabox-deluge    | [GitHub](https://github.com/binhex/arch-delugevpn)        |
-| Sonarr    | mediabox-sonarr    | [GitHub](https://github.com/linuxserver/docker-sonarr)    |
-| Radarr    | mediabox-radarr    | [GitHub](https://github.com/linuxserver/docker-radarr)    |
-| Bazarr    | mediabox-bazarr    | [GitHub](https://github.com/linuxserver/docker-bazarr)    |
-| Jackett   | mediabox-jackett   | [GitHub](https://github.com/linuxserver/docker-jackett)   |
-| Webdav    | mediabox-webdav    | [GitHub](https://hub.docker.com/r/bytemark/webdav/)       |
-| Filestash | mediabox-filestash | [GitHub](https://github.com/mickael-kerjean/filestash)    |
-| Pyload    | mediabox-pyload    | [GitHub](https://github.com/linuxserver/docker-pyload)    |
+| App       | Container name     | Docs                                                     |
+| --------- | ------------------ | -------------------------------------------------------- |
+| Deluge    | mediabox-deluge    | [GitHub](https://github.com/binhex/arch-delugevpn)       |
+| Sonarr    | mediabox-sonarr    | [GitHub](https://github.com/linuxserver/docker-sonarr)   |
+| Radarr    | mediabox-radarr    | [GitHub](https://github.com/linuxserver/docker-radarr)   |
+| Lidarr    | mediabox-lidarr    | [GitHub](https://github.com/linuxserver/docker-lidarr)   |
+| Bazarr    | mediabox-bazarr    | [GitHub](https://github.com/linuxserver/docker-bazarr)   |
+| Jackett   | mediabox-jackett   | [GitHub](https://github.com/linuxserver/docker-jackett)  |
+| Webdav    | mediabox-webdav    | [GitHub](https://hub.docker.com/r/bytemark/webdav/)      |
+| Filestash | mediabox-filestash | [GitHub](https://github.com/mickael-kerjean/filestash)   |
+| Pyload    | mediabox-pyload    | [GitHub](https://github.com/linuxserver/docker-pyload)   |
+| Jellyfin  | mediabox-jellyfin  | [GitHub](https://github.com/linuxserver/docker-jellyfin) |
+| Ombi      | mediabox-ombi      | [GitHub](https://github.com/linuxserver/docker-ombi)     |
 
 ### Connecting services
 Since the apps that need to be connected are under the same network you can access every app by it's name and its internal port.
