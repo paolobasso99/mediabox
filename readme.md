@@ -44,7 +44,6 @@ To achieve this the first step is to mount rclone:
 | Bazarr    | mediabox-bazarr    | [GitHub](https://github.com/linuxserver/docker-bazarr)   |
 | Jackett   | mediabox-jackett   | [GitHub](https://github.com/linuxserver/docker-jackett)  |
 | Webdav    | mediabox-webdav    | [GitHub](https://hub.docker.com/r/bytemark/webdav/)      |
-| Filestash | mediabox-filestash | [GitHub](https://github.com/mickael-kerjean/filestash)   |
 | Pyload    | mediabox-pyload    | [GitHub](https://github.com/linuxserver/docker-pyload)   |
 | Jellyfin  | mediabox-jellyfin  | [GitHub](https://github.com/linuxserver/docker-jellyfin) |
 | Ombi      | mediabox-ombi      | [GitHub](https://github.com/linuxserver/docker-ombi)     |

@@ -163,19 +163,6 @@ services:
     networks:
       - proxy
 
-  mediabox-filestash:
-    image: machines/filestash
-    container_name: mediabox-filestash
-    environment:
-      - APPLICATION_URL=filestash.${DOMAIN}
-      - VIRTUAL_HOST=${FILESTASH_SUBDOMAIN}.${DOMAIN}
-      - VIRTUAL_PORT=8334
-      - LETSENCRYPT_HOST=${FILESTASH_SUBDOMAIN}.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-    restart: unless-stopped
-    networks:
-      - proxy
-
   mediabox-pyload:
     image: linuxserver/pyload
     container_name: mediabox-pyload
