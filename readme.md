@@ -49,6 +49,9 @@ To achieve this the first step is to mount rclone:
 | Jellyfin  | mediabox-jellyfin  | [GitHub](https://github.com/linuxserver/docker-jellyfin) |
 | Ombi      | mediabox-ombi      | [GitHub](https://github.com/linuxserver/docker-ombi)     |
 
+### Sonarr/Radarr
+Set **`Analyse video files Off `** This does full downloads to perform analysis and should be turned off as this happens frequently on library refreshes, if left on.
+
 ### Connecting services
 Since the apps that need to be connected are under the same network you can access every app by it's name and its internal port.
 For example to connect Deluge and Sonarr the url is: `http://mediabox-deluge:8112`.
