@@ -216,6 +216,8 @@ services:
   mediabox-embystat:
     image: linuxserver/embystat
     container_name: mediabox-embystat
+    depends_on:
+      - mediabox-jellyfin
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
