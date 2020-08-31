@@ -12,7 +12,7 @@ In this configuration Deluge downloads a file in the local storage and then Sona
 To achieve this the first step is to mount rclone:
 1. Install `fuse` (`sudo apt-get install fuse`)
 2. Enable `user_allow_other` in `/etc/fuse.conf`
-3. Download rclone fo Ubuntu [here](https://rclone.org/install/)
+3. Download rclone for Ubuntu [here](https://rclone.org/install/)
 4. Create a folder in `${MOUNT_PATH}/cloudstorage` that will be the full mount path and chown it
 5. Configure rclone with `rclone config` and chown the configuration folder (usually inside `/home/username/.config`)
 6. Create a file where to write rclone logs for example in `/var/log/rclone/rclone.log` and chown it
@@ -33,6 +33,9 @@ To achieve this the first step is to mount rclone:
 2. Connect `nginx-proxy` to the `proxy` network
 3. Wait for letsencrypt to generate certificates
 
+## Known Issues
+1. When starting `mediabox-webdav` the download volume becomes owned by `www-data` but `mediabox-deluge` needs this volume to be owned by the user specified wirh PUID. For this reason you need to chwon the folder after every restart of `mediabox-webdav`. I have opened an [issue](https://github.com/BytemarkHosting/docker-webdav/issues/24) in the webdav image GitHub page.
+
 ## Information
 ### Containers
 | App       | Container name     | Docs                                                     |
@@ -46,6 +49,7 @@ To achieve this the first step is to mount rclone:
 | Webdav    | mediabox-webdav    | [GitHub](https://hub.docker.com/r/bytemark/webdav/)      |
 | Pyload    | mediabox-pyload    | [GitHub](https://github.com/linuxserver/docker-pyload)   |
 | Jellyfin  | mediabox-jellyfin  | [GitHub](https://github.com/linuxserver/docker-jellyfin) |
+| EmbyStat  | mediabox-embystat  | [GitHub](https://github.com/linuxserver/docker-embystat) |
 | Ombi      | mediabox-ombi      | [GitHub](https://github.com/linuxserver/docker-ombi)     |
 
 ### Sonarr/Radarr

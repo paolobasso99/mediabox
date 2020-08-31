@@ -200,6 +200,25 @@ services:
     networks:
       - web-proxy
 
+  mediabox-embystat:
+    image: linuxserver/embystat
+    container_name: mediabox-embystat
+    depends_on:
+      - mediabox-jellyfin
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIME_ZONE}
+      - VIRTUAL_HOST=${EMBYSTAT_SUBDOMAIN}.${DOMAIN}
+      - VIRTUAL_PORT=6555
+      - LETSENCRYPT_HOST=${EMBYSTAT_SUBDOMAIN}.${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    volumes:
+      - ${CONFIG_PATH}/embystat:/config
+    restart: unless-stopped
+    networks:
+      - proxy
+
   mediabox-ombi:
     image: linuxserver/ombi
     container_name: mediabox-ombi
