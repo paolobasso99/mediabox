@@ -217,7 +217,7 @@ services:
       - ${CONFIG_PATH}/embystat:/config
     restart: unless-stopped
     networks:
-      - proxy
+      - web-proxy
 
   mediabox-ombi:
     image: linuxserver/ombi
