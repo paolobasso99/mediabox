@@ -223,5 +223,4 @@ networks:
   torrent:
     driver: bridge
   web-proxy:
-    external:
-      name: ${WEB_PROXY_NETWORK}
+    driver: bridge

@@ -35,7 +35,7 @@ services:
     privileged: true
     networks:
       - torrent
-      - web-proxy
+      - proxy
   
   mediabox-sonarr:
     image: linuxserver/sonarr
@@ -58,7 +58,7 @@ services:
     restart: unless-stopped
     networks:
       - torrent
-      - web-proxy
+      - proxy
   
   mediabox-radarr:
     image: linuxserver/radarr
@@ -81,7 +81,7 @@ services:
     restart: unless-stopped
     networks:
       - torrent
-      - web-proxy
+      - proxy
   
   mediabox-lidarr:
     image: linuxserver/lidarr
@@ -104,7 +104,7 @@ services:
     restart: unless-stopped
     networks:
       - torrent
-      - web-proxy
+      - proxy
 
   mediabox-bazarr:
     image: linuxserver/bazarr
@@ -126,7 +126,7 @@ services:
     restart: unless-stopped
     networks:
       - torrent
-      - web-proxy
+      - proxy
 
   mediabox-jackett:
     image: linuxserver/jackett
@@ -144,7 +144,7 @@ services:
     restart: unless-stopped
     networks:
       - torrent
-      - web-proxy
+      - proxy
 
   mediabox-webdav:
     image: bytemark/webdav
@@ -161,7 +161,7 @@ services:
       - ${MOUNT_PATH}:/var/lib/dav/data/mnt:rw,rslave
     restart: unless-stopped
     networks:
-      - web-proxy
+      - proxy
 
   mediabox-pyload:
     image: linuxserver/pyload
@@ -180,7 +180,7 @@ services:
       - ${MOUNT_PATH}:/mnt:rw,rslave
     restart: unless-stopped
     networks:
-      - web-proxy
+      - proxy
 
   mediabox-jellyfin:
     image: linuxserver/jellyfin
@@ -198,7 +198,7 @@ services:
       - ${MOUNT_PATH}:/mnt:rw,rslave
     restart: unless-stopped
     networks:
-      - web-proxy
+      - proxy
 
   mediabox-ombi:
     image: linuxserver/ombi
@@ -217,11 +217,10 @@ services:
       - ${CONFIG_PATH}/ombi:/config
     restart: unless-stopped
     networks:
-      - web-proxy
+      - proxy
 
 networks:
   torrent:
     driver: bridge
-  web-proxy:
-    external:
-      name: ${WEB_PROXY_NETWORK}
+  proxy:
+    driver: bridge
