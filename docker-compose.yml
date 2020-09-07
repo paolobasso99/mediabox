@@ -22,20 +22,24 @@ services:
       - DELUGE_DAEMON_LOG_LEVEL=warning
       - DELUGE_WEB_LOG_LEVEL=warning
       - DEBUG=false
-      - VIRTUAL_HOST=${DELUGE_SUBDOMAIN}.${DOMAIN}
-      - VIRTUAL_PORT=8112
-      - LETSENCRYPT_HOST=${DELUGE_SUBDOMAIN}.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/deluge:/config
       - ${DOWNLOADS_PATH}:/downloads
       - ${MOUNT_PATH}:/mnt:rw,rslave
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mediabox-deluge.service=mediabox-deluge"
+      - "traefik.http.routers.mediabox-deluge.rule=Host(\"deluge.$DOMAIN\")"
+      - "traefik.http.routers.mediabox-deluge.tls=true"
+      - "traefik.http.routers.mediabox-deluge.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+      - "traefik.http.routers.mediabox-deluge.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+      - "traefik.http.services.mediabox-deluge.loadbalancer.server.port=8112"
     privileged: true
     networks:
       - torrent
-      - web-proxy
+      - web_proxy
   
   mediabox-sonarr:
     image: linuxserver/sonarr
@@ -47,18 +51,22 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=${SONARR_SUBDOMAIN}.${DOMAIN}
-      - VIRTUAL_PORT=8989
-      - LETSENCRYPT_HOST=${SONARR_SUBDOMAIN}.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/sonarr:/config
       - ${DOWNLOADS_PATH}:/downloads
       - ${MOUNT_PATH}:/mnt:rw,rslave
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mediabox-sonarr.service=mediabox-sonarr"
+      - "traefik.http.routers.mediabox-sonarr.rule=Host(\"sonarr.$DOMAIN\")"
+      - "traefik.http.routers.mediabox-sonarr.tls=true"
+      - "traefik.http.routers.mediabox-sonarr.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+      - "traefik.http.routers.mediabox-sonarr.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+      - "traefik.http.services.mediabox-sonarr.loadbalancer.server.port=8989"
     networks:
       - torrent
-      - web-proxy
+      - web_proxy
   
   mediabox-radarr:
     image: linuxserver/radarr
@@ -70,18 +78,22 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=${RADARR_SUBDOMAIN}.${DOMAIN}
-      - VIRTUAL_PORT=7878
-      - LETSENCRYPT_HOST=${RADARR_SUBDOMAIN}.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/radarr:/config
       - ${DOWNLOADS_PATH}:/downloads
       - ${MOUNT_PATH}:/mnt:rw,rslave
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mediabox-radarr.service=mediabox-radarr"
+      - "traefik.http.routers.mediabox-radarr.rule=Host(\"radarr.$DOMAIN\")"
+      - "traefik.http.routers.mediabox-radarr.tls=true"
+      - "traefik.http.routers.mediabox-radarr.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+      - "traefik.http.routers.mediabox-radarr.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+      - "traefik.http.services.mediabox-radarr.loadbalancer.server.port=7878"
     networks:
       - torrent
-      - web-proxy
+      - web_proxy
   
   mediabox-lidarr:
     image: linuxserver/lidarr
@@ -93,18 +105,22 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=${LIDARR_SUBDOMAIN}.${DOMAIN}
-      - VIRTUAL_PORT=8686
-      - LETSENCRYPT_HOST=${LIDARR_SUBDOMAIN}.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/lidarr:/config
       - ${DOWNLOADS_PATH}:/downloads
       - ${MOUNT_PATH}:/mnt:rw,rslave
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mediabox-lidarr.service=mediabox-lidarr"
+      - "traefik.http.routers.mediabox-lidarr.rule=Host(\"lidarr.$DOMAIN\")"
+      - "traefik.http.routers.mediabox-lidarr.tls=true"
+      - "traefik.http.routers.mediabox-lidarr.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+      - "traefik.http.routers.mediabox-lidarr.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+      - "traefik.http.services.mediabox-lidarr.loadbalancer.server.port=8686"
     networks:
       - torrent
-      - web-proxy
+      - web_proxy
 
   mediabox-bazarr:
     image: linuxserver/bazarr
@@ -116,17 +132,21 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=${BAZARR_SUBDOMAIN}.${DOMAIN}
-      - VIRTUAL_PORT=6767
-      - LETSENCRYPT_HOST=${BAZARR_SUBDOMAIN}.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/bazarr:/config
       - ${MOUNT_PATH}:/mnt:rw,rslave
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mediabox-bazarr.service=mediabox-bazarr"
+      - "traefik.http.routers.mediabox-bazarr.rule=Host(\"bazarr.$DOMAIN\")"
+      - "traefik.http.routers.mediabox-bazarr.tls=true"
+      - "traefik.http.routers.mediabox-bazarr.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+      - "traefik.http.routers.mediabox-bazarr.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+      - "traefik.http.services.mediabox-bazarr.loadbalancer.server.port=6767"
     networks:
       - torrent
-      - web-proxy
+      - web_proxy
 
   mediabox-jackett:
     image: linuxserver/jackett
@@ -135,33 +155,20 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=${JACKETT_SUBDOMAIN}.${DOMAIN}
-      - VIRTUAL_PORT=9117
-      - LETSENCRYPT_HOST=${JACKETT_SUBDOMAIN}.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/jackett:/config
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mediabox-jackett.service=mediabox-jackett"
+      - "traefik.http.routers.mediabox-jackett.rule=Host(\"jackett.$DOMAIN\")"
+      - "traefik.http.routers.mediabox-jackett.tls=true"
+      - "traefik.http.routers.mediabox-jackett.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+      - "traefik.http.routers.mediabox-jackett.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+      - "traefik.http.services.mediabox-jackett.loadbalancer.server.port=9117"
     networks:
       - torrent
-      - web-proxy
-
-  mediabox-webdav:
-    image: bytemark/webdav
-    container_name: mediabox-webdav
-    environment:
-      - USERNAME=${WEBDAV_USERNAME}
-      - PASSWORD=${WEBDAV_PASSWORD}
-      - VIRTUAL_HOST=${WEBDAV_SUBDOMAIN}.${DOMAIN}
-      - VIRTUAL_PORT=80
-      - LETSENCRYPT_HOST=${WEBDAV_SUBDOMAIN}.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-    volumes:
-      - ${DOWNLOADS_PATH}:/var/lib/dav/data/downloads
-      - ${MOUNT_PATH}:/var/lib/dav/data/mnt:rw,rslave
-    restart: unless-stopped
-    networks:
-      - web-proxy
+      - web_proxy
 
   mediabox-pyload:
     image: linuxserver/pyload
@@ -170,17 +177,21 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=${PYLOAD_SUBDOMAIN}.${DOMAIN}
-      - VIRTUAL_PORT=8000
-      - LETSENCRYPT_HOST=${PYLOAD_SUBDOMAIN}.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/pyload:/config
       - ${DOWNLOADS_PATH}:/downloads
       - ${MOUNT_PATH}:/mnt:rw,rslave
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mediabox-pyload.service=mediabox-pyload"
+      - "traefik.http.routers.mediabox-pyload.rule=Host(\"pyload.$DOMAIN\")"
+      - "traefik.http.routers.mediabox-pyload.tls=true"
+      - "traefik.http.routers.mediabox-pyload.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+      - "traefik.http.routers.mediabox-pyload.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+      - "traefik.http.services.mediabox-pyload.loadbalancer.server.port=8000"
     networks:
-      - web-proxy
+      - web_proxy
 
   mediabox-jellyfin:
     image: linuxserver/jellyfin
@@ -189,16 +200,20 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=${JELLYFIN_SUBDOMAIN}.${DOMAIN}
-      - VIRTUAL_PORT=8096
-      - LETSENCRYPT_HOST=${JELLYFIN_SUBDOMAIN}.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/jellyfin:/config
       - ${MOUNT_PATH}:/mnt:rw,rslave
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mediabox-jellyfin.service=mediabox-jellyfin"
+      - "traefik.http.routers.mediabox-jellyfin.rule=Host(\"jellyfin.$DOMAIN\")"
+      - "traefik.http.routers.mediabox-jellyfin.tls=true"
+      - "traefik.http.routers.mediabox-jellyfin.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+      - "traefik.http.routers.mediabox-jellyfin.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+      - "traefik.http.services.mediabox-jellyfin.loadbalancer.server.port=8096"
     networks:
-      - web-proxy
+      - web_proxy
 
   mediabox-embystat:
     image: linuxserver/embystat
@@ -209,15 +224,19 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=${EMBYSTAT_SUBDOMAIN}.${DOMAIN}
-      - VIRTUAL_PORT=6555
-      - LETSENCRYPT_HOST=${EMBYSTAT_SUBDOMAIN}.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/embystat:/config
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mediabox-embystat.service=mediabox-embystat"
+      - "traefik.http.routers.mediabox-embystat.rule=Host(\"embystat.$DOMAIN\")"
+      - "traefik.http.routers.mediabox-embystat.tls=true"
+      - "traefik.http.routers.mediabox-embystat.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+      - "traefik.http.routers.mediabox-embystat.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+      - "traefik.http.services.mediabox-embystat.loadbalancer.server.port=6555"
     networks:
-      - web-proxy
+      - web_proxy
 
   mediabox-ombi:
     image: linuxserver/ombi
@@ -228,19 +247,23 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
-      - VIRTUAL_HOST=${OMBI_SUBDOMAIN}.${DOMAIN}
-      - VIRTUAL_PORT=3579
-      - LETSENCRYPT_HOST=${OMBI_SUBDOMAIN}.${DOMAIN}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
       - ${CONFIG_PATH}/ombi:/config
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mediabox-ombi.service=mediabox-ombi"
+      - "traefik.http.routers.mediabox-ombi.rule=Host(\"ombi.$DOMAIN\")"
+      - "traefik.http.routers.mediabox-ombi.tls=true"
+      - "traefik.http.routers.mediabox-ombi.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+      - "traefik.http.routers.mediabox-ombi.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+      - "traefik.http.services.mediabox-ombi.loadbalancer.server.port=3579"
     networks:
-      - web-proxy
+      - web_proxy
 
 networks:
   torrent:
     driver: bridge
-  web-proxy:
+  web_proxy:
     external:
       name: ${WEB_PROXY_NETWORK}
