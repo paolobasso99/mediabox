@@ -21,18 +21,19 @@ To achieve this the first step is to mount rclone:
 9. Start the service with `sudo systemctl start rclone.service`
 
 
-## Setup Docker
+## Setup
 1. Create a `.env` file (copy from `.env.example`)
 2. Define the variables that can be found in `.env.example`
 3. Create a DNS record for every subdomain listed below
 4. You need to setup [Traefik](https://docs.traefik.io) in orther to reverse proxy the containers
-5. In Deluge remember to change the default download path to `/downloads` from the UI and CHOWN the download folder!
+5. Copy `./config` folder to the `CONFIG_PATH`
 
 ## Run
 1. Create a web_proxy network `docker network create web_proxy`
 2. Connect `traefik` to the `web_proxy` network
 3. Run `docker-compose up -d` in the path of `docker-compose.yml` to run the configuration
 4. Wait for `traefik` to generate certificates
+5. In Deluge remember to change the default download path to `/downloads` from the UI and CHOWN the download folder!
 
 ## Information
 ### Containers

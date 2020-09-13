@@ -28,6 +28,18 @@ services:
       - ${MOUNT_PATH}:/mnt:rw,rslave
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
+    privileged: true
+    networks:
+      - torrent
+
+  mediabox-deluge-proxy:
+    image: nginx:latest
+    depends_on:
+      - mediabox-deluge
+    container_name: mediabox-deluge-proxy
+    volumes:
+      - ${CONFIG_PATH}/deluge-proxy:/etc/nginx/
+    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.mediabox-deluge.service=mediabox-deluge"
@@ -35,8 +47,7 @@ services:
       - "traefik.http.routers.mediabox-deluge.tls=true"
       - "traefik.http.routers.mediabox-deluge.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
       - "traefik.http.routers.mediabox-deluge.entrypoints=${TRAEFIK_ENTRYPOINTS}"
-      - "traefik.http.services.mediabox-deluge.loadbalancer.server.port=8112"
-    privileged: true
+      - "traefik.http.services.mediabox-deluge.loadbalancer.server.port=80"
     networks:
       - torrent
       - web_proxy
