@@ -51,6 +51,31 @@ services:
     networks:
       - torrent
       - web_proxy
+
+  mediabox-deluge-exporter:
+    image: tobbez/deluge_exporter:latest
+    user: "${PUID}:${PGID}"
+    depends_on:
+      - mediabox-deluge
+    container_name: mediabox-deluge-exporter
+    environment: 
+      - DELUGE_HOST=mediabox-deluge
+    volumes:
+      - ${CONFIG_PATH}/deluge:/.config/deluge/
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mediabox-deluge-exporter.service=mediabox-deluge-exporter"
+      - "traefik.http.routers.mediabox-deluge-exporter.rule=Host(\"deluge.$DOMAIN\") && Path(\"/metrics\")"
+      - "traefik.http.routers.mediabox-deluge-exporter.tls=true"
+      - "traefik.http.routers.mediabox-deluge-exporter.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+      - "traefik.http.routers.mediabox-deluge-exporter.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+      - "traefik.http.routers.mediabox-deluge-exporter.middlewares=mediabox-deluge-exporter-auth"
+      - "traefik.http.services.mediabox-deluge-exporter.loadbalancer.server.port=9354"
+      - "traefik.http.middlewares.mediabox-deluge-exporter-auth.basicauth.users=$DELUGE_EXPORTER_USER_PASSWORD"
+    networks:
+      - torrent
+      - web_proxy
   
   mediabox-sonarr:
     image: linuxserver/sonarr

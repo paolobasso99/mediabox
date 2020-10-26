@@ -37,18 +37,31 @@ To achieve this the first step is to mount rclone:
 
 ## Information
 ### Containers
-| App       | Container name     | Docs                                                     |
-| --------- | ------------------ | -------------------------------------------------------- |
-| Deluge    | mediabox-deluge    | [GitHub](https://github.com/binhex/arch-delugevpn)       |
-| Sonarr    | mediabox-sonarr    | [GitHub](https://github.com/linuxserver/docker-sonarr)   |
-| Radarr    | mediabox-radarr    | [GitHub](https://github.com/linuxserver/docker-radarr)   |
-| Lidarr    | mediabox-lidarr    | [GitHub](https://github.com/linuxserver/docker-lidarr)   |
-| Bazarr    | mediabox-bazarr    | [GitHub](https://github.com/linuxserver/docker-bazarr)   |
-| Jackett   | mediabox-jackett   | [GitHub](https://github.com/linuxserver/docker-jackett)  |
-| Pyload    | mediabox-pyload    | [GitHub](https://github.com/linuxserver/docker-pyload)   |
-| Jellyfin  | mediabox-jellyfin  | [GitHub](https://github.com/linuxserver/docker-jellyfin) |
-| EmbyStat  | mediabox-embystat  | [GitHub](https://github.com/linuxserver/docker-embystat) |
-| Ombi      | mediabox-ombi      | [GitHub](https://github.com/linuxserver/docker-ombi)     |
+| App             | Container name           | Docs                                                     |
+| --------------- | ------------------------ | -------------------------------------------------------- |
+| Deluge          | mediabox-deluge          | [GitHub](https://github.com/binhex/arch-delugevpn)       |
+| Deluge Exporter | mediabox-deluge-exporter | [GitHub](https://github.com/tobbez/deluge_exporter)      |
+| Sonarr          | mediabox-sonarr          | [GitHub](https://github.com/linuxserver/docker-sonarr)   |
+| Radarr          | mediabox-radarr          | [GitHub](https://github.com/linuxserver/docker-radarr)   |
+| Lidarr          | mediabox-lidarr          | [GitHub](https://github.com/linuxserver/docker-lidarr)   |
+| Bazarr          | mediabox-bazarr          | [GitHub](https://github.com/linuxserver/docker-bazarr)   |
+| Jackett         | mediabox-jackett         | [GitHub](https://github.com/linuxserver/docker-jackett)  |
+| Pyload          | mediabox-pyload          | [GitHub](https://github.com/linuxserver/docker-pyload)   |
+| Jellyfin        | mediabox-jellyfin        | [GitHub](https://github.com/linuxserver/docker-jellyfin) |
+| EmbyStat        | mediabox-embystat        | [GitHub](https://github.com/linuxserver/docker-embystat) |
+| Ombi            | mediabox-ombi            | [GitHub](https://github.com/linuxserver/docker-ombi)     |
+
+### Deluge Prometheus Exporter
+At `https://$DELUGE_SUBDOMAIN.$DOMAIN/metrics` there will be exposed some Prometheus metrics for Deluge.
+You may want to add this Job to Prometheus:
+
+    - job_name: 'mediabox-deluge'
+      basic_auth:
+        username: user
+        password: password
+      static_configs:
+        - targets:
+          - 'deluge.example.com'
 
 ### Sonarr/Radarr
 Set **`Analyse video files Off `** This does full downloads to perform analysis and should be turned off as this happens frequently on library refreshes, if left on.
