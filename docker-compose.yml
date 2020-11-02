@@ -203,7 +203,6 @@ services:
       - "traefik.http.routers.mediabox-jackett.entrypoints=${TRAEFIK_ENTRYPOINTS}"
       - "traefik.http.services.mediabox-jackett.loadbalancer.server.port=9117"
     networks:
-      - torrent
       - web_proxy
 
   mediabox-pyload:
