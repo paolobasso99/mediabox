@@ -1,4 +1,4 @@
-version: '3.2'
+version: "3.2"
 
 services:
   mediabox-deluge:
@@ -43,7 +43,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.mediabox-deluge.service=mediabox-deluge"
-      - "traefik.http.routers.mediabox-deluge.rule=Host(\"deluge.$DOMAIN\")"
+      - 'traefik.http.routers.mediabox-deluge.rule=Host("deluge.$DOMAIN")'
       - "traefik.http.routers.mediabox-deluge.tls=true"
       - "traefik.http.routers.mediabox-deluge.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
       - "traefik.http.routers.mediabox-deluge.entrypoints=${TRAEFIK_ENTRYPOINTS}"
@@ -58,7 +58,7 @@ services:
     depends_on:
       - mediabox-deluge
     container_name: mediabox-deluge-exporter
-    environment: 
+    environment:
       - DELUGE_HOST=mediabox-deluge
     volumes:
       - ${CONFIG_PATH}/deluge:/.config/deluge/
@@ -66,7 +66,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.mediabox-deluge-exporter.service=mediabox-deluge-exporter"
-      - "traefik.http.routers.mediabox-deluge-exporter.rule=Host(\"deluge.$DOMAIN\") && Path(\"/metrics\")"
+      - 'traefik.http.routers.mediabox-deluge-exporter.rule=Host("deluge.$DOMAIN") && Path("/metrics")'
       - "traefik.http.routers.mediabox-deluge-exporter.tls=true"
       - "traefik.http.routers.mediabox-deluge-exporter.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
       - "traefik.http.routers.mediabox-deluge-exporter.entrypoints=${TRAEFIK_ENTRYPOINTS}"
@@ -76,7 +76,7 @@ services:
     networks:
       - torrent
       - web_proxy
-  
+
   mediabox-sonarr:
     image: linuxserver/sonarr
     container_name: mediabox-sonarr
@@ -95,7 +95,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.mediabox-sonarr.service=mediabox-sonarr"
-      - "traefik.http.routers.mediabox-sonarr.rule=Host(\"sonarr.$DOMAIN\")"
+      - 'traefik.http.routers.mediabox-sonarr.rule=Host("sonarr.$DOMAIN")'
       - "traefik.http.routers.mediabox-sonarr.tls=true"
       - "traefik.http.routers.mediabox-sonarr.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
       - "traefik.http.routers.mediabox-sonarr.entrypoints=${TRAEFIK_ENTRYPOINTS}"
@@ -103,7 +103,7 @@ services:
     networks:
       - torrent
       - web_proxy
-  
+
   mediabox-radarr:
     image: linuxserver/radarr
     container_name: mediabox-radarr
@@ -122,7 +122,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.mediabox-radarr.service=mediabox-radarr"
-      - "traefik.http.routers.mediabox-radarr.rule=Host(\"radarr.$DOMAIN\")"
+      - 'traefik.http.routers.mediabox-radarr.rule=Host("radarr.$DOMAIN")'
       - "traefik.http.routers.mediabox-radarr.tls=true"
       - "traefik.http.routers.mediabox-radarr.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
       - "traefik.http.routers.mediabox-radarr.entrypoints=${TRAEFIK_ENTRYPOINTS}"
@@ -130,7 +130,7 @@ services:
     networks:
       - torrent
       - web_proxy
-  
+
   mediabox-lidarr:
     image: linuxserver/lidarr
     container_name: mediabox-lidarr
@@ -149,7 +149,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.mediabox-lidarr.service=mediabox-lidarr"
-      - "traefik.http.routers.mediabox-lidarr.rule=Host(\"lidarr.$DOMAIN\")"
+      - 'traefik.http.routers.mediabox-lidarr.rule=Host("lidarr.$DOMAIN")'
       - "traefik.http.routers.mediabox-lidarr.tls=true"
       - "traefik.http.routers.mediabox-lidarr.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
       - "traefik.http.routers.mediabox-lidarr.entrypoints=${TRAEFIK_ENTRYPOINTS}"
@@ -175,7 +175,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.mediabox-bazarr.service=mediabox-bazarr"
-      - "traefik.http.routers.mediabox-bazarr.rule=Host(\"bazarr.$DOMAIN\")"
+      - 'traefik.http.routers.mediabox-bazarr.rule=Host("bazarr.$DOMAIN")'
       - "traefik.http.routers.mediabox-bazarr.tls=true"
       - "traefik.http.routers.mediabox-bazarr.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
       - "traefik.http.routers.mediabox-bazarr.entrypoints=${TRAEFIK_ENTRYPOINTS}"
@@ -197,7 +197,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.mediabox-jackett.service=mediabox-jackett"
-      - "traefik.http.routers.mediabox-jackett.rule=Host(\"jackett.$DOMAIN\")"
+      - 'traefik.http.routers.mediabox-jackett.rule=Host("jackett.$DOMAIN")'
       - "traefik.http.routers.mediabox-jackett.tls=true"
       - "traefik.http.routers.mediabox-jackett.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
       - "traefik.http.routers.mediabox-jackett.entrypoints=${TRAEFIK_ENTRYPOINTS}"
@@ -205,28 +205,28 @@ services:
     networks:
       - web_proxy
 
-  mediabox-pyload:
-    image: linuxserver/pyload
-    container_name: mediabox-pyload
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIME_ZONE}
-    volumes:
-      - ${CONFIG_PATH}/pyload:/config
-      - ${DOWNLOADS_PATH}:/downloads
-      - ${MOUNT_PATH}:/mnt:rw,rslave
-    restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.mediabox-pyload.service=mediabox-pyload"
-      - "traefik.http.routers.mediabox-pyload.rule=Host(\"pyload.$DOMAIN\")"
-      - "traefik.http.routers.mediabox-pyload.tls=true"
-      - "traefik.http.routers.mediabox-pyload.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
-      - "traefik.http.routers.mediabox-pyload.entrypoints=${TRAEFIK_ENTRYPOINTS}"
-      - "traefik.http.services.mediabox-pyload.loadbalancer.server.port=8000"
-    networks:
-      - web_proxy
+  # mediabox-pyload:
+  #   image: linuxserver/pyload
+  #   container_name: mediabox-pyload
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TIME_ZONE}
+  #   volumes:
+  #     - ${CONFIG_PATH}/pyload:/config
+  #     - ${DOWNLOADS_PATH}:/downloads
+  #     - ${MOUNT_PATH}:/mnt:rw,rslave
+  #   restart: unless-stopped
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.mediabox-pyload.service=mediabox-pyload"
+  #     - "traefik.http.routers.mediabox-pyload.rule=Host(\"pyload.$DOMAIN\")"
+  #     - "traefik.http.routers.mediabox-pyload.tls=true"
+  #     - "traefik.http.routers.mediabox-pyload.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+  #     - "traefik.http.routers.mediabox-pyload.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+  #     - "traefik.http.services.mediabox-pyload.loadbalancer.server.port=8000"
+  #   networks:
+  #     - web_proxy
 
   mediabox-jellyfin:
     image: linuxserver/jellyfin
@@ -242,7 +242,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.mediabox-jellyfin.service=mediabox-jellyfin"
-      - "traefik.http.routers.mediabox-jellyfin.rule=Host(\"jellyfin.$DOMAIN\")"
+      - 'traefik.http.routers.mediabox-jellyfin.rule=Host("jellyfin.$DOMAIN")'
       - "traefik.http.routers.mediabox-jellyfin.tls=true"
       - "traefik.http.routers.mediabox-jellyfin.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
       - "traefik.http.routers.mediabox-jellyfin.entrypoints=${TRAEFIK_ENTRYPOINTS}"
@@ -250,51 +250,125 @@ services:
     networks:
       - web_proxy
 
-  mediabox-embystat:
-    image: linuxserver/embystat
-    container_name: mediabox-embystat
-    depends_on:
-      - mediabox-jellyfin
+  # mediabox-embystat:
+  #   image: linuxserver/embystat
+  #   container_name: mediabox-embystat
+  #   depends_on:
+  #     - mediabox-jellyfin
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TIME_ZONE}
+  #   volumes:
+  #     - ${CONFIG_PATH}/embystat:/config
+  #   restart: unless-stopped
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.mediabox-embystat.service=mediabox-embystat"
+  #     - "traefik.http.routers.mediabox-embystat.rule=Host(\"embystat.$DOMAIN\")"
+  #     - "traefik.http.routers.mediabox-embystat.tls=true"
+  #     - "traefik.http.routers.mediabox-embystat.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+  #     - "traefik.http.routers.mediabox-embystat.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+  #     - "traefik.http.services.mediabox-embystat.loadbalancer.server.port=6555"
+  #   networks:
+  #     - web_proxy
+
+  # mediabox-ombi:
+  #   image: linuxserver/ombi
+  #   container_name: mediabox-ombi
+  #   depends_on:
+  #     - mediabox-jellyfin
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TIME_ZONE}
+  #   volumes:
+  #     - ${CONFIG_PATH}/ombi:/config
+  #   restart: unless-stopped
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.mediabox-ombi.service=mediabox-ombi"
+  #     - "traefik.http.routers.mediabox-ombi.rule=Host(\"ombi.$DOMAIN\")"
+  #     - "traefik.http.routers.mediabox-ombi.tls=true"
+  #     - "traefik.http.routers.mediabox-ombi.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+  #     - "traefik.http.routers.mediabox-ombi.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+  #     - "traefik.http.services.mediabox-ombi.loadbalancer.server.port=3579"
+  #   networks:
+  #     - web_proxy
+
+  mediabox-calibre:
+    image: linuxserver/calibre
+    container_name: mediabox-calibre
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
+      - GUAC_USER=${CALIBRE_USERNAME}
+      - GUAC_PASS=${CALIBRE_PASSWORD}
     volumes:
-      - ${CONFIG_PATH}/embystat:/config
+      - ${CONFIG_PATH}/calibre:/config
+      - ${MOUNT_PATH}:/mnt:rw,rslave
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.mediabox-embystat.service=mediabox-embystat"
-      - "traefik.http.routers.mediabox-embystat.rule=Host(\"embystat.$DOMAIN\")"
-      - "traefik.http.routers.mediabox-embystat.tls=true"
-      - "traefik.http.routers.mediabox-embystat.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
-      - "traefik.http.routers.mediabox-embystat.entrypoints=${TRAEFIK_ENTRYPOINTS}"
-      - "traefik.http.services.mediabox-embystat.loadbalancer.server.port=6555"
+      - "traefik.http.routers.mediabox-calibre.service=mediabox-calibre"
+      - 'traefik.http.routers.mediabox-calibre.rule=Host("calibre.$DOMAIN")'
+      - "traefik.http.routers.mediabox-calibre.tls=true"
+      - "traefik.http.routers.mediabox-calibre.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+      - "traefik.http.routers.mediabox-calibre.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+      - "traefik.http.services.mediabox-calibre.loadbalancer.server.port=8080"
     networks:
       - web_proxy
 
-  mediabox-ombi:
-    image: linuxserver/ombi
-    container_name: mediabox-ombi
-    depends_on:
-      - mediabox-jellyfin
+  mediabox-calibre-web:
+    image: linuxserver/calibre-web
+    container_name: mediabox-calibre-web
+    depends_on: 
+      - mediabox-calibre
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
     volumes:
-      - ${CONFIG_PATH}/ombi:/config
+      - ${CONFIG_PATH}/calibre-web:/config
+      - ${MOUNT_PATH}:/mnt:rw,rslave
+      - DOCKER_MODS=linuxserver/calibre-web:calibre
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.mediabox-ombi.service=mediabox-ombi"
-      - "traefik.http.routers.mediabox-ombi.rule=Host(\"ombi.$DOMAIN\")"
-      - "traefik.http.routers.mediabox-ombi.tls=true"
-      - "traefik.http.routers.mediabox-ombi.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
-      - "traefik.http.routers.mediabox-ombi.entrypoints=${TRAEFIK_ENTRYPOINTS}"
-      - "traefik.http.services.mediabox-ombi.loadbalancer.server.port=3579"
+      - "traefik.http.routers.mediabox-calibre-web.service=mediabox-calibre-web"
+      - 'traefik.http.routers.mediabox-calibre-web.rule=Host("calibre-web.$DOMAIN")'
+      - "traefik.http.routers.mediabox-calibre-web.tls=true"
+      - "traefik.http.routers.mediabox-calibre-web.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+      - "traefik.http.routers.mediabox-calibre-web.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+      - "traefik.http.services.mediabox-calibre-web.loadbalancer.server.port=8083"
     networks:
       - web_proxy
+
+  mediabox-lazylibrarian:
+    image: linuxserver/lazylibrarian
+    container_name: mediabox-lazylibrarian
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIME_ZONE}
+      - DOCKER_MODS=linuxserver/calibre-web:calibre|linuxserver/mods:lazylibrarian-ffmpeg
+    volumes:
+      - ${CONFIG_PATH}/lazylibrarian:/config
+      - ${DOWNLOADS_PATH}:/downloads
+      - ${MOUNT_PATH}:/mnt:rw,rslave
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mediabox-lazylibrarian.service=mediabox-lazylibrarian"
+      - 'traefik.http.routers.mediabox-lazylibrarian.rule=Host("lazylibrarian.$DOMAIN")'
+      - "traefik.http.routers.mediabox-lazylibrarian.tls=true"
+      - "traefik.http.routers.mediabox-lazylibrarian.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+      - "traefik.http.routers.mediabox-lazylibrarian.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+      - "traefik.http.services.mediabox-lazylibrarian.loadbalancer.server.port=5299"
+    networks:
+      - web_proxy
+      - torrent
 
 networks:
   torrent:
