@@ -25,7 +25,7 @@ services:
     volumes:
       - ${CONFIG_PATH}/deluge:/config
       - ${DOWNLOADS_PATH}:/downloads
-      - ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${MOUNT_ROOT_PATH}:/mnt:rw,rslave
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
     privileged: true
@@ -90,7 +90,7 @@ services:
     volumes:
       - ${CONFIG_PATH}/sonarr:/config
       - ${DOWNLOADS_PATH}:/downloads
-      - ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${MOUNT_ROOT_PATH}:/mnt:rw,rslave
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
@@ -117,7 +117,7 @@ services:
     volumes:
       - ${CONFIG_PATH}/radarr:/config
       - ${DOWNLOADS_PATH}:/downloads
-      - ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${MOUNT_ROOT_PATH}:/mnt:rw,rslave
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
@@ -144,7 +144,7 @@ services:
     volumes:
       - ${CONFIG_PATH}/lidarr:/config
       - ${DOWNLOADS_PATH}:/downloads
-      - ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${MOUNT_ROOT_PATH}:/mnt:rw,rslave
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
@@ -170,7 +170,7 @@ services:
       - TZ=${TIME_ZONE}
     volumes:
       - ${CONFIG_PATH}/bazarr:/config
-      - ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${MOUNT_ROOT_PATH}:/mnt:rw,rslave
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
@@ -215,7 +215,7 @@ services:
   #   volumes:
   #     - ${CONFIG_PATH}/pyload:/config
   #     - ${DOWNLOADS_PATH}:/downloads
-  #     - ${MOUNT_PATH}:/mnt:rw,rslave
+  #     - ${MOUNT_ROOT_PATH}:/mnt:rw,rslave
   #   restart: unless-stopped
   #   labels:
   #     - "traefik.enable=true"
@@ -237,7 +237,7 @@ services:
       - TZ=${TIME_ZONE}
     volumes:
       - ${CONFIG_PATH}/jellyfin:/config
-      - ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${MOUNT_ROOT_PATH}:/mnt:rw,rslave
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
@@ -307,7 +307,7 @@ services:
   #     - GUAC_PASS=${CALIBRE_PASSWORD}
   #   volumes:
   #     - ${CONFIG_PATH}/calibre:/config
-  #     - ${MOUNT_PATH}:/mnt:rw,rslave
+  #     - ${MOUNT_ROOT_PATH}:/mnt:rw,rslave
   #   restart: unless-stopped
   #   labels:
   #     - "traefik.enable=true"
@@ -331,7 +331,7 @@ services:
   #     - TZ=${TIME_ZONE}
   #   volumes:
   #     - ${CONFIG_PATH}/calibre-web:/config
-  #     - ${MOUNT_PATH}:/mnt:rw,rslave
+  #     - ${MOUNT_ROOT_PATH}:/mnt:rw,rslave
   #     - DOCKER_MODS=linuxserver/calibre-web:calibre
   #   restart: unless-stopped
   #   labels:
@@ -388,7 +388,7 @@ services:
     volumes:
       - ${CONFIG_PATH}/lazylibrarian:/config
       - ${DOWNLOADS_PATH}:/downloads
-      - ${MOUNT_PATH}:/mnt:rw,rslave
+      - ${MOUNT_ROOT_PATH}:/mnt:rw,rslave
     restart: unless-stopped
     labels:
       - "traefik.enable=true"

@@ -13,7 +13,7 @@ To achieve this the first step is to mount rclone:
 1. Install `fuse` (`sudo apt-get install fuse`)
 2. Enable `user_allow_other` in `/etc/fuse.conf`
 3. Download rclone for Ubuntu [here](https://rclone.org/install/)
-4. Create a folder in `${MOUNT_PATH}/cloudstorage` that will be the full mount path and chown it
+4. Create a folder in `${MOUNT_ROOT_PATH}/cloudstorage` that will be the full mount path and chown it
 5. Configure rclone with `rclone config` and chown the configuration folder (usually inside `/home/username/.config`)
 6. Create a file where to write rclone logs for example in `/var/log/rclone/rclone.log` and chown it
 7. Edit `rclone.service` with the right parameters (highlighted with __)

@@ -6,7 +6,7 @@ After=network-online.target
 [Service]
 Type=notify
 
-ExecStart=/usr/bin/rclone mount __CLOUD_NAME__: __FULL_MOUNT_PATH__ \
+ExecStart=/usr/bin/rclone mount __CLOUD_NAME__: __FULL_MOUNT_ROOT_PATH__ \
 --config=__RCLONE_CONFIG_PATH__ \
 --allow-other \
 --buffer-size 1G \
@@ -20,7 +20,7 @@ ExecStart=/usr/bin/rclone mount __CLOUD_NAME__: __FULL_MOUNT_PATH__ \
 --vfs-read-chunk-size 32M \
 --vfs-read-chunk-size-limit off \
 --vfs-cache-mode writes 
-ExecStop=/bin/fusermount -uz __FULL_MOUNT_PATH__
+ExecStop=/bin/fusermount -uz __FULL_MOUNT_ROOT_PATH__
 Restart=on-failure
 RestartSec=2s
 User=__USERNAME__
