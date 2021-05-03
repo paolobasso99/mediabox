@@ -296,52 +296,84 @@ services:
   #   networks:
   #     - web_proxy
 
-  mediabox-calibre:
-    image: linuxserver/calibre
-    container_name: mediabox-calibre
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIME_ZONE}
-      - GUAC_USER=${CALIBRE_USERNAME}
-      - GUAC_PASS=${CALIBRE_PASSWORD}
-    volumes:
-      - ${CONFIG_PATH}/calibre:/config
-      - ${MOUNT_PATH}:/mnt:rw,rslave
-    restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.mediabox-calibre.service=mediabox-calibre"
-      - 'traefik.http.routers.mediabox-calibre.rule=Host("calibre.$DOMAIN")'
-      - "traefik.http.routers.mediabox-calibre.tls=true"
-      - "traefik.http.routers.mediabox-calibre.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
-      - "traefik.http.routers.mediabox-calibre.entrypoints=${TRAEFIK_ENTRYPOINTS}"
-      - "traefik.http.services.mediabox-calibre.loadbalancer.server.port=8080"
-    networks:
-      - web_proxy
+  # mediabox-calibre:
+  #   image: linuxserver/calibre
+  #   container_name: mediabox-calibre
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TIME_ZONE}
+  #     - GUAC_USER=${CALIBRE_USERNAME}
+  #     - GUAC_PASS=${CALIBRE_PASSWORD}
+  #   volumes:
+  #     - ${CONFIG_PATH}/calibre:/config
+  #     - ${MOUNT_PATH}:/mnt:rw,rslave
+  #   restart: unless-stopped
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.mediabox-calibre.service=mediabox-calibre"
+  #     - 'traefik.http.routers.mediabox-calibre.rule=Host("calibre.$DOMAIN")'
+  #     - "traefik.http.routers.mediabox-calibre.tls=true"
+  #     - "traefik.http.routers.mediabox-calibre.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+  #     - "traefik.http.routers.mediabox-calibre.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+  #     - "traefik.http.services.mediabox-calibre.loadbalancer.server.port=8080"
+  #   networks:
+  #     - web_proxy
 
-  mediabox-calibre-web:
-    image: linuxserver/calibre-web
-    container_name: mediabox-calibre-web
-    depends_on: 
-      - mediabox-calibre
+  # mediabox-calibre-web:
+  #   image: linuxserver/calibre-web
+  #   container_name: mediabox-calibre-web
+  #   depends_on: 
+  #     - mediabox-calibre
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TIME_ZONE}
+  #   volumes:
+  #     - ${CONFIG_PATH}/calibre-web:/config
+  #     - ${MOUNT_PATH}:/mnt:rw,rslave
+  #     - DOCKER_MODS=linuxserver/calibre-web:calibre
+  #   restart: unless-stopped
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.mediabox-calibre-web.service=mediabox-calibre-web"
+  #     - 'traefik.http.routers.mediabox-calibre-web.rule=Host("calibre-web.$DOMAIN")'
+  #     - "traefik.http.routers.mediabox-calibre-web.tls=true"
+  #     - "traefik.http.routers.mediabox-calibre-web.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+  #     - "traefik.http.routers.mediabox-calibre-web.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+  #     - "traefik.http.services.mediabox-calibre-web.loadbalancer.server.port=8083"
+  #   networks:
+  #     - web_proxy
+
+  mediabox-ubooquity:
+    image: ghcr.io/linuxserver/ubooquity
+    container_name: mediabox-ubooquity
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TIME_ZONE}
     volumes:
-      - ${CONFIG_PATH}/calibre-web:/config
-      - ${MOUNT_PATH}:/mnt:rw,rslave
-      - DOCKER_MODS=linuxserver/calibre-web:calibre
+      - ${CONFIG_PATH}/ubooquity:/config
+      - ${MOUNT_PATH}/books:/books:rw,rslave
+      - ${MOUNT_PATH}/comics:/comics:rw,rslave
+#      - ${MOUNT_PATH}/files:/files:rw,rslave
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.mediabox-calibre-web.service=mediabox-calibre-web"
-      - 'traefik.http.routers.mediabox-calibre-web.rule=Host("calibre-web.$DOMAIN")'
-      - "traefik.http.routers.mediabox-calibre-web.tls=true"
-      - "traefik.http.routers.mediabox-calibre-web.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
-      - "traefik.http.routers.mediabox-calibre-web.entrypoints=${TRAEFIK_ENTRYPOINTS}"
-      - "traefik.http.services.mediabox-calibre-web.loadbalancer.server.port=8083"
+      # Library
+      - "traefik.http.routers.mediabox-ubooquity-library.service=mediabox-ubooquity-library"
+      - 'traefik.http.routers.mediabox-ubooquity-library.rule=Host("ubooquity.$DOMAIN")'
+      - "traefik.http.routers.mediabox-ubooquity-library.tls=true"
+      - "traefik.http.routers.mediabox-ubooquity-library.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+      - "traefik.http.routers.mediabox-ubooquity-library.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+      - "traefik.http.services.mediabox-ubooquity-library.loadbalancer.server.port=2202"
+      # Admin
+      - "traefik.http.routers.mediabox-ubooquity-admin.service=mediabox-ubooquity-admin"
+      - 'traefik.http.routers.mediabox-ubooquity-admin.rule=Host("ubooquity-admin.$DOMAIN")'
+      - "traefik.http.routers.mediabox-ubooquity-admin.tls=true"
+      - "traefik.http.routers.mediabox-ubooquity-admin.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+      - "traefik.http.routers.mediabox-ubooquity-admin.entrypoints=${TRAEFIK_ENTRYPOINTS}"
+      - "traefik.http.services.mediabox-ubooquity-admin.loadbalancer.server.port=2203"
     networks:
       - web_proxy
 

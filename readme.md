@@ -51,8 +51,9 @@ To achieve this the first step is to mount rclone:
 | EmbyStat        | mediabox-embystat        | No                | [GitHub](https://github.com/linuxserver/docker-embystat) |
 | Ombi            | mediabox-ombi            | No                | [GitHub](https://github.com/linuxserver/docker-ombi)     |
 | LazyLibrarian   | mediabox-lazylibrarian   | Yes               | [GitLab](https://gitlab.com/LazyLibrarian/LazyLibrarian) |
-| Calibre         | mediabox-calibre         | Yes               | [Website](https://calibre-ebook.com/)                    |
-| calibre-web     | mediabox-calibre-web     | Yes               | [GitHub](https://github.com/janeczku/calibre-web)        |
+| Calibre         | mediabox-calibre         | No                | [Website](https://calibre-ebook.com/)                    |
+| calibre-web     | mediabox-calibre-web     | No                | [GitHub](https://github.com/janeczku/calibre-web)        |
+| ubooquity       | mediabox-ubooquity       | Yes               | [Website](https://vaemendis.net/ubooquity/)              |
 
 If an app is not active by default it means that the corresponding service is commented in the `docker-compose.yml`.
 ### Deluge Prometheus Exporter
