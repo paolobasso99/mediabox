@@ -46,14 +46,13 @@ To achieve this the first step is to mount rclone:
 | Lidarr          | mediabox-lidarr          | Yes               | [GitHub](https://github.com/linuxserver/docker-lidarr)   |
 | Bazarr          | mediabox-bazarr          | Yes               | [GitHub](https://github.com/linuxserver/docker-bazarr)   |
 | Jackett         | mediabox-jackett         | Yes               | [GitHub](https://github.com/linuxserver/docker-jackett)  |
-| Pyload          | mediabox-pyload          | No                | [GitHub](https://github.com/linuxserver/docker-pyload)   |
 | Jellyfin        | mediabox-jellyfin        | Yes               | [GitHub](https://github.com/linuxserver/docker-jellyfin) |
 | EmbyStat        | mediabox-embystat        | No                | [GitHub](https://github.com/linuxserver/docker-embystat) |
 | Ombi            | mediabox-ombi            | No                | [GitHub](https://github.com/linuxserver/docker-ombi)     |
 | LazyLibrarian   | mediabox-lazylibrarian   | Yes               | [GitLab](https://gitlab.com/LazyLibrarian/LazyLibrarian) |
-| Calibre         | mediabox-calibre         | No                | [Website](https://calibre-ebook.com/)                    |
+| Calibre         | mediabox-calibre         | Yes               | [Website](https://calibre-ebook.com/)                    |
 | calibre-web     | mediabox-calibre-web     | No                | [GitHub](https://github.com/janeczku/calibre-web)        |
-| ubooquity       | mediabox-ubooquity       | Yes               | [Website](https://vaemendis.net/ubooquity/)              |
+| ubooquity       | mediabox-ubooquity       | No                | [Website](https://vaemendis.net/ubooquity/)              |
 
 If an app is not active by default it means that the corresponding service is commented in the `docker-compose.yml`.
 ### Deluge Prometheus Exporter
